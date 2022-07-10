@@ -25,7 +25,7 @@ public class ExperienceLevelService {
                 .forEach(experienceLevelEnum -> {
                     ExperienceLevelEntity experienceLevel = new ExperienceLevelEntity();
                     experienceLevel.setExperienceLevel(experienceLevelEnum);
-
+                    experienceLevel.setDescription("Description for " + experienceLevelEnum.name());
 
                     experienceLevelRepository.save(experienceLevel);
                 });

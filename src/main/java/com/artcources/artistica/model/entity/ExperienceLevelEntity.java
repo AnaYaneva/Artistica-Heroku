@@ -13,6 +13,9 @@ public class ExperienceLevelEntity extends BaseEntity {
     @Enumerated(EnumType.STRING)
     private ExperienceLevelEnum experienceLevel;
 
+    @Column(columnDefinition = "TEXT", nullable = true)
+    private String description;
+
     public ExperienceLevelEntity() {
     }
 
@@ -22,6 +25,15 @@ public class ExperienceLevelEntity extends BaseEntity {
 
     public ExperienceLevelEntity setExperienceLevel(ExperienceLevelEnum experienceLevel) {
         this.experienceLevel = experienceLevel;
+        return this;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public ExperienceLevelEntity setDescription(String description) {
+        this.description = description;
         return this;
     }
 }

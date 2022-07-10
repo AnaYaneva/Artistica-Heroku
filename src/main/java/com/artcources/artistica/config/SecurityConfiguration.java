@@ -8,6 +8,7 @@ import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -23,6 +24,7 @@ public class SecurityConfiguration {
   // 1. PasswordEncoder
   // 2. SecurityFilterChain
   // 3. UserDetailsService
+
 
   @Bean
   public ModelMapper modelMapper(){
@@ -43,8 +45,8 @@ public class SecurityConfiguration {
         // everyone can download static resources (css, js, images)
         requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll().
         // everyone can login and register
-        antMatchers("/", "/users/login", "/users/register").permitAll().
-        // pages available onny for moderators
+        antMatchers("/", "/users/login", "/users/register", "/register").permitAll().
+        // pages available only for moderators
         antMatchers("/pages/moderators").hasRole(UserRoleEnum.MODERATOR.name()).
         // pages available only for admins
         antMatchers("/pages/admins").hasRole(UserRoleEnum.ADMIN.name()).
@@ -65,7 +67,7 @@ public class SecurityConfiguration {
         // where to go in case that the login failed
         failureForwardUrl("/users/login-error").
     and().
-        // configure logut
+        // configure logout
         logout().
         // which is the logout url
         logoutUrl("/users/logout").

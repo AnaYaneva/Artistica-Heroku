@@ -25,6 +25,11 @@ public class RegistrationController {
     this.modelMapper = modelMapper;
   }
 
+  @GetMapping("/register")
+  public String registerMain() {
+    return "main-register";
+  }
+
   @GetMapping("/users/register")
   public String register() {
     return "auth-register";

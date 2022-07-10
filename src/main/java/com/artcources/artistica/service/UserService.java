@@ -1,5 +1,6 @@
 package com.artcources.artistica.service;
 
+import com.artcources.artistica.model.binding.UserLoginBindingModel;
 import com.artcources.artistica.model.entity.UserEntity;
 import com.artcources.artistica.model.entity.UserRoleEntity;
 import com.artcources.artistica.model.enums.UserRoleEnum;
@@ -47,14 +48,22 @@ public class UserService {
     if (userRepository.count() == 0 && userRoleRepository.count() == 0) {
       UserRoleEntity adminRole = new UserRoleEntity().setUserRole(UserRoleEnum.ADMIN);
       UserRoleEntity moderatorRole = new UserRoleEntity().setUserRole(UserRoleEnum.MODERATOR);
-
+      UserRoleEntity mentorRole = new UserRoleEntity().setUserRole(UserRoleEnum.MENTOR);
+      UserRoleEntity studentRole = new UserRoleEntity().setUserRole(UserRoleEnum.USER);
+      
       adminRole = userRoleRepository.save(adminRole);
       moderatorRole = userRoleRepository.save(moderatorRole);
-
-      initAdmin(List.of(adminRole, moderatorRole));
-      initModerator(List.of(moderatorRole));
+      mentorRole = userRoleRepository.save(mentorRole);
+      studentRole = userRoleRepository.save(studentRole);
+      
+      initAdmin(List.of(adminRole, moderatorRole, mentorRole));
+      initModerator(List.of(moderatorRole, mentorRole));
+      initMentor(List.of(mentorRole));
       initUser(List.of());
     }
+  }
+
+  private void initMentor(List<UserRoleEntity> mentorRole) {
   }
 
   private void initAdmin(List<UserRoleEntity> roles) {
@@ -110,5 +119,10 @@ public class UserService {
     SecurityContextHolder.
         getContext().
         setAuthentication(auth);
+  }
+
+
+  public boolean loginUser(UserLoginBindingModel userLoginBindingModel) {
+    return true;
   }
 }
