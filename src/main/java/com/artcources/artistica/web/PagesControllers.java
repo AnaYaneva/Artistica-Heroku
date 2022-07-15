@@ -20,4 +20,19 @@ public class PagesControllers {
   public String admins() {
     return "admins";
   }
+
+  @GetMapping("/mentor")
+  public String mentor() {
+    return "mentor";
+  }
+
+  @GetMapping("/contacts")
+  public String contacts() {
+    return "contact";
+  }
+
+  @GetMapping("/about")
+  public String about() {
+    return "about";
+  }
 }
