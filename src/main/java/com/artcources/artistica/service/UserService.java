@@ -1,6 +1,5 @@
 package com.artcources.artistica.service;
 
-import com.artcources.artistica.model.binding.UserLoginBindingModel;
 import com.artcources.artistica.model.entity.UserEntity;
 import com.artcources.artistica.model.entity.UserRoleEntity;
 import com.artcources.artistica.model.enums.UserRoleEnum;
@@ -26,7 +25,7 @@ public class UserService {
   private final UserRepository userRepository;
   private final UserRoleRepository userRoleRepository;
   private final PasswordEncoder passwordEncoder;
-  private final UserDetailsService appUserDetailsService;
+  private final UserDetailsService userDetailsService;
   private String adminPass;
 
   private final ModelMapper modelMapper;
@@ -34,12 +33,12 @@ public class UserService {
   public UserService(UserRepository userRepository,
                      UserRoleRepository userRoleRepository,
                      PasswordEncoder passwordEncoder,
-                     UserDetailsService appUserDetailsService,
+                     UserDetailsService userDetailsService,
                      @Value("${app.default.admin.password}") String adminPass, ModelMapper modelMapper)  {
     this.userRepository = userRepository;
     this.userRoleRepository = userRoleRepository;
     this.passwordEncoder = passwordEncoder;
-    this.appUserDetailsService = appUserDetailsService;
+    this.userDetailsService = userDetailsService;
     this.adminPass = adminPass;
     this.modelMapper = modelMapper;
   }
@@ -105,24 +104,24 @@ public class UserService {
     newUser.setPassword(passwordEncoder.encode(userServiceModel.getPassword()));
 
     userRepository.save(newUser);
+    login(newUser);
+  }
 
+
+  private void login(UserEntity userEntity) {
     UserDetails userDetails =
-        appUserDetailsService.loadUserByUsername(newUser.getEmail());
+            userDetailsService.loadUserByUsername(userEntity.getEmail());
 
     Authentication auth =
-        new UsernamePasswordAuthenticationToken(
-            userDetails,
-            userDetails.getPassword(),
-            userDetails.getAuthorities()
-        );
+            new UsernamePasswordAuthenticationToken(
+                    userDetails,
+                    userDetails.getPassword(),
+                    userDetails.getAuthorities()
+            );
 
     SecurityContextHolder.
-        getContext().
-        setAuthentication(auth);
+            getContext().
+            setAuthentication(auth);
   }
 
-
-  public boolean loginUser(UserLoginBindingModel userLoginBindingModel) {
-    return true;
-  }
 }

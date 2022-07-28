@@ -18,8 +18,6 @@ public class UserEntity extends BaseEntity {
   @Column(nullable = false)
   private String lastName;
 
-  @Column(nullable = false)
-  private String username;
   @ManyToMany(fetch = FetchType.EAGER)
   private List<UserRoleEntity> userRoles = new ArrayList<>();
 
@@ -70,15 +68,6 @@ public class UserEntity extends BaseEntity {
 
   public UserEntity addRole(UserRoleEntity userRole) {
     this.userRoles.add(userRole);
-    return this;
-  }
-
-  public String getUsername() {
-    return username;
-  }
-
-  public UserEntity setUsername(String username) {
-    this.username = username;
     return this;
   }
 

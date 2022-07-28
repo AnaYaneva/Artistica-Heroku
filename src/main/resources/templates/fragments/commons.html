@@ -1,6 +1,8 @@
-<!DOCTYPE html>
-<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:th="http://www.thymeleaf.org">
+<!doctype html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
 
 <head th:fragment="head">
     <meta charset="utf-8">
@@ -81,7 +83,7 @@
                     <div
                             th:each="c : ${T(com.artcources.artistica.model.enums.CourseCategoryEnum).values()}"
                             class="navbar-nav w-100">
-                        <a th:attr="href=@{'/courses/' + ${c.name().toLowerCase()}}"
+                        <a th:attr="href=@{'/courses/all#' + ${c.name().toLowerCase()}}"
                            class="nav-item nav-link"
                            th:text="${#strings.capitalize(c.name().toLowerCase().replace('_',' '))}"></a>
                     </div>
@@ -97,22 +99,36 @@
                     </button>
                     <div class="collapse navbar-collapse justify-content-between" id="navbarCollapse">
                         <div class="navbar-nav py-0">
-                            <a href="/" class="nav-item nav-link active">Home</a>
-                            <a th:href="@{/about}" class="nav-item nav-link">About</a>
-                            <a th:href="@{/projects}"  class="nav-item nav-link">Projects</a>
-                            <a th:href="@{/mentors}"  class="nav-item nav-link">Mentors</a>
-                            <div class="nav-item dropdown">
+                            <ul class="navbar-nav mr-auto col-12 justify-content-between">
+                                <li class="nav-item"><a href="/" class="nav-item nav-link active">Home</a></li>
+                                <li class="nav-item"><a th:href="@{/about}" class="nav-item nav-link">About</a></li>
+                                <li class="nav-item"> <a th:href="@{/projects}"  class="nav-item nav-link">Projects</a></li>
+                                <li class="nav-item"><a th:href="@{/mentors}"  class="nav-item nav-link">Mentors</a></li>
+                                <li class="nav-item dropdown" >
+                                    <div class="nav-item dropdown">
                                 <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Workshops</a>
                                 <div class="dropdown-menu rounded-0 m-0">
-                                    <a th:href="@{/courses/online}"  class="dropdown-item">Online</a>
-                                    <a th:href="@{/courses/onsite}"  class="dropdown-item">Onsite</a>
-                                    <a th:href="@{/courses/all}"  class="dropdown-item">All</a>
+                                    <a th:href="@{/courses/all}"  class="dropdown-item">By Category</a>
+                                    <a th:href="@{/courses/search}"  class="dropdown-item">Search</a>
                                 </div>
-                            </div>
-                            <a th:href="@{/contacts}" class="nav-item nav-link">Contact</a>
+                                    </div></li>
+                                <li class="nav-item"> <a th:href="@{/contacts}" class="nav-item nav-link">Contact</a></li></ul>
                         </div>
-                        <a class="btn btn-primary py-2 px-4 ml-auto d-none d-lg-block" th:href="@{/users/login}">Sign in</a>
-                        <a class="btn btn-primary py-2 px-4 ml-2 d-none d-lg-block" th:href="@{/register}">Join Now</a>
+                        <div class="navbar-nav py-0">
+                        <ul class="navbar-nav mr-auto col-6s">
+                            <li class=" nav-item nav-link" sec:authorize="!isAuthenticated()">
+                                <a class="btn btn-primary py-2 px-4 ml-auto d-none d-lg-block" th:href="@{/users/login}">Sign in</a></li>
+                            <li class=" nav-item nav-link" sec:authorize="!isAuthenticated()">
+                                <a class="btn btn-primary py-2 px-4 ml-2 d-none d-lg-block" th:href="@{/register}">Join Now</a></li>
+                            <li class=" nav-item nav-link" sec:authorize="isAuthenticated()">
+                                <a class="btn btn-primary py-2 px-4 ml-2 d-none d-lg-block" th:href="@{/users/user}">My Profile</a></li>
+                        <li class=" nav-item nav-link" sec:authorize="isAuthenticated()">
+
+                                <form th:action="@{/users/logout}" th:method="post">
+                                    <input class="btn btn-primary py-2 px-4 ml-2 d-none d-lg-block" type="submit" th:value="Logout">
+                                </form>
+                        </li>
+                        </ul></div>
                     </div>
                 </nav>
             </div>
@@ -152,7 +168,7 @@
             <div th:each="c : ${T(com.artcources.artistica.model.enums.CourseCategoryEnum).values()}" th:object="${c}" class="col-lg-3 col-md-6 mb-5">
                 <div class="cat-item position-relative overflow-hidden rounded mb-2">
                     <img class="img-fluid" th:attr="src=@{'/images/cat-' + ${c.name().toLowerCase()} + '.jpg'}" alt="">
-                    <a class="cat-overlay text-white text-decoration-none" th:attr="href=@{'/courses/' + ${c.name().toLowerCase()}}">
+                    <a class="cat-overlay text-white text-decoration-none" th:attr="href=@{'/courses/all#' + ${c.name().toLowerCase()}}">
                         <h4 class="text-white font-weight-medium" th:text="${#strings.capitalize(c.name().toLowerCase().replace('_',' '))}"></h4>
                         <span>100 Courses</span>
                     </a>

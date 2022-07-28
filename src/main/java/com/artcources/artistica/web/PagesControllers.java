@@ -35,4 +35,11 @@ public class PagesControllers {
   public String about() {
     return "about";
   }
+
+  @GetMapping("/users/user")
+  public String user() {
+    return "user";
+  }
+
+
 }

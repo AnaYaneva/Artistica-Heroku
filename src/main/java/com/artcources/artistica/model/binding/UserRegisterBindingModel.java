@@ -5,7 +5,6 @@ package com.artcources.artistica.model.binding;
 import com.artcources.artistica.model.enums.ExperienceLevelEnum;
 import com.artcources.artistica.util.validations.FieldMatch;
 import com.artcources.artistica.util.validations.UniqueUserEmail;
-import com.artcources.artistica.util.validations.UniqueUsername;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
@@ -21,19 +20,12 @@ public class UserRegisterBindingModel {
 
     @NotBlank(message = "Username should not be an empty string")
     @Size(min=3,max=20, message = "Username length must be between 3 and 20 characters!")
-    @UniqueUsername(message = "Username should be unique")
     private String firstName;
 
     @NotBlank(message = "Username should not be an empty string")
     @Size(min=3,max=20, message = "Username length must be between 3 and 20 characters!")
-    @UniqueUsername(message = "Username should be unique")
     private String lastName;
 
-
-    @NotBlank(message = "Username should not be an empty string")
-    @Size(min=3,max=20, message = "Username length must be between 3 and 20 characters!")
-    @UniqueUsername(message = "Username should be unique")
-    private String username;
 
     @NotBlank(message = "Email cannot be empty")
     @Email(message = "User email should be valid")
@@ -56,14 +48,6 @@ public class UserRegisterBindingModel {
     public UserRegisterBindingModel() {
     }
 
-    public String getUsername() {
-        return username;
-    }
-
-    public UserRegisterBindingModel setUsername(String username) {
-        this.username = username;
-        return this;
-    }
 
     public String getEmail() {
         return email;
