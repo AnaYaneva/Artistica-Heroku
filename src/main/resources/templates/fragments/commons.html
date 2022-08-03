@@ -29,7 +29,7 @@
 </head>
 
 <!-- Topbar Start -->
-<div  th:fragment="topbar">
+<div th:fragment="topbar">
     <div class="container-fluid d-none d-lg-block">
         <div class="row align-items-center py-4 px-xl-5">
             <div class="col-lg-3">
@@ -71,15 +71,17 @@
 
 
 <!-- Navbar Start -->
-<div  th:fragment="nav">
+<div th:fragment="nav">
     <div class="container-fluid">
         <div class="row border-top px-xl-5">
             <div class="col-lg-3 d-none d-lg-block">
-                <a class="d-flex align-items-center justify-content-between bg-secondary w-100 text-decoration-none" data-toggle="collapse" href="#navbar-vertical" style="height: 67px; padding: 0 30px;">
+                <a class="d-flex align-items-center justify-content-between bg-secondary w-100 text-decoration-none"
+                   data-toggle="collapse" href="#navbar-vertical" style="height: 67px; padding: 0 30px;">
                     <h5 class="text-primary m-0"><i class="fa fa-paint-brush mr-2"></i>Categories</h5>
                     <i class="fa fa-angle-down text-primary"></i>
                 </a>
-                <nav class="collapse position-absolute navbar navbar-vertical navbar-light align-items-start p-0 border border-top-0 border-bottom-0 bg-light" id="navbar-vertical" style="width: calc(100% - 30px); z-index: 9;">
+                <nav class="collapse position-absolute navbar navbar-vertical navbar-light align-items-start p-0 border border-top-0 border-bottom-0 bg-light"
+                     id="navbar-vertical" style="width: calc(100% - 30px); z-index: 9;">
                     <div
                             th:each="c : ${T(com.artcources.artistica.model.enums.CourseCategoryEnum).values()}"
                             class="navbar-nav w-100">
@@ -101,34 +103,68 @@
                         <div class="navbar-nav py-0">
                             <ul class="navbar-nav mr-auto col-12 justify-content-between">
                                 <li class="nav-item"><a href="/" class="nav-item nav-link active">Home</a></li>
-                                <li class="nav-item"><a th:href="@{/about}" class="nav-item nav-link">About</a></li>
-                                <li class="nav-item"> <a th:href="@{/projects}"  class="nav-item nav-link">Projects</a></li>
-                                <li class="nav-item"><a th:href="@{/mentors}"  class="nav-item nav-link">Mentors</a></li>
-                                <li class="nav-item dropdown" >
+                                <li class="nav-item"><a th:text="#{navbar_about}"
+                                                        th:href="@{/about}" class="nav-item nav-link">About</a></li>
+                                <li class="nav-item"><a th:href="@{/projects}" class="nav-item nav-link">Projects</a>
+                                </li>
+                                <li class="nav-item"><a th:text="#{navbar_mentors}"
+                                                        th:href="@{/mentors}" class="nav-item nav-link">Mentors</a></li>
+                                <li class="nav-item dropdown">
                                     <div class="nav-item dropdown">
-                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Workshops</a>
-                                <div class="dropdown-menu rounded-0 m-0">
-                                    <a th:href="@{/courses/all}"  class="dropdown-item">By Category</a>
-                                    <a th:href="@{/courses/search}"  class="dropdown-item">Search</a>
-                                </div>
-                                    </div></li>
-                                <li class="nav-item"> <a th:href="@{/contacts}" class="nav-item nav-link">Contact</a></li></ul>
+                                        <a href="#" class="nav-link dropdown-toggle"
+                                           data-toggle="dropdown"
+                                           th:text="#{navbar_workshops}">Workshops</a>
+                                        <div class="dropdown-menu rounded-0 m-0">
+                                            <a th:text="#{navbar_courses}"
+                                               th:href="@{/courses/all}" class="dropdown-item">By Category</a>
+                                            <a th:text="#{navbar_search}"
+                                               th:href="@{/courses/search}" class="dropdown-item">Search</a>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li class="nav-item"><a th:href="@{/contacts}" class="nav-item nav-link">Contact</a>
+                                </li>
+                            </ul>
                         </div>
                         <div class="navbar-nav py-0">
-                        <ul class="navbar-nav mr-auto col-6s">
-                            <li class=" nav-item nav-link" sec:authorize="!isAuthenticated()">
-                                <a class="btn btn-primary py-2 px-4 ml-auto d-none d-lg-block" th:href="@{/users/login}">Sign in</a></li>
-                            <li class=" nav-item nav-link" sec:authorize="!isAuthenticated()">
-                                <a class="btn btn-primary py-2 px-4 ml-2 d-none d-lg-block" th:href="@{/register}">Join Now</a></li>
-                            <li class=" nav-item nav-link" sec:authorize="isAuthenticated()">
-                                <a class="btn btn-primary py-2 px-4 ml-2 d-none d-lg-block" th:href="@{/users/user}">My Profile</a></li>
-                        <li class=" nav-item nav-link" sec:authorize="isAuthenticated()">
+                            <ul class="navbar-nav mr-auto col-6s">
+                                <li class=" nav-item nav-link" sec:authorize="!isAuthenticated()">
+                                    <a class="btn btn-primary py-2 px-4 ml-auto d-none d-lg-block"
+                                       th:text="#{navbar_login}"
+                                       th:href="@{/users/login}">Sign in</a></li>
+                                <li class=" nav-item nav-link" sec:authorize="!isAuthenticated()">
+                                    <a class="btn btn-primary py-2 px-4 ml-2 d-none d-lg-block"
+                                       th:text="#{navbar_register}"
+                                       th:href="@{/register}">Join Now</a></li>
+                                <li class=" nav-item nav-link" sec:authorize="isAuthenticated()">
+                                    <a class="btn btn-primary py-2 px-4 ml-2 d-none d-lg-block"
+                                       th:href="@{/users/user}">My Profile</a></li>
+                                <li class=" nav-item nav-link" sec:authorize="isAuthenticated()">
 
-                                <form th:action="@{/users/logout}" th:method="post">
-                                    <input class="btn btn-primary py-2 px-4 ml-2 d-none d-lg-block" type="submit" th:value="Logout">
-                                </form>
-                        </li>
-                        </ul></div>
+                                    <form th:text="#{navbar_logout}"
+                                          th:action="@{/users/logout}" th:method="post">
+                                        <input class="btn btn-primary py-2 px-4 ml-2 d-none d-lg-block" type="submit"
+                                               th:value="Logout">
+                                    </form>
+                                </li>
+                                <li class="nav-item">
+                                    <form th:method="get">
+                                        <label class="text-white" th:text="#{navbar_language}" for="lang"></label>
+                                        <select
+                                                onchange="this.form.submit()"
+                                                id="lang"
+                                                name="lang">
+                                            <option value="en_US" th:selected="${#locale.toString()} == 'en_US'">
+                                                EN
+                                            </option>
+                                            <option value="bg_BG" th:selected="${#locale.toString()} == 'bg_BG'">
+                                                БГ
+                                            </option>
+                                        </select>
+                                    </form>
+                                </li>
+                            </ul>
+                        </div>
                     </div>
                 </nav>
             </div>
@@ -149,7 +185,12 @@
                     <h5 class="text-primary text-uppercase mb-3" style="letter-spacing: 5px;">About Us</h5>
                     <h1>Innovative Way To Learn</h1>
                 </div>
-                <p>Aliquyam accusam clita nonumy ipsum sit sea clita ipsum clita, ipsum dolores amet voluptua duo dolores et sit ipsum rebum, sadipscing et erat eirmod diam kasd labore clita est. Diam sanctus gubergren sit rebum clita amet, sea est sea vero sed et. Sadipscing labore tempor at sit dolor clita consetetur diam. Diam ut diam tempor no et, lorem dolore invidunt no nonumy stet ea labore, dolor justo et sit gubergren diam sed sed no ipsum. Sit tempor ut nonumy elitr dolores justo aliquyam ipsum stet</p>
+                <p>Aliquyam accusam clita nonumy ipsum sit sea clita ipsum clita, ipsum dolores amet voluptua duo
+                    dolores et sit ipsum rebum, sadipscing et erat eirmod diam kasd labore clita est. Diam sanctus
+                    gubergren sit rebum clita amet, sea est sea vero sed et. Sadipscing labore tempor at sit dolor clita
+                    consetetur diam. Diam ut diam tempor no et, lorem dolore invidunt no nonumy stet ea labore, dolor
+                    justo et sit gubergren diam sed sed no ipsum. Sit tempor ut nonumy elitr dolores justo aliquyam
+                    ipsum stet</p>
                 <a href="" class="btn btn-primary py-md-2 px-md-4 font-weight-semi-bold mt-2">Learn More</a>
             </div>
         </div>
@@ -165,11 +206,14 @@
             <h1>Explore Our Art Workshops by Category</h1>
         </div>
         <div class="row">
-            <div th:each="c : ${T(com.artcources.artistica.model.enums.CourseCategoryEnum).values()}" th:object="${c}" class="col-lg-3 col-md-6 mb-5">
+            <div th:each="c : ${T(com.artcources.artistica.model.enums.CourseCategoryEnum).values()}" th:object="${c}"
+                 class="col-lg-3 col-md-6 mb-5">
                 <div class="cat-item position-relative overflow-hidden rounded mb-2">
                     <img class="img-fluid" th:attr="src=@{'/images/cat-' + ${c.name().toLowerCase()} + '.jpg'}" alt="">
-                    <a class="cat-overlay text-white text-decoration-none" th:attr="href=@{'/courses/all#' + ${c.name().toLowerCase()}}">
-                        <h4 class="text-white font-weight-medium" th:text="${#strings.capitalize(c.name().toLowerCase().replace('_',' '))}"></h4>
+                    <a class="cat-overlay text-white text-decoration-none"
+                       th:attr="href=@{'/courses/all#' + ${c.name().toLowerCase()}}">
+                        <h4 class="text-white font-weight-medium"
+                            th:text="${#strings.capitalize(c.name().toLowerCase().replace('_',' '))}"></h4>
                         <span>100 Courses</span>
                     </a>
                 </div>
@@ -199,7 +243,8 @@
                         <a class="h5" href="">Web design & development courses for beginner</a>
                         <div class="border-top mt-4 pt-4">
                             <div class="d-flex justify-content-between">
-                                <h6 class="m-0"><i class="fa fa-star text-primary mr-2"></i>4.5 <small>(250)</small></h6>
+                                <h6 class="m-0"><i class="fa fa-star text-primary mr-2"></i>4.5 <small>(250)</small>
+                                </h6>
                                 <h5 class="m-0">$99</h5>
                             </div>
                         </div>
@@ -217,7 +262,8 @@
                         <a class="h5" href="">Web design & development courses for beginner</a>
                         <div class="border-top mt-4 pt-4">
                             <div class="d-flex justify-content-between">
-                                <h6 class="m-0"><i class="fa fa-star text-primary mr-2"></i>4.5 <small>(250)</small></h6>
+                                <h6 class="m-0"><i class="fa fa-star text-primary mr-2"></i>4.5 <small>(250)</small>
+                                </h6>
                                 <h5 class="m-0">$99</h5>
                             </div>
                         </div>
@@ -235,7 +281,8 @@
                         <a class="h5" href="">Web design & development courses for beginner</a>
                         <div class="border-top mt-4 pt-4">
                             <div class="d-flex justify-content-between">
-                                <h6 class="m-0"><i class="fa fa-star text-primary mr-2"></i>4.5 <small>(250)</small></h6>
+                                <h6 class="m-0"><i class="fa fa-star text-primary mr-2"></i>4.5 <small>(250)</small>
+                                </h6>
                                 <h5 class="m-0">$99</h5>
                             </div>
                         </div>
@@ -253,7 +300,8 @@
                         <a class="h5" href="">Web design & development courses for beginner</a>
                         <div class="border-top mt-4 pt-4">
                             <div class="d-flex justify-content-between">
-                                <h6 class="m-0"><i class="fa fa-star text-primary mr-2"></i>4.5 <small>(250)</small></h6>
+                                <h6 class="m-0"><i class="fa fa-star text-primary mr-2"></i>4.5 <small>(250)</small>
+                                </h6>
                                 <h5 class="m-0">$99</h5>
                             </div>
                         </div>
@@ -271,7 +319,8 @@
                         <a class="h5" href="">Web design & development courses for beginner</a>
                         <div class="border-top mt-4 pt-4">
                             <div class="d-flex justify-content-between">
-                                <h6 class="m-0"><i class="fa fa-star text-primary mr-2"></i>4.5 <small>(250)</small></h6>
+                                <h6 class="m-0"><i class="fa fa-star text-primary mr-2"></i>4.5 <small>(250)</small>
+                                </h6>
                                 <h5 class="m-0">$99</h5>
                             </div>
                         </div>
@@ -289,7 +338,8 @@
                         <a class="h5" href="">Web design & development courses for beginner</a>
                         <div class="border-top mt-4 pt-4">
                             <div class="d-flex justify-content-between">
-                                <h6 class="m-0"><i class="fa fa-star text-primary mr-2"></i>4.5 <small>(250)</small></h6>
+                                <h6 class="m-0"><i class="fa fa-star text-primary mr-2"></i>4.5 <small>(250)</small>
+                                </h6>
                                 <h5 class="m-0">$99</h5>
                             </div>
                         </div>
@@ -300,8 +350,6 @@
     </div>
 </div>
 <!-- Courses End -->
-
-
 
 
 <!-- Team Start -->
@@ -382,7 +430,6 @@
 <!-- Team End -->
 
 
-
 <!-- Footer Start -->
 <footer th:fragment="footer">
     <div class="container-fluid bg-dark text-white py-5 px-sm-3 px-lg-5" style="margin-top: 90px;">
@@ -395,17 +442,21 @@
                         <p><i class="fa fa-phone-alt mr-2"></i>088 123 45678</p>
                         <p><i class="fa fa-envelope mr-2"></i>info@example.com</p>
                         <div class="d-flex justify-content-start mt-4">
-                            <a class="btn btn-outline-light btn-square mr-2" href="https://www.facebook.com/Ani.Ianeva/"><i class="fab fa-facebook-f"></i></a>
-                            <a class="btn btn-outline-light btn-square mr-2" href="https://www.linkedin.com/in/ana-hristeva-9b7475157/"><i class="fab fa-linkedin-in"></i></a>
-                            <a class="btn btn-outline-light btn-square" href="https://www.instagram.com/ana.yaneva/"><i class="fab fa-instagram"></i></a>
+                            <a class="btn btn-outline-light btn-square mr-2"
+                               href="https://www.facebook.com/Ani.Ianeva/"><i class="fab fa-facebook-f"></i></a>
+                            <a class="btn btn-outline-light btn-square mr-2"
+                               href="https://www.linkedin.com/in/ana-hristeva-9b7475157/"><i
+                                    class="fab fa-linkedin-in"></i></a>
+                            <a class="btn btn-outline-light btn-square" href="https://www.instagram.com/ana.yaneva/"><i
+                                    class="fab fa-instagram"></i></a>
                         </div>
                     </div>
                     <div class="col-md-6 mb-5">
                         <h5 class="text-primary text-uppercase mb-4" style="letter-spacing: 5px;">Our Workshops</h5>
                         <div class="d-flex flex-column justify-content-start">
-                            <a  th:each="c : ${T(com.artcources.artistica.model.enums.CourseCategoryEnum).values()}"
-                                class="text-white mb-2" th:attr="href=@{'/courses/' + ${c.name().toLowerCase()}}"
-                                th:text="${#strings.capitalize(c.name().toLowerCase().replace('_',' '))}">
+                            <a th:each="c : ${T(com.artcources.artistica.model.enums.CourseCategoryEnum).values()}"
+                               class="text-white mb-2" th:attr="href=@{'/courses/' + ${c.name().toLowerCase()}}"
+                               th:text="${#strings.capitalize(c.name().toLowerCase().replace('_',' '))}">
                                 <i class="fa fa-angle-right mr-2"></i>
                             </a>
                         </div>
@@ -426,10 +477,12 @@
               </div>-->
         </div>
     </div>
-    <div class="container-fluid bg-dark text-white border-top py-4 px-sm-3 px-md-5" style="border-color: rgba(256, 256, 256, .1) !important;">
+    <div class="container-fluid bg-dark text-white border-top py-4 px-sm-3 px-md-5"
+         style="border-color: rgba(256, 256, 256, .1) !important;">
         <div class="row">
             <div class="col-lg-6 text-center text-md-left mb-3 mb-md-0">
-                <p class="m-0 text-white">&copy; <a href="#">Domain Name</a>. All Rights Reserved. Designed by <a href="https://htmlcodex.com">HTML Codex</a>
+                <p class="m-0 text-white">&copy; <a href="#">Domain Name</a>. All Rights Reserved. Designed by <a
+                        href="https://htmlcodex.com">HTML Codex</a>
                 </p>
             </div>
             <div class="col-lg-6 text-center text-md-right">

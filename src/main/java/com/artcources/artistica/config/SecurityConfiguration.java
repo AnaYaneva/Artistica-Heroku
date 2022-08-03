@@ -47,13 +47,15 @@ public class SecurityConfiguration {
         // everyone can login and register
         antMatchers("/", "/users/login", "/users/register",  "/mentors/register", "/register", "/contacts", "/about").permitAll().
         antMatchers( "/courses", "/courses/all", "/courses/search", "/mentors", "/mentor", "/projects", "/users/user").permitAll().
-        // pages available only for moderators
-        antMatchers("/pages/moderators").hasRole(UserRoleEnum.MODERATOR.name()).
+        // pages available only for mentors
+        antMatchers("/pages/moderators").hasRole(UserRoleEnum.MENTOR.name()).
         // pages available only for admins
         antMatchers("/pages/admins").hasRole(UserRoleEnum.ADMIN.name()).
         // all other pages are available for logger in users
         anyRequest().
         authenticated().
+    and().
+        exceptionHandling().accessDeniedPage("/access-denied").
     and().
         // configuration of form login
         formLogin().

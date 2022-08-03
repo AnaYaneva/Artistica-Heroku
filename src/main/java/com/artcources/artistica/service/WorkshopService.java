@@ -1,19 +1,18 @@
 package com.artcources.artistica.service;
 
 import com.artcources.artistica.model.entity.CourseCategoryEntity;
-import com.artcources.artistica.model.entity.ExperienceLevelEntity;
 import com.artcources.artistica.model.enums.CourseCategoryEnum;
-import com.artcources.artistica.model.enums.ExperienceLevelEnum;
 import com.artcources.artistica.repository.CourceCategoryRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.Arrays;
+import java.util.List;
 
 @Service
-public class CourseService {
+public class WorkshopService {
     private final CourceCategoryRepository courceCategoryRepository;
 
-    public CourseService(CourceCategoryRepository courceCategoryRepository) {
+    public WorkshopService(CourceCategoryRepository courceCategoryRepository) {
         this.courceCategoryRepository = courceCategoryRepository;
     }
 
@@ -31,4 +30,8 @@ public class CourseService {
                     courceCategoryRepository.save(courseCategory);
                 });
     }
+
+//    public List<Offer> getAllRejectedOffers() {
+//        return this.offerRepository.findAllByStatus(StatusEnum.DECLINED);
+//    }
 }

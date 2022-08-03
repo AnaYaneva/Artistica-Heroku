@@ -33,3 +33,9 @@ app:
   default:
     admin:
       password: topsecret
+
+  #Cloudinary Properties
+cloudinary:
+  api-key: 763571878292865
+  api-secret:  ${CLOUDINARY_API_SECRET}
+  cloud-name: dmumqnbm0
