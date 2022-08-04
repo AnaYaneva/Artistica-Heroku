@@ -18,6 +18,9 @@ public class OnlineWorkshopEntity extends BaseEntity{
 //    private List<PictureEntity> pictures;
 
     @OneToOne
+    private PictureEntity picture;
+
+    @OneToOne
     private VideoEntity video;
 
     @ManyToOne
@@ -29,6 +32,8 @@ public class OnlineWorkshopEntity extends BaseEntity{
     @ManyToOne
     private CourseCategoryEntity category;
 
+    @Column(nullable = false)
+    private Long duration;
 
     @Enumerated(EnumType.STRING)
     private StatusEnum status;
@@ -97,6 +102,24 @@ public class OnlineWorkshopEntity extends BaseEntity{
 
     public OnlineWorkshopEntity setStatus(StatusEnum status) {
         this.status = status;
+        return this;
+    }
+
+    public Long getDuration() {
+        return duration;
+    }
+
+    public OnlineWorkshopEntity setDuration(Long duration) {
+        this.duration = duration;
+        return this;
+    }
+
+    public PictureEntity getPicture() {
+        return picture;
+    }
+
+    public OnlineWorkshopEntity setPicture(PictureEntity picture) {
+        this.picture = picture;
         return this;
     }
 }

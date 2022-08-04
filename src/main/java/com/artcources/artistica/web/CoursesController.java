@@ -5,6 +5,7 @@ import com.artcources.artistica.model.binding.VideoAddBindingModel;
 import com.artcources.artistica.model.binding.WorkshopAddBindingModel;
 import com.artcources.artistica.model.binding.WorkshopUpdateBindingModel;
 import com.artcources.artistica.model.entity.VideoEntity;
+import com.artcources.artistica.model.enums.CourseCategoryEnum;
 import com.artcources.artistica.model.service.VideoAddServiceModel;
 import com.artcources.artistica.model.service.WorkshopAddServiceModel;
 import com.artcources.artistica.model.service.WorkshopUpdateServiceModel;
@@ -56,6 +57,12 @@ public class CoursesController {
 //                .collect(Collectors.toList());
 //        model.addAttribute("approvedWorkshops", approvedWorkshops);
         //model.addAttribute("allCategories", CategoryMentorEnum.values());
+
+            model.addAttribute("watercolor", workshopService.findAllWorkshopsByCategoryName(CourseCategoryEnum.WATERCOLOR));
+            model.addAttribute("acrylic", workshopService.findAllWorkshopsByCategoryName(CourseCategoryEnum.ACRYLIC));
+            model.addAttribute("pencils", workshopService.findAllWorkshopsByCategoryName(CourseCategoryEnum.GRAPHITE_PENCILS));
+            model.addAttribute("pastels", workshopService.findAllWorkshopsByCategoryName(CourseCategoryEnum.SOFT_PASTELS));
+
         return "workshops-all";
     }
 

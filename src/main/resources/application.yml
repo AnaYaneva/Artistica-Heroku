@@ -21,13 +21,6 @@ spring:
 #      filter
 #        enabled: true
 
-###Logging Levels
-# Disable the default loggers
-#logging:
-#  level:
-#    org.hibernate: DEBUG
-#server:
-#  port : 8081
 
 app:
   default:
@@ -53,3 +46,9 @@ mail:
         ssl.trust: smtp.gmail.com
   protocol: smtp
   test-connection: false
+
+logging:
+  level:
+    org.springframework: DEBUG
+    org.hibernate.SQL: DEBUG
+    org.hibernate.type.descriptor.sql.BasicBinder: TRACE

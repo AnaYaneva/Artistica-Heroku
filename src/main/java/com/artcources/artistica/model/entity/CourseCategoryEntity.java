@@ -1,7 +1,6 @@
 package com.artcources.artistica.model.entity;
 
 import com.artcources.artistica.model.enums.CourseCategoryEnum;
-import com.artcources.artistica.model.enums.UserRoleEnum;
 
 import javax.persistence.*;
 
@@ -10,7 +9,7 @@ import javax.persistence.*;
 public class CourseCategoryEntity extends BaseEntity{
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
-    private CourseCategoryEnum category;
+    private CourseCategoryEnum name;
 
     @Column(columnDefinition = "TEXT", nullable = true)
     private String description;
@@ -18,12 +17,12 @@ public class CourseCategoryEntity extends BaseEntity{
     public CourseCategoryEntity() {
     }
 
-    public CourseCategoryEnum getCategory() {
-        return category;
+    public CourseCategoryEnum getName() {
+        return name;
     }
 
-    public CourseCategoryEntity setCategory(CourseCategoryEnum category) {
-        this.category = category;
+    public CourseCategoryEntity setName(CourseCategoryEnum category) {
+        this.name = category;
         return this;
     }
 

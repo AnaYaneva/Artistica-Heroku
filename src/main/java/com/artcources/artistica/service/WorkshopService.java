@@ -48,7 +48,7 @@ public class WorkshopService {
         Arrays.stream(CourseCategoryEnum.values())
                 .forEach(courseCategoryEnum -> {
                     CourseCategoryEntity courseCategory = new CourseCategoryEntity();
-                    courseCategory.setCategory(courseCategoryEnum);
+                    courseCategory.setName(courseCategoryEnum);
                     courseCategory.setDescription("Description for " + courseCategoryEnum.name());
 
                     workshopCategoryRepository.save(courseCategory);
@@ -148,7 +148,7 @@ public class WorkshopService {
     public void addNewVideo(VideoAddServiceModel videoAddServiceModel, Long id) {
     }
 
-    public List<WorkshopsAllViewModel> findAllSongsByStyleNameEnum(CourseCategoryEnum name) {
+    public List<WorkshopsAllViewModel> findAllWorkshopsByCategoryName(CourseCategoryEnum name) {
         return workshopRepository.findAllByCategory_Name(name).stream()
                 .map(p -> modelMapper.map(p,WorkshopsAllViewModel.class)).collect(Collectors.toList());
     }
