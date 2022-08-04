@@ -124,8 +124,39 @@
                                 </li>
                                 <li class="nav-item"><a th:text="#{navbar_contacts}" th:href="@{/contacts}" class="nav-item nav-link">Contact</a>
                                 </li>
+                                <li sec:authorize="hasRole('ROLE_MENTOR')"  class="nav-item dropdown">
+                                    <div class="nav-item dropdown">
+                                        <a href="#" class="nav-link dropdown-toggle"
+                                           data-toggle="dropdown"
+                                           th:text="${session.loggedUsername}">mentor_panel_settings</a>
+                                        <div class="dropdown-menu rounded-0 m-0">
+                                            <a th:text="#{mentor_add_workshop}"
+                                               th:href="@{/mentors/add-workshop}" class="dropdown-item"></a>
+                                            <a th:text="#{mentor_my_workshops}"
+                                               th:href="@{/mentors/my-workshops}" class="dropdown-item"></a>
+                                            <a th:text="#{mentor_profile}"
+                                               th:href="@{/mentors/profile}" class="dropdown-item"></a>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li sec:authorize="hasRole('ROLE_ADMIN')"  class="nav-item dropdown">
+                                    <div class="nav-item dropdown">
+                                        <a href="#" class="nav-link dropdown-toggle"
+                                           data-toggle="dropdown"
+                                           th:text="${session.loggedUsername}">mentor_panel_settings</a>
+                                        <div class="dropdown-menu rounded-0 m-0">
+                                            <a th:text="#{admin_workshops_approve}"
+                                               th:href="@{/admin/approve-workshop}" class="dropdown-item">w</a>
+                                            <a th:text="#{admin_users}"
+                                               th:href="@{/admin/users}" class="dropdown-item">Users</a>
+                                            <a th:text="#{admin_profile}"
+                                               th:href="@{/admin/profile}" class="dropdown-item">Profile</a>
+                                        </div>
+                                    </div>
+                                </li>
                             </ul>
                         </div>
+
                         <div class="navbar-nav py-0">
                             <ul class="navbar-nav mr-auto col-6s">
                                 <li class=" nav-item nav-link" sec:authorize="!isAuthenticated()">
@@ -136,7 +167,7 @@
                                     <a class="btn btn-primary py-2 px-4 ml-2 d-none d-lg-block"
                                        th:text="#{navbar_register}"
                                        th:href="@{/register}">Join Now</a></li>
-                                <li class=" nav-item nav-link" sec:authorize="isAuthenticated()">
+                                <li class=" nav-item nav-link" sec:authorize="hasRole('ROLE_USER')">
                                     <a class="btn btn-primary py-2 px-4 ml-2 d-none d-lg-block"
                                        th:href="@{/users/user}">My Profile</a></li>
                                 <li class=" nav-item nav-link" sec:authorize="isAuthenticated()">
@@ -481,9 +512,7 @@
          style="border-color: rgba(256, 256, 256, .1) !important;">
         <div class="row">
             <div class="col-lg-6 text-center text-md-left mb-3 mb-md-0">
-                <p class="m-0 text-white">&copy; <a href="#">Domain Name</a>. All Rights Reserved. Designed by <a
-                        href="https://htmlcodex.com">HTML Codex</a>
-                </p>
+                <p class="m-0 text-white">&copy; <a href="#">Ana Hristeva</a>.</p>
             </div>
             <div class="col-lg-6 text-center text-md-right">
                 <ul class="nav d-inline-flex">

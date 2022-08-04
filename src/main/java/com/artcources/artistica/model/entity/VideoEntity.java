@@ -11,17 +11,6 @@ public class VideoEntity extends BaseMediaEntity {
     public VideoEntity() {
     }
 
-    @OneToOne
-    private OnlineWorkshopEntity workshop;
-
-    public OnlineWorkshopEntity getWorkshop() {
-        return workshop;
-    }
-
-    public VideoEntity setWorkshop(OnlineWorkshopEntity workshop) {
-        this.workshop = workshop;
-        return this;
-    }
 
     public void clear() {
     }

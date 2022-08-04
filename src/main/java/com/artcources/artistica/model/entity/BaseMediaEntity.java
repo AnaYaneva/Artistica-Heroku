@@ -10,9 +10,6 @@ public abstract class BaseMediaEntity extends BaseEntity {
     private String publicId;
 
 
-    //private BaseWokrshopEntity workshop;
-
-
     public String getName() {
         return name;
     }

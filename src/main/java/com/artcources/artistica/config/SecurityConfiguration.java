@@ -52,7 +52,7 @@ public class SecurityConfiguration {
             .hasRole("SUPPLIER")
             .antMatchers("/courses/{id}/update/**","/courses/{id}/delete")
             .access("@webSecurity.isOwnerOfWorkshop(authentication,#id)").
-        antMatchers("/mentor/**").hasRole(UserRoleEnum.MENTOR.name()).
+        antMatchers("/mentors/**").hasRole(UserRoleEnum.MENTOR.name()).
         // pages available only for admins
         antMatchers("/admin/**").hasRole(UserRoleEnum.ADMIN.name()).
         // all other pages are available for logger in users

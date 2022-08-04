@@ -4,6 +4,7 @@ import com.artcources.artistica.model.binding.MentorProfileUpdateBindingModel;
 import com.artcources.artistica.model.binding.MentorRegisterBindingModel;
 import com.artcources.artistica.model.service.MentorRegisterServiceModel;
 import com.artcources.artistica.model.view.MentorProfileViewModel;
+import com.artcources.artistica.model.view.MentorsAllViewModel;
 import com.artcources.artistica.model.view.WorkshopsAllViewModel;
 import com.artcources.artistica.service.MentorService;
 import com.artcources.artistica.service.WorkshopService;
@@ -17,6 +18,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import javax.validation.Valid;
 import java.security.Principal;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/mentors")
@@ -33,7 +35,13 @@ public class MentorsController {
     }
 
     @GetMapping("")
-    public String all() {
+    public String all(Model model) {
+        List<MentorsAllViewModel> mentorsAllViewModels = this.mentorService.findAllMentors()
+                .stream()
+                .map(mentorsAllServiceModel -> this.modelMapper.map(mentorsAllServiceModel, MentorsAllViewModel.class))
+                .collect(Collectors.toList());
+        model.addAttribute("mentors", mentorsAllViewModels);
+
         return "mentors-all";
     }
 

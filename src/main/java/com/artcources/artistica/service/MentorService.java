@@ -87,8 +87,6 @@ public class MentorService {
                 .stream()
                 .map(mentor -> {
                     MentorsAllServiceModel mentorsAllServiceModel = this.modelMapper.map(mentor, MentorsAllServiceModel.class);
-//                    mentor.getRoles()
-//                            .forEach(role -> mentorsAllServiceModel.getRoleEnums().add(role.getName()));
                     return mentorsAllServiceModel;
                 })
                 .collect(Collectors.toList());

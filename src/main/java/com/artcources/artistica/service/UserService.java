@@ -1,6 +1,7 @@
 package com.artcources.artistica.service;
 
 import com.artcources.artistica.exception.UserNotFoundException;
+import com.artcources.artistica.model.entity.MentorEntity;
 import com.artcources.artistica.model.entity.UserEntity;
 import com.artcources.artistica.model.entity.UserRoleEntity;
 import com.artcources.artistica.model.enums.UserRoleEnum;
@@ -8,6 +9,7 @@ import com.artcources.artistica.model.service.UserProfileUpdateServiceModel;
 import com.artcources.artistica.model.service.UserServiceModel;
 import com.artcources.artistica.model.service.UsersAllServiceModel;
 import com.artcources.artistica.model.view.UserProfileUpdateViewModel;
+import com.artcources.artistica.repository.MentorRepository;
 import com.artcources.artistica.repository.UserRepository;
 import com.artcources.artistica.repository.UserRoleRepository;
 import org.modelmapper.ModelMapper;
@@ -28,6 +30,7 @@ import java.util.stream.Collectors;
 public class UserService {
 
   private final UserRoleService userRoleService;
+  private final MentorRepository mentorRepository;
   private final UserRepository userRepository;
   private final UserRoleRepository userRoleRepository;
   private final PasswordEncoder passwordEncoder;
@@ -36,12 +39,13 @@ public class UserService {
 
   private final ModelMapper modelMapper;
 
-  public UserService(UserRoleService userRoleService, UserRepository userRepository,
+  public UserService(UserRoleService userRoleService, MentorRepository mentorRepository, UserRepository userRepository,
                      UserRoleRepository userRoleRepository,
                      PasswordEncoder passwordEncoder,
                      UserDetailsService userDetailsService,
                      @Value("${app.default.admin.password}") String adminPass, ModelMapper modelMapper)  {
     this.userRoleService = userRoleService;
+    this.mentorRepository = mentorRepository;
     this.userRepository = userRepository;
     this.userRoleRepository = userRoleRepository;
     this.passwordEncoder = passwordEncoder;
@@ -53,27 +57,32 @@ public class UserService {
   public void init() {
     if (userRepository.count() == 0 && userRoleRepository.count() == 0) {
       UserRoleEntity adminRole = new UserRoleEntity().setName(UserRoleEnum.ADMIN);
-      UserRoleEntity moderatorRole = new UserRoleEntity().setName(UserRoleEnum.MODERATOR);
       UserRoleEntity mentorRole = new UserRoleEntity().setName(UserRoleEnum.MENTOR);
       UserRoleEntity studentRole = new UserRoleEntity().setName(UserRoleEnum.USER);
       
       adminRole = userRoleRepository.save(adminRole);
-      moderatorRole = userRoleRepository.save(moderatorRole);
       mentorRole = userRoleRepository.save(mentorRole);
       studentRole = userRoleRepository.save(studentRole);
       
-      initAdmin(List.of(adminRole, moderatorRole, mentorRole));
-      initModerator(List.of(moderatorRole, mentorRole));
+      initAdmin(List.of(adminRole, mentorRole));
       initMentor(List.of(mentorRole));
       initUser(List.of());
     }
   }
 
-  private void initMentor(List<UserRoleEntity> mentorRole) {
+  private void initMentor(List<UserRoleEntity> roles) {
+    MentorEntity mentor = new MentorEntity().
+            setUserRoles(roles).
+            setFirstName("Mentor").
+            setLastName("Mentorov").
+            setEmail("mentor@example.com").
+            setPassword(passwordEncoder.encode(adminPass));
+
+    mentorRepository.save(mentor);
   }
 
   private void initAdmin(List<UserRoleEntity> roles) {
-    UserEntity admin = (UserEntity) new UserEntity().
+    UserEntity admin =  new UserEntity().
         setUserRoles(roles).
         setFirstName("Admin").
         setLastName("Adminov").
@@ -83,19 +92,8 @@ public class UserService {
     userRepository.save(admin);
   }
 
-  private void initModerator(List<UserRoleEntity> roles) {
-    UserEntity moderator = (UserEntity) new UserEntity().
-        setUserRoles(roles).
-        setFirstName("Moderator").
-        setLastName("Moderatorov").
-        setEmail("moderator@example.com").
-        setPassword(passwordEncoder.encode(adminPass));
-
-    userRepository.save(moderator);
-  }
-
   private void initUser(List<UserRoleEntity> roles) {
-    UserEntity user = (UserEntity) new UserEntity().
+    UserEntity user =  new UserEntity().
         setUserRoles(roles).
         setFirstName("User").
         setLastName("Userov").

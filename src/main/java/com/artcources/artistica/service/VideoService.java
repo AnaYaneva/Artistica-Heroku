@@ -35,7 +35,6 @@ public class VideoService{
         video.setName(videoAddServiceModel.getNameVideo());
         video.setPublicId(cloudinaryVideo.getPublicId());
         video.setUrl(cloudinaryVideo.getUrl());
-        video.setWorkshop(wokrshop);
         VideoEntity savedVideo = this.videoRepository.save(video);
         wokrshop.setVideo(savedVideo);
     }
