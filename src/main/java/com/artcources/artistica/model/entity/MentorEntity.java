@@ -4,7 +4,6 @@ import javax.persistence.Entity;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "online_workshops")
-public class OnlineWokrshopEntity extends BaseWokrshopEntity{
-
+@Table(name = "mentors")
+public class MentorEntity  extends BaseUserEntity {
 }

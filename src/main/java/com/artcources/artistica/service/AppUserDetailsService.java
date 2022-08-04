@@ -23,7 +23,7 @@ public class AppUserDetailsService implements UserDetailsService {
   public UserDetails loadUserByUsername(String username)
       throws UsernameNotFoundException {
     return userRepository.
-        findByEmail(username).
+            findUserByEmail(username).
         map(this::map).
         orElseThrow(() -> new UsernameNotFoundException("User with email " + username + " not found!"));
   }
@@ -44,6 +44,6 @@ public class AppUserDetailsService implements UserDetailsService {
   private GrantedAuthority map(UserRoleEntity userRole) {
     return new SimpleGrantedAuthority("ROLE_" +
         userRole.
-            getUserRole().name());
+                getName().name());
   }
 }

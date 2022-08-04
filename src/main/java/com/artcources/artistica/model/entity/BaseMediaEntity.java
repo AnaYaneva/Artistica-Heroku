@@ -12,8 +12,6 @@ public abstract class BaseMediaEntity extends BaseEntity {
 
     //private BaseWokrshopEntity workshop;
 
-    public BaseMediaEntity() {
-    }
 
     public String getName() {
         return name;

@@ -1,9 +1,13 @@
 package com.artcources.artistica.service;
 
+import com.artcources.artistica.exception.UserNotFoundException;
 import com.artcources.artistica.model.entity.UserEntity;
 import com.artcources.artistica.model.entity.UserRoleEntity;
 import com.artcources.artistica.model.enums.UserRoleEnum;
+import com.artcources.artistica.model.service.UserProfileUpdateServiceModel;
 import com.artcources.artistica.model.service.UserServiceModel;
+import com.artcources.artistica.model.service.UsersAllServiceModel;
+import com.artcources.artistica.model.view.UserProfileUpdateViewModel;
 import com.artcources.artistica.repository.UserRepository;
 import com.artcources.artistica.repository.UserRoleRepository;
 import org.modelmapper.ModelMapper;
@@ -16,12 +20,14 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.security.Principal;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class UserService {
 
-
+  private final UserRoleService userRoleService;
   private final UserRepository userRepository;
   private final UserRoleRepository userRoleRepository;
   private final PasswordEncoder passwordEncoder;
@@ -30,11 +36,12 @@ public class UserService {
 
   private final ModelMapper modelMapper;
 
-  public UserService(UserRepository userRepository,
+  public UserService(UserRoleService userRoleService, UserRepository userRepository,
                      UserRoleRepository userRoleRepository,
                      PasswordEncoder passwordEncoder,
                      UserDetailsService userDetailsService,
                      @Value("${app.default.admin.password}") String adminPass, ModelMapper modelMapper)  {
+    this.userRoleService = userRoleService;
     this.userRepository = userRepository;
     this.userRoleRepository = userRoleRepository;
     this.passwordEncoder = passwordEncoder;
@@ -45,10 +52,10 @@ public class UserService {
 
   public void init() {
     if (userRepository.count() == 0 && userRoleRepository.count() == 0) {
-      UserRoleEntity adminRole = new UserRoleEntity().setUserRole(UserRoleEnum.ADMIN);
-      UserRoleEntity moderatorRole = new UserRoleEntity().setUserRole(UserRoleEnum.MODERATOR);
-      UserRoleEntity mentorRole = new UserRoleEntity().setUserRole(UserRoleEnum.MENTOR);
-      UserRoleEntity studentRole = new UserRoleEntity().setUserRole(UserRoleEnum.USER);
+      UserRoleEntity adminRole = new UserRoleEntity().setName(UserRoleEnum.ADMIN);
+      UserRoleEntity moderatorRole = new UserRoleEntity().setName(UserRoleEnum.MODERATOR);
+      UserRoleEntity mentorRole = new UserRoleEntity().setName(UserRoleEnum.MENTOR);
+      UserRoleEntity studentRole = new UserRoleEntity().setName(UserRoleEnum.USER);
       
       adminRole = userRoleRepository.save(adminRole);
       moderatorRole = userRoleRepository.save(moderatorRole);
@@ -66,7 +73,7 @@ public class UserService {
   }
 
   private void initAdmin(List<UserRoleEntity> roles) {
-    UserEntity admin = new UserEntity().
+    UserEntity admin = (UserEntity) new UserEntity().
         setUserRoles(roles).
         setFirstName("Admin").
         setLastName("Adminov").
@@ -77,7 +84,7 @@ public class UserService {
   }
 
   private void initModerator(List<UserRoleEntity> roles) {
-    UserEntity moderator = new UserEntity().
+    UserEntity moderator = (UserEntity) new UserEntity().
         setUserRoles(roles).
         setFirstName("Moderator").
         setLastName("Moderatorov").
@@ -88,7 +95,7 @@ public class UserService {
   }
 
   private void initUser(List<UserRoleEntity> roles) {
-    UserEntity user = new UserEntity().
+    UserEntity user = (UserEntity) new UserEntity().
         setUserRoles(roles).
         setFirstName("User").
         setLastName("Userov").
@@ -124,4 +131,47 @@ public class UserService {
             setAuthentication(auth);
   }
 
+    public List<UsersAllServiceModel> findAllUsers() {
+      return  this.userRepository.findAll()
+              .stream()
+              .map(user -> {
+                UsersAllServiceModel usersAllServiceModel = this.modelMapper.map(user, UsersAllServiceModel.class);
+                user.getUserRoles()
+                        .forEach(role -> usersAllServiceModel.getUserRoles().add(role.getName()));
+                return usersAllServiceModel;
+              })
+              .collect(Collectors.toList());
+    }
+
+  public boolean existByEmail(String email) {
+    return this.userRepository.existsByEmail(email);
+  }
+
+  public void makeUserAdmin(String email) {
+    UserEntity user = this.userRepository.findUserByEmail(email).orElseThrow(() -> new UserNotFoundException());
+    user.getUserRoles().add(this.userRoleService.findRoleByName(UserRoleEnum.ADMIN));
+    this.userRepository.save(user);
+  }
+
+  public void removeAdminRole(String email) {
+    UserEntity user = this.userRepository.findUserByEmail(email).orElseThrow(() -> new UserNotFoundException());
+    if(user.getId()!=1) {
+      user.getUserRoles().remove(this.userRoleService.findRoleByName(UserRoleEnum.ADMIN));
+      this.userRepository.save(user);
+    }
+  }
+
+  public UserProfileUpdateViewModel getUserProfileViewModelByEmail(String email) {
+    UserEntity user = this.userRepository.findUserByEmail(email).orElseThrow(() -> new UserNotFoundException());
+    return this.modelMapper.map(user,UserProfileUpdateViewModel.class);
+  }
+
+  public void updateUserProfile(UserProfileUpdateServiceModel userProfileUpdateServiceModel, Principal principal) {
+    UserEntity user = this.userRepository.findUserByEmail(principal.getName()).orElseThrow(() -> new UserNotFoundException());
+//    user.setFirstName(userProfileUpdateServiceModel.getFirstName());
+//    user.setLastName(userProfileUpdateServiceModel.getLastName());
+//    user.setPartnerFirstName(userProfileUpdateServiceModel.getPartnerFirstName());
+//    user.setPartnerLastName(userProfileUpdateServiceModel.getPartnerLastName());
+    this.userRepository.save(user);
+  }
 }

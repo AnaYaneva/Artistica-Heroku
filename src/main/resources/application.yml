@@ -39,3 +39,17 @@ cloudinary:
   api-key: 763571878292865
   api-secret:  ${CLOUDINARY_API_SECRET}
   cloud-name: dmumqnbm0
+
+mail:
+  default-encoding: UTF-8
+  host: smtp.gmail.com
+  username: artistica.study@gmail.com
+  password: ${MAIL_API_SECRET}
+  port: 587
+  properties:
+    mail:
+      smtp:
+        auth: true
+        ssl.trust: smtp.gmail.com
+  protocol: smtp
+  test-connection: false

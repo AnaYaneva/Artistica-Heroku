@@ -11,7 +11,7 @@ public class UserRoleEntity extends BaseEntity{
 
   @Column(nullable = false)
   @Enumerated(EnumType.STRING)
-  private UserRoleEnum userRole;
+  private UserRoleEnum name;
 
   @Column(columnDefinition = "TEXT", nullable = true)
   private String description;
@@ -28,12 +28,12 @@ public class UserRoleEntity extends BaseEntity{
     return this;
   }
 
-  public UserRoleEnum getUserRole() {
-    return userRole;
+  public UserRoleEnum getName() {
+    return name;
   }
 
-  public UserRoleEntity setUserRole(UserRoleEnum userRole) {
-    this.userRole = userRole;
+  public UserRoleEntity setName(UserRoleEnum userRole) {
+    this.name = userRole;
     return this;
   }
 }

@@ -5,5 +5,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface CourceCategoryRepository extends JpaRepository<CourseCategoryEntity, Long> {
+public interface WorkshopCategoryRepository extends JpaRepository<CourseCategoryEntity, Long> {
 }

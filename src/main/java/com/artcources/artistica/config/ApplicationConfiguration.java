@@ -16,8 +16,6 @@ public class ApplicationConfiguration {
         this.cloudinaryConfig = cloudinaryConfig;
     }
 
-
-
     @Bean
     public Cloudinary cloudinary() {
         return new Cloudinary(
