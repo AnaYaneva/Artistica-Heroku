@@ -2,13 +2,12 @@ package com.artcources.artistica.service;
 
 import com.artcources.artistica.exception.UserNotFoundException;
 import com.artcources.artistica.model.binding.MentorProfileUpdateBindingModel;
-import com.artcources.artistica.model.entity.MentorEntity;
+import com.artcources.artistica.model.entity.UserEntity;
 import com.artcources.artistica.model.enums.UserRoleEnum;
-import com.artcources.artistica.model.service.MentorProfileUpdateServiceModel;
-import com.artcources.artistica.model.service.MentorRegisterServiceModel;
+import com.artcources.artistica.model.service.MentorServiceModel;
 import com.artcources.artistica.model.service.MentorsAllServiceModel;
 import com.artcources.artistica.model.view.MentorProfileViewModel;
-import com.artcources.artistica.repository.MentorRepository;
+import com.artcources.artistica.repository.UserRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -19,47 +18,61 @@ import org.springframework.stereotype.Service;
 
 import java.security.Principal;
 import java.util.List;
-import java.util.Set;
+import java.util.Locale;
 import java.util.stream.Collectors;
 
 @Service
 public class MentorService {
-    private final MentorRepository mentorRepository;
+    private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final UserRoleService userRoleService;
     private final ModelMapper modelMapper;
-    private final WPUserServiceImpl wpUserService;
+    private final AppUserDetailsService appUserDetailsService;
 
-    public MentorService(MentorRepository mentorRepository, PasswordEncoder passwordEncoder, UserRoleService userRoleService, ModelMapper modelMapper, WPUserServiceImpl wpUserService) {
-        this.mentorRepository = mentorRepository;
+    private final EmailService emailService;
+
+    public MentorService(UserRepository mentorRepository, PasswordEncoder passwordEncoder, UserRoleService userRoleService, ModelMapper modelMapper, AppUserDetailsService appUserDetailsService, EmailService emailService) {
+        this.userRepository = mentorRepository;
         this.passwordEncoder = passwordEncoder;
         this.userRoleService = userRoleService;
         this.modelMapper = modelMapper;
-        this.wpUserService = wpUserService;
+        this.appUserDetailsService = appUserDetailsService;
+        this.emailService = emailService;
     }
 
 
-    public void save(MentorRegisterServiceModel mentorRegisterServiceModel) {
+    public void registerAndLogin(MentorServiceModel mentorServiceModel, Locale preferredLocale) {
+        UserEntity newUser =
+                modelMapper.map(mentorServiceModel, UserEntity.class);
+        newUser.setPassword(passwordEncoder.encode(mentorServiceModel.getPassword()));
+        newUser.setUserRoles(List.of(this.userRoleService.findRoleByName(UserRoleEnum.MENTOR)));
 
-//        //save mentor
-//        MentorEntity mentorEntity = this.modelMapper.map(mentorRegisterServiceModel, MentorEntity.class);
-//        mentorEntity.setPassword(this.passwordEncoder.encode(mentorRegisterServiceModel.getPassword()));
-//        mentorEntity.setRoles(Set.of(this.userRoleService.findRoleByName(UserRoleEnum.MENTOR)));
-//
-//        MentorEntity registeredMentor = this.mentorRepository.save(mentorEntity);
-//
-//        UserDetails principal = this.wpUserService.loadUserByUsername(registeredMentor.getEmail());
-//        Authentication authentication = new UsernamePasswordAuthenticationToken(
-//                principal,
-//                registeredMentor.getPassword(),
-//                principal.getAuthorities());
-//
-//        SecurityContextHolder.getContext().setAuthentication(authentication);
+        userRepository.save(newUser);
+        login(newUser);
+        emailService.sendRegistrationEmail(newUser.getUsername(),
+                newUser.getFirstName() + " " + newUser.getLastName(),
+                preferredLocale);
     }
 
 
-    public MentorEntity findMentorByEmail(String email) {
-        return this.mentorRepository.findMentorByEmail(email).orElseThrow(() -> new UserNotFoundException());
+    private void login(UserEntity userEntity) {
+        UserDetails userDetails =
+                appUserDetailsService.loadUserByUsername(userEntity.getUsername());
+
+        Authentication auth =
+                new UsernamePasswordAuthenticationToken(
+                        userDetails,
+                        userDetails.getPassword(),
+                        userDetails.getAuthorities()
+                );
+
+        SecurityContextHolder.
+                getContext().
+                setAuthentication(auth);
+    }
+
+    public UserEntity findMentorByEmail(String email) {
+        return this.userRepository.findByUsername(email).orElseThrow(() -> new UserNotFoundException());
     }
 
     public void updateMentorProfile(MentorProfileUpdateBindingModel mentorProfileUpdateBindingModel, Principal principal) {
@@ -83,7 +96,7 @@ public class MentorService {
 
 
     public List<MentorsAllServiceModel> findAllMentors() {
-        return  this.mentorRepository.findAll()
+        return  this.userRepository.findAllByUserRoles_Name(UserRoleEnum.MENTOR)
                 .stream()
                 .map(mentor -> {
                     MentorsAllServiceModel mentorsAllServiceModel = this.modelMapper.map(mentor, MentorsAllServiceModel.class);
@@ -94,26 +107,26 @@ public class MentorService {
 
 
     public boolean existByEmail(String email) {
-        return this.mentorRepository.existsByEmail(email);
+        return this.userRepository.existsByUsername(email);
     }
 
 
     public void makeMentorAdmin(String email) {
-        MentorEntity mentor = this.mentorRepository.findMentorByEmail(email).orElseThrow(() -> new UserNotFoundException());
+        UserEntity mentor = this.userRepository.findByUsername(email).orElseThrow(() -> new UserNotFoundException());
 //        mentor.getRoles().add(this.userRoleService.findRoleByName(RoleEnum.ADMIN));
-        this.mentorRepository.save(mentor);
+        this.userRepository.save(mentor);
     }
 
 
     public void removeAdminRole(String email) {
-        MentorEntity mentor = this.mentorRepository.findMentorByEmail(email).orElseThrow(() -> new UserNotFoundException());
+        UserEntity mentor = this.userRepository.findByUsername(email).orElseThrow(() -> new UserNotFoundException());
 //        mentor.getRoles().remove(this.userRoleService.findRoleByName(RoleEnum.ADMIN));
-        this.mentorRepository.save(mentor);
+        this.userRepository.save(mentor);
     }
 
 
     public MentorProfileViewModel getMentorProfileViewModelByEmail(String email) {
-        MentorProfileViewModel  mentorProfileViewModel1 = this.mentorRepository.findMentorByEmail(email)
+        MentorProfileViewModel  mentorProfileViewModel1 = this.userRepository.findByUsername(email)
                 .map(mentor -> {
                     MentorProfileViewModel mentorProfileViewModel =
                             this.modelMapper.map(mentor, MentorProfileViewModel.class);

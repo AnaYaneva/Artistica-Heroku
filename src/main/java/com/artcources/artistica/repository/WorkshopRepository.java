@@ -7,7 +7,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
-import java.util.Optional;
 
 @Repository
 public interface WorkshopRepository  extends JpaRepository<OnlineWorkshopEntity, Long> {
@@ -15,7 +14,7 @@ public interface WorkshopRepository  extends JpaRepository<OnlineWorkshopEntity,
 
     List<OnlineWorkshopEntity> findAllByCategory_Name(CourseCategoryEnum categoryName);
 
-    List<OnlineWorkshopEntity> findAllByMentor_Email(String email);
+    List<OnlineWorkshopEntity> findAllByMentor_Username(String email);
 
    // Optional<OnlineWorkshopEntity> findWorkshopByAbout(String about);
 }

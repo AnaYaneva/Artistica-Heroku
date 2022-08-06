@@ -23,7 +23,7 @@ public class ContactsController {
 
     @GetMapping("/contacts")
     public String contacts() {
-        return "contact";
+        return "contacts";
     }
 
     @PostMapping("/contacts")
@@ -36,7 +36,7 @@ public class ContactsController {
             redirectAttributes.addFlashAttribute("contactsBindingModel", contactsBindingModel);
             redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.contactsBindingModel",bindingResult);
 
-            return "redirect:contact";
+            return "redirect:contacts";
         }
 
         emailService.sendContactEmail(contactsBindingModel.getEmail(), contactsBindingModel.getName(), contactsBindingModel.getSubject(), contactsBindingModel.getMessage());

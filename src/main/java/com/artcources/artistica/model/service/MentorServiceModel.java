@@ -1,15 +1,17 @@
-package com.artcources.artistica.model.entity;
+package com.artcources.artistica.model.service;
 
-import javax.persistence.*;
+import com.artcources.artistica.model.entity.UserRoleEntity;
+
+import javax.persistence.Column;
+import javax.persistence.FetchType;
+import javax.persistence.ManyToMany;
 import java.util.ArrayList;
 import java.util.List;
 
-@Entity
-@Table(name = "mentors")
-public class MentorEntity    extends BaseEntity {
+public class MentorServiceModel {
     @Column(nullable = false,
             unique = true)
-    private String email;
+    private String username;
 
     private String password;
     @Column(nullable = false)
@@ -19,21 +21,22 @@ public class MentorEntity    extends BaseEntity {
 
     @ManyToMany(fetch = FetchType.EAGER)
     private List<UserRoleEntity> userRoles = new ArrayList<>();
-
-
+    @Column(nullable = true)
     private String facebook;
+    @Column(nullable = true)
     private String linkedIn;
+    @Column(nullable = true)
     private String instagram;
 
-    public MentorEntity() {
+    public MentorServiceModel() {
     }
 
-    public String getEmail() {
-        return email;
+    public String getUsername() {
+        return username;
     }
 
-    public MentorEntity setEmail(String email) {
-        this.email = email;
+    public MentorServiceModel setUsername(String username) {
+        this.username = username;
         return this;
     }
 
@@ -41,7 +44,7 @@ public class MentorEntity    extends BaseEntity {
         return password;
     }
 
-    public MentorEntity setPassword(String password) {
+    public MentorServiceModel setPassword(String password) {
         this.password = password;
         return this;
     }
@@ -50,7 +53,7 @@ public class MentorEntity    extends BaseEntity {
         return firstName;
     }
 
-    public MentorEntity setFirstName(String firstName) {
+    public MentorServiceModel setFirstName(String firstName) {
         this.firstName = firstName;
         return this;
     }
@@ -59,7 +62,7 @@ public class MentorEntity    extends BaseEntity {
         return lastName;
     }
 
-    public MentorEntity setLastName(String lastName) {
+    public MentorServiceModel setLastName(String lastName) {
         this.lastName = lastName;
         return this;
     }
@@ -68,7 +71,7 @@ public class MentorEntity    extends BaseEntity {
         return userRoles;
     }
 
-    public MentorEntity setUserRoles(List<UserRoleEntity> userRoles) {
+    public MentorServiceModel setUserRoles(List<UserRoleEntity> userRoles) {
         this.userRoles = userRoles;
         return this;
     }
@@ -77,7 +80,7 @@ public class MentorEntity    extends BaseEntity {
         return facebook;
     }
 
-    public MentorEntity setFacebook(String facebook) {
+    public MentorServiceModel setFacebook(String facebook) {
         this.facebook = facebook;
         return this;
     }
@@ -86,7 +89,7 @@ public class MentorEntity    extends BaseEntity {
         return linkedIn;
     }
 
-    public MentorEntity setLinkedIn(String linkedIn) {
+    public MentorServiceModel setLinkedIn(String linkedIn) {
         this.linkedIn = linkedIn;
         return this;
     }
@@ -95,7 +98,7 @@ public class MentorEntity    extends BaseEntity {
         return instagram;
     }
 
-    public MentorEntity setInstagram(String instagram) {
+    public MentorServiceModel setInstagram(String instagram) {
         this.instagram = instagram;
         return this;
     }

@@ -20,7 +20,7 @@ public class WebSecurity {
     public boolean isOwnerOfWorkshop(Authentication authentication, Long id) {
         OnlineWorkshopEntity workshop=this.workshopService.getWokrshopById(id);
 
-        if (workshop.getMentor().getEmail().equals(authentication.getName())) {
+        if (workshop.getMentor().getUsername().equals(authentication.getName())) {
             return true;
         }
         return false;

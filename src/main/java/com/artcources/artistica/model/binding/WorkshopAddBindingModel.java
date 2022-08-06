@@ -5,6 +5,7 @@ import com.artcources.artistica.model.entity.ExperienceLevelEntity;
 import com.artcources.artistica.model.entity.UserEntity;
 import com.artcources.artistica.model.entity.VideoEntity;
 import com.artcources.artistica.model.enums.CourseCategoryEnum;
+import com.artcources.artistica.model.enums.ExperienceLevelEnum;
 import com.artcources.artistica.model.enums.StatusEnum;
 
 import javax.persistence.*;
@@ -17,7 +18,7 @@ public class WorkshopAddBindingModel {
 
     private VideoEntity video;
 
-    private ExperienceLevelEntity experienceLevel;
+    private ExperienceLevelEnum experienceLevel;
 
     private CourseCategoryEnum category;
 
@@ -51,11 +52,11 @@ public class WorkshopAddBindingModel {
         return this;
     }
 
-    public ExperienceLevelEntity getExperienceLevel() {
+    public ExperienceLevelEnum getExperienceLevel() {
         return experienceLevel;
     }
 
-    public WorkshopAddBindingModel setExperienceLevel(ExperienceLevelEntity experienceLevel) {
+    public WorkshopAddBindingModel setExperienceLevel(ExperienceLevelEnum experienceLevel) {
         this.experienceLevel = experienceLevel;
         return this;
     }

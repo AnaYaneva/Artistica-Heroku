@@ -32,11 +32,9 @@ public class EmailService {
         try {
             MimeMessageHelper mimeMessageHelper = new MimeMessageHelper(mimeMessage);
             mimeMessageHelper.setFrom("artistica.study@gmail.com");
-            mimeMessageHelper.setTo(userEmail);
-         //   mimeMessageHelper.setSubject(getEmailSubject(preferredLocale));
-            mimeMessageHelper.setSubject(subject);
-            // mimeMessageHelper.setText(generateMessageContent(preferredLocale, userName), true);
-            mimeMessageHelper.setText(messageBody, true);
+            mimeMessageHelper.setTo("artistica.study@gmail.com");
+            mimeMessageHelper.setSubject("New contact mail: " + subject);
+            mimeMessageHelper.setText(generateContactMessageContent(userEmail, subject, userName, messageBody), true);
 
             javaMailSender.send(mimeMessageHelper.getMimeMessage());
         } catch (MessagingException e) {
@@ -51,12 +49,53 @@ public class EmailService {
                 locale);
     }
 
-    private String generateMessageContent(Locale locale,
-                                          String userName) {
+    private String generateRegistrationMessageContent(Locale locale,
+                                                      String userName) {
         Context ctx = new Context();
         ctx.setLocale(locale);
         ctx.setVariable("userName", userName);
         return templateEngine.process("email/registration", ctx);
     }
+
+    private String generateContactMessageContent(String from, String subject, String username, String message) {
+
+
+//        StringBuilder sb = new StringBuilder();
+//
+//        sb.append("You have new contact mail from ").append(username).append(System.lineSeparator())
+//                .append("From: ").append(from).append(username).append(System.lineSeparator())
+//                .append("Subject: ").append(from).append(subject).append(System.lineSeparator())
+//                .append("Message: ").append(message).append(username).append(System.lineSeparator());
+//
+//        return sb.toString();
+        Context ctx = new Context();
+        ctx.setVariable("username", username);
+        ctx.setVariable("from", from);
+        ctx.setVariable("subject", subject);
+        ctx.setVariable("message", message);
+        return templateEngine.process("email/contact", ctx);
+    }
+
+    public void sendRegistrationEmail(
+            String userEmail,
+            String userName,
+            Locale preferredLocale
+    ) {
+        MimeMessage mimeMessage = javaMailSender.createMimeMessage();
+
+        try {
+            MimeMessageHelper mimeMessageHelper = new MimeMessageHelper(mimeMessage);
+            mimeMessageHelper.setFrom("mobilele@mobilele.com");
+            mimeMessageHelper.setTo(userEmail);
+            mimeMessageHelper.setSubject(getEmailSubject(preferredLocale));
+            mimeMessageHelper.setText(generateRegistrationMessageContent(preferredLocale, userName), true);
+
+            javaMailSender.send(mimeMessageHelper.getMimeMessage());
+        } catch (MessagingException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+
 
 }

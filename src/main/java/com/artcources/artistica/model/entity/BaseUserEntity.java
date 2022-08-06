@@ -7,11 +7,11 @@ import javax.persistence.MappedSuperclass;
 import java.util.ArrayList;
 import java.util.List;
 
-@MappedSuperclass
+//@MappedSuperclass
 public class BaseUserEntity  extends BaseEntity {
     @Column(nullable = false,
             unique = true)
-    private String email;
+    private String username;
 
     private String password;
     @Column(nullable = false)
@@ -25,12 +25,12 @@ public class BaseUserEntity  extends BaseEntity {
     public BaseUserEntity() {
     }
 
-    public String getEmail() {
-        return email;
+    public String getUsername() {
+        return username;
     }
 
-    public BaseUserEntity setEmail(String email) {
-        this.email = email;
+    public BaseUserEntity setUsername(String email) {
+        this.username = email;
         return this;
     }
 
@@ -73,7 +73,7 @@ public class BaseUserEntity  extends BaseEntity {
     @Override
     public String toString() {
         return "UserEntity{" +
-                "email='" + email + '\'' +
+                "email='" + username + '\'' +
                 ", password='" + password + '\'' +
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +

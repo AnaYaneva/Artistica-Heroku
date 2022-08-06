@@ -16,7 +16,7 @@ public class AppUser implements UserDetails {
 
   public AppUser(
           Long id,
-          String email, String password,
+          String password,
           String username,
           String firstName,
           String lastName,

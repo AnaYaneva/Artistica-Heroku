@@ -104,7 +104,7 @@ public class WorkshopService {
     }
 
     public List<WorkshopsAllViewModel> getCurrentUserWorkshops(Principal principal) {
-        List<WorkshopsAllViewModel> collect = this.workshopRepository.findAllByMentor_Email(principal.getName())
+        List<WorkshopsAllViewModel> collect = this.workshopRepository.findAllByMentor_Username(principal.getName())
                 .stream()
                 .map(workshop -> {
                     WorkshopsAllViewModel workshopsAllViewModel = this.modelMapper.map(workshop, WorkshopsAllViewModel.class);

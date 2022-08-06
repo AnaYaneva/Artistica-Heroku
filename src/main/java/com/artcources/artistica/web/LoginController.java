@@ -1,5 +1,6 @@
 package com.artcources.artistica.web;
 
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -29,12 +30,14 @@ public class LoginController {
 //  }
 
   @PostMapping("/users/login-error")
-  public String loginError(@ModelAttribute("email") String email,
-                           RedirectAttributes redirectAttributes) {
-    redirectAttributes.addFlashAttribute("badCredentials",true);
-    redirectAttributes.addFlashAttribute("email",email);
+  public String loginError(
+          @ModelAttribute(UsernamePasswordAuthenticationFilter.SPRING_SECURITY_FORM_USERNAME_KEY) String username,
+  RedirectAttributes redirectAttributes) {
+    redirectAttributes.addFlashAttribute(UsernamePasswordAuthenticationFilter.SPRING_SECURITY_FORM_USERNAME_KEY, username);
+    redirectAttributes.addFlashAttribute("bad_credentials",
+            true);
 
-    return "redirect:/login";
+    return "redirect:/users/login";
   }
 
 }

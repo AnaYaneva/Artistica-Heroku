@@ -30,7 +30,7 @@
                         <div class="p-5" style="width: 100%; max-width: 900px;">
                             <h5 class="text-white text-uppercase mb-md-3">Best Online Art Workshops</h5>
                             <h1 class="display-3 text-white mb-md-4">Best Art Education From Your Home</h1>
-                            <a th:href="@{/courses/online}" class="btn btn-primary py-md-2 px-md-4 font-weight-semi-bold mt-2">Learn More</a>
+                            <a th:href="@{/courses/all}" class="btn btn-primary py-md-2 px-md-4 font-weight-semi-bold mt-2">Learn More</a>
                         </div>
                     </div>
                 </div>
@@ -38,9 +38,9 @@
                     <img class="position-relative w-100" th:src="@{/images/carousel-2.jpg}" style="min-height: 300px; object-fit: cover;">
                     <div class="carousel-caption d-flex align-items-center justify-content-center">
                         <div class="p-5" style="width: 100%; max-width: 900px;">
-                            <h5 class="text-white text-uppercase mb-md-3">Best Onsite Art Workshops</h5>
-                            <h1 class="display-3 text-white mb-md-4">Best Onsite Art Workshops</h1>
-                            <a th:href="@{/courses/onsite}" class="btn btn-primary py-md-2 px-md-4 font-weight-semi-bold mt-2">Learn More</a>
+                            <h5 class="text-white text-uppercase mb-md-3">Learn more about us</h5>
+                            <h1 class="display-3 text-white mb-md-4">We are the best</h1>
+                            <a th:href="@{/about}" class="btn btn-primary py-md-2 px-md-4 font-weight-semi-bold mt-2">Learn More</a>
                         </div>
                     </div>
                 </div>
@@ -75,7 +75,7 @@
     <!-- Courses End -->
 
     <!-- Team Start -->
-    <div th:replace="fragments/commons::mentors"></div>
+    <div th:replace="mentors-all::team"></div>
     <!-- Team End -->
 
 

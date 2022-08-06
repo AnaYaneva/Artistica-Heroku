@@ -9,7 +9,7 @@ import java.util.List;
 public class UserEntity   extends BaseEntity {
     @Column(nullable = false,
             unique = true)
-    private String email;
+    private String username;
 
     private String password;
     @Column(nullable = false)
@@ -19,16 +19,22 @@ public class UserEntity   extends BaseEntity {
 
     @ManyToMany(fetch = FetchType.EAGER)
     private List<UserRoleEntity> userRoles = new ArrayList<>();
+    @Column(nullable = true)
+    private String facebook;
+    @Column(nullable = true)
+    private String linkedIn;
+    @Column(nullable = true)
+    private String instagram;
 
     public UserEntity() {
     }
 
-    public String getEmail() {
-        return email;
+    public String getUsername() {
+        return username;
     }
 
-    public UserEntity setEmail(String email) {
-        this.email = email;
+    public UserEntity setUsername(String username) {
+        this.username = username;
         return this;
     }
 
@@ -65,6 +71,33 @@ public class UserEntity   extends BaseEntity {
 
     public UserEntity setUserRoles(List<UserRoleEntity> userRoles) {
         this.userRoles = userRoles;
+        return this;
+    }
+
+    public String getFacebook() {
+        return facebook;
+    }
+
+    public UserEntity setFacebook(String facebook) {
+        this.facebook = facebook;
+        return this;
+    }
+
+    public String getLinkedIn() {
+        return linkedIn;
+    }
+
+    public UserEntity setLinkedIn(String linkedIn) {
+        this.linkedIn = linkedIn;
+        return this;
+    }
+
+    public String getInstagram() {
+        return instagram;
+    }
+
+    public UserEntity setInstagram(String instagram) {
+        this.instagram = instagram;
         return this;
     }
 }

@@ -9,8 +9,10 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.servlet.LocaleResolver;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 @Controller
@@ -20,9 +22,12 @@ public class RegistrationController {
 
   private final ModelMapper modelMapper;
 
-  public RegistrationController(UserService userService, ModelMapper modelMapper) {
+  private LocaleResolver localeResolver;
+
+  public RegistrationController(UserService userService, ModelMapper modelMapper, LocaleResolver localeResolver) {
     this.userService = userService;
     this.modelMapper = modelMapper;
+    this.localeResolver = localeResolver;
   }
 
   @GetMapping("/register")
@@ -38,7 +43,8 @@ public class RegistrationController {
   @PostMapping("/users/register")
   public String register(@Valid UserRegisterBindingModel userRegisterBindingModel,
                          BindingResult bindingResult,
-                         RedirectAttributes redirectAttributes) {
+                         RedirectAttributes redirectAttributes,
+                         HttpServletRequest request) {
 
     if(bindingResult.hasErrors() ||
             !userRegisterBindingModel.getPassword()
@@ -49,7 +55,7 @@ public class RegistrationController {
       return "redirect:register";
     }
 
-    userService.registerAndLogin(modelMapper.map(userRegisterBindingModel, UserServiceModel.class));
+    userService.registerAndLogin(modelMapper.map(userRegisterBindingModel, UserServiceModel.class),localeResolver.resolveLocale(request));
 
     return "redirect:/";
 

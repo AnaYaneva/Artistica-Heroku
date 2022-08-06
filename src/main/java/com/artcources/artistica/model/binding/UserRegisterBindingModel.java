@@ -30,7 +30,7 @@ public class UserRegisterBindingModel {
     @NotBlank(message = "Email cannot be empty")
     @Email(message = "User email should be valid")
     @UniqueUserEmail(message = "User email should be unique")
-    private String email;
+    private String username;
 
     @NotBlank(message = "Password should not be an empty string")
     @Size(min=3,max=20, message = "Password length must be between 3 and 20 characters!")
@@ -49,12 +49,12 @@ public class UserRegisterBindingModel {
     }
 
 
-    public String getEmail() {
-        return email;
+    public String getUsername() {
+        return username;
     }
 
-    public UserRegisterBindingModel setEmail(String email) {
-        this.email = email;
+    public UserRegisterBindingModel setUsername(String username) {
+        this.username = username;
         return this;
     }
 

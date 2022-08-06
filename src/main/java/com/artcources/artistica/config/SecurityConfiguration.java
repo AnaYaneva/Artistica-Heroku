@@ -8,22 +8,21 @@ import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.builders.WebSecurity;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.crypto.password.Pbkdf2PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @Configuration
-public class SecurityConfiguration {
+@EnableWebSecurity
+public class SecurityConfiguration  {
 
   //Here we have to expose 3 things:
   // 1. PasswordEncoder
   // 2. SecurityFilterChain
   // 3. UserDetailsService
+
 
 
   @Bean
@@ -35,6 +34,8 @@ public class SecurityConfiguration {
   public PasswordEncoder passwordEncoder() {
     return new Pbkdf2PasswordEncoder();
   }
+
+
 
   @Bean
   public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
@@ -48,8 +49,6 @@ public class SecurityConfiguration {
         antMatchers("/", "/users/login", "/users/register",  "/mentors/register", "/register", "/contacts", "/about").permitAll().
         antMatchers( "/courses/add", "/courses", "/courses/all", "/courses/search", "/mentors", "/mentor", "/projects", "/users/user").permitAll()
         // pages available only for mentors
-            .antMatchers("/supplier-profile/**","/offers/add","/supplier/messages/**")
-            .hasRole("SUPPLIER")
             .antMatchers("/courses/{id}/update/**","/courses/{id}/delete")
             .access("@webSecurity.isOwnerOfWorkshop(authentication,#id)").
         antMatchers("/mentors/**").hasRole(UserRoleEnum.MENTOR.name()).
@@ -68,11 +67,11 @@ public class SecurityConfiguration {
         // the name of the username form field
         usernameParameter(UsernamePasswordAuthenticationFilter.SPRING_SECURITY_FORM_USERNAME_KEY).
         // the name of the password form field
-        passwordParameter(UsernamePasswordAuthenticationFilter.SPRING_SECURITY_FORM_PASSWORD_KEY).
-        // where to go in case that the login is successful
-        defaultSuccessUrl("/").
-        // where to go in case that the login failed
-        failureForwardUrl("/users/login-error").
+         passwordParameter(UsernamePasswordAuthenticationFilter.SPRING_SECURITY_FORM_PASSWORD_KEY).
+         // where to go in case that the login is successful
+         defaultSuccessUrl("/", true).
+         // where to go in case that the login failed
+         failureForwardUrl("/users/login-error").
     and().
         // configure logout
         logout().
@@ -87,7 +86,7 @@ public class SecurityConfiguration {
   }
 
   @Bean
-  public UserDetailsService userDetailsService(UserRepository userRepository) {
+  public AppUserDetailsService userDetailsService(UserRepository userRepository) {
     return new AppUserDetailsService(userRepository);
   }
 

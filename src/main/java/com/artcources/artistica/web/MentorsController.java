@@ -2,19 +2,23 @@ package com.artcources.artistica.web;
 
 import com.artcources.artistica.model.binding.MentorProfileUpdateBindingModel;
 import com.artcources.artistica.model.binding.MentorRegisterBindingModel;
-import com.artcources.artistica.model.service.MentorRegisterServiceModel;
+import com.artcources.artistica.model.service.MentorServiceModel;
 import com.artcources.artistica.model.view.MentorProfileViewModel;
 import com.artcources.artistica.model.view.MentorsAllViewModel;
 import com.artcources.artistica.model.view.WorkshopsAllViewModel;
+import com.artcources.artistica.repository.UserRoleRepository;
 import com.artcources.artistica.service.MentorService;
+import com.artcources.artistica.service.UserService;
 import com.artcources.artistica.service.WorkshopService;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.LocaleResolver;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.security.Principal;
 import java.util.List;
@@ -26,12 +30,19 @@ public class MentorsController {
 
     private final ModelMapper modelMapper;
     private final MentorService mentorService;
+    private final UserService userService;
     private final WorkshopService workshopService;
+    private final UserRoleRepository userRoleRepository;
+    private LocaleResolver localeResolver;
 
-    public MentorsController(ModelMapper modelMapper, MentorService mentorService, WorkshopService workshopService) {
+
+    public MentorsController(ModelMapper modelMapper, MentorService mentorService, UserService userService, WorkshopService workshopService, UserRoleRepository userRoleRepository, LocaleResolver localeResolver) {
         this.modelMapper = modelMapper;
         this.mentorService = mentorService;
+        this.userService = userService;
         this.workshopService = workshopService;
+        this.userRoleRepository = userRoleRepository;
+        this.localeResolver = localeResolver;
     }
 
     @GetMapping("")
@@ -50,26 +61,28 @@ public class MentorsController {
         return new MentorRegisterBindingModel();
     }
 
-    @GetMapping("/register/mentor")
+    @GetMapping("/register")
     public String registerMentor(Model model) {
-//        model.addAttribute("cities", this.cityService.getAllCities());
-//        model.addAttribute("regions", this.regionService.getAllRegions());
-//        model.addAttribute("categories", CategoryMentorEnum.values());
-        return "register-mentor";
+
+        return "mentor-register";
     }
 
-    @PostMapping("/register/mentor")
+    @PostMapping("/register")
     public String registerMentor(@Valid @ModelAttribute("mentorRegisterBindingModel") MentorRegisterBindingModel mentorRegisterBindingModel,
                                  BindingResult bindingResult,
-                                 RedirectAttributes redirectAttributes) {
+                                 RedirectAttributes redirectAttributes,
+                                 HttpServletRequest request) {
         if (bindingResult.hasErrors()) {
             redirectAttributes.addFlashAttribute("mentorRegisterBindingModel", mentorRegisterBindingModel);
             redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.mentorRegisterBindingModel", bindingResult);
-            return "redirect:/register/mentor";
+            return "redirect:/mentors/register";
         }
 
-        MentorRegisterServiceModel mentorRegisterServiceModel = this.modelMapper.map(mentorRegisterBindingModel, MentorRegisterServiceModel.class);
-        this.mentorService.save(mentorRegisterServiceModel);
+
+        MentorServiceModel mentorRegisterServiceModel = this.modelMapper.map(mentorRegisterBindingModel, MentorServiceModel.class);
+//        UserRoleEntity mentorRole = userRoleRepository.findRoleByName(UserRoleEnum.MENTOR);
+//        mentorRegisterServiceModel.setUserRoles(List.of(mentorRole));
+        this.mentorService.registerAndLogin(mentorRegisterServiceModel, localeResolver.resolveLocale(request));
         return "redirect:/";
     }
 

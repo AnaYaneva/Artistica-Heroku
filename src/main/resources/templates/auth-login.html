@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:th="http://www.thymeleaf.org">
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://thymeleaf.org/extras/spring-security">
 
 <head th:replace="fragments/commons::head"></head>
 
@@ -43,6 +44,7 @@
                             <div class="form-group">
                                 <input id="username"
                                        name="username"
+                                       th:value="${username}"
                                        type="text"
                                        class="form-control border-0 p-4"
                                        placeholder="Your email"
@@ -61,6 +63,9 @@
                                 <small id="passwordHelpInline" class="invalid-feedback bg-danger text-light rounded">
                                     Password length must be more than 3 characters long.
                                 </small>
+                            </div>
+                            <div  th:if="${bad_credentials}" class="bad-credentials-message">
+                                User with this combination of email and password does not exist!
                             </div>
                             <div>
                                 <button class="btn btn-dark btn-block border-0 py-3" type="submit">Sign Up Now</button>

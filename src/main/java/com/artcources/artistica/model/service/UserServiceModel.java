@@ -9,7 +9,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class UserServiceModel {
-    private String email;
+
+    private String id;
 
     private String password;
 
@@ -24,12 +25,12 @@ public class UserServiceModel {
     public UserServiceModel() {
     }
 
-    public String getEmail() {
-        return email;
+    public String getId() {
+        return id;
     }
 
-    public UserServiceModel setEmail(String email) {
-        this.email = email;
+    public UserServiceModel setId(String id) {
+        this.id = id;
         return this;
     }
 

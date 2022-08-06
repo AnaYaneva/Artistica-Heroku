@@ -5,26 +5,43 @@
 <head th:replace="fragments/commons::head"></head>
 
 <body>
+    <!-- Topbar Start -->
+    <div th:replace="fragments/commons::topbar"></div>
+    <!-- Topbar End -->
+
     <!-- Navbar Start -->
     <div th:replace="fragments/commons::nav"></div>
     <!-- Navbar End -->
 
-    <!-- Add Start -->
+    <!-- Registration Start -->
     <div class="container-fluid bg-registration py-5" style="margin: 90px 0;">
         <div class="container py-5">
             <div class="row align-items-center">
+                <div class="col-lg-7 mb-5 mb-lg-0">
+                    <div class="mb-4">
+                        <h5 class="text-primary text-uppercase mb-3" style="letter-spacing: 5px;">Need Any Courses</h5>
+                        <h1 class="text-white">30% Off For New Students</h1>
+                    </div>
+                    <p class="text-white">Invidunt lorem justo sanctus clita. Erat lorem labore ea, justo dolor lorem ipsum ut sed eos,
+                        ipsum et dolor kasd sit ea justo. Erat justo sed sed diam. Ea et erat ut sed diam sea ipsum est
+                        dolor</p>
+                    <ul class="list-inline text-white m-0">
+                        <li class="py-2"><i class="fa fa-check text-primary mr-3"></i>Labore eos amet dolor amet diam</li>
+                        <li class="py-2"><i class="fa fa-check text-primary mr-3"></i>Etsea et sit dolor amet ipsum</li>
+                        <li class="py-2"><i class="fa fa-check text-primary mr-3"></i>Diam dolor diam elitripsum vero.</li>
+                    </ul>
+                </div>
                 <div class="col-lg-5">
                     <div class="card border-0">
                         <div class="card-header bg-light text-center p-4">
-                            <h1 class="m-0">Create Workshop</h1>
+                            <h1 class="m-0">Sign Up Now</h1>
                         </div>
                         <div class="card-body rounded-bottom bg-primary p-5">
-                            <form th:action="@{/courses/add}"
+                            <form th:action="@{/mentors/register}"
                                   th:method="post"
-                                  ecnctype="multipart/>form-data"
-                                  th:object="${userRegisterBindingModel}">
+                                  th:object="${mentorRegisterBindingModel}">
                                 <div class="form-group">
-                                    <input th:field="*{name}"
+                                    <input th:field="*{firstName}"
                                            th:errorclass="is-invalid"
                                            type="text"
                                            class="form-control border-0 p-4"
@@ -46,7 +63,7 @@
                                     </small>
                                 </div>
                                 <div class="form-group">
-                                    <input th:field="*{email}"
+                                    <input th:field="*{username}"
                                            th:errorclass="is-invalid"
                                            type="email"
                                            class="form-control border-0 p-4"
@@ -79,19 +96,40 @@
                                     </small>
                                 </div>
                                 <div class="form-group">
-                                    <select th:field="*{level}"
-                                            th:errorclass="is-invalid"
-                                            class="custom-select border-0 px-4"
-                                            style="height: 47px;">
-                                        <option value="" selected>Level of Experience</option>
-                                        <option th:each="l : ${T(com.artcources.artistica.model.enums.ExperienceLevelEnum).values()}" th:value="${l}" th:text="${l}"></option>
-                                    </select>
+                                    <input th:field="*{facebook}"
+                                           th:errorclass="is-invalid"
+                                           type="text"
+                                           class="form-control border-0 p-4"
+                                           placeholder="Your facebook account"
+                                            />
+                                    <small id="emailHelpInline" class="invalid-feedback bg-danger text-light rounded">
+                                        Enter valid email address.
+                                    </small>
                                 </div>
-
-                            <input type="text" name="title"/><br>
-                            <input name="picture" type="file"/><br>
+                                <div class="form-group">
+                                    <input th:field="*{instagram}"
+                                           th:errorclass="is-invalid"
+                                           type="text"
+                                           class="form-control border-0 p-4"
+                                           placeholder="Your instagram account"
+                                    />
+                                    <small id="emailHelpInline" class="invalid-feedback bg-danger text-light rounded">
+                                        Enter valid email address.
+                                    </small>
+                                </div>
+                                <div class="form-group">
+                                    <input th:field="*{linkedIn}"
+                                           th:errorclass="is-invalid"
+                                           type="text"
+                                           class="form-control border-0 p-4"
+                                           placeholder="Your LinkedIn account"
+                                    />
+                                    <small id="emailHelpInline" class="invalid-feedback bg-danger text-light rounded">
+                                        Enter valid email address.
+                                    </small>
+                                </div>
                                 <div>
-                                    <button class="btn btn-dark btn-block border-0 py-3" type="submit">Create</button>
+                                    <button class="btn btn-dark btn-block border-0 py-3" type="submit">Sign Up Now</button>
                                 </div>
                             </form>
                         </div>
@@ -100,7 +138,7 @@
             </div>
         </div>
     </div>
-    <!-- Add End -->
+    <!-- Registration End -->
     <!-- Footer Start -->
     <footer th:replace="fragments/commons::footer"></footer>
     <!-- Footer End -->

@@ -1,7 +1,6 @@
 package com.artcources.artistica.service;
 
 import com.artcources.artistica.exception.UserNotFoundException;
-import com.artcources.artistica.model.entity.MentorEntity;
 import com.artcources.artistica.model.entity.UserEntity;
 import com.artcources.artistica.model.entity.UserRoleEntity;
 import com.artcources.artistica.model.enums.UserRoleEnum;
@@ -9,7 +8,6 @@ import com.artcources.artistica.model.service.UserProfileUpdateServiceModel;
 import com.artcources.artistica.model.service.UserServiceModel;
 import com.artcources.artistica.model.service.UsersAllServiceModel;
 import com.artcources.artistica.model.view.UserProfileUpdateViewModel;
-import com.artcources.artistica.repository.MentorRepository;
 import com.artcources.artistica.repository.UserRepository;
 import com.artcources.artistica.repository.UserRoleRepository;
 import org.modelmapper.ModelMapper;
@@ -18,34 +16,34 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.security.Principal;
 import java.util.List;
+import java.util.Locale;
 import java.util.stream.Collectors;
 
 @Service
 public class UserService {
 
+  private final EmailService emailService;
   private final UserRoleService userRoleService;
-  private final MentorRepository mentorRepository;
   private final UserRepository userRepository;
   private final UserRoleRepository userRoleRepository;
   private final PasswordEncoder passwordEncoder;
-  private final UserDetailsService userDetailsService;
+  private final AppUserDetailsService userDetailsService;
   private String adminPass;
 
   private final ModelMapper modelMapper;
 
-  public UserService(UserRoleService userRoleService, MentorRepository mentorRepository, UserRepository userRepository,
+  public UserService(EmailService emailService, UserRoleService userRoleService, UserRepository userRepository,
                      UserRoleRepository userRoleRepository,
                      PasswordEncoder passwordEncoder,
-                     UserDetailsService userDetailsService,
+                     AppUserDetailsService userDetailsService,
                      @Value("${app.default.admin.password}") String adminPass, ModelMapper modelMapper)  {
+    this.emailService = emailService;
     this.userRoleService = userRoleService;
-    this.mentorRepository = mentorRepository;
     this.userRepository = userRepository;
     this.userRoleRepository = userRoleRepository;
     this.passwordEncoder = passwordEncoder;
@@ -71,22 +69,22 @@ public class UserService {
   }
 
   private void initMentor(List<UserRoleEntity> roles) {
-    MentorEntity mentor = new MentorEntity().
+    UserEntity mentor = new UserEntity().
             setUserRoles(roles).
             setFirstName("Mentor").
             setLastName("Mentorov").
-            setEmail("mentor@example.com").
+            setUsername("mentor@example.com").
             setPassword(passwordEncoder.encode(adminPass));
 
-    mentorRepository.save(mentor);
+    userRepository.save(mentor);
   }
 
   private void initAdmin(List<UserRoleEntity> roles) {
-    UserEntity admin =  new UserEntity().
+    UserEntity admin = new UserEntity().
         setUserRoles(roles).
         setFirstName("Admin").
         setLastName("Adminov").
-        setEmail("admin@example.com").
+            setUsername("admin@example.com").
         setPassword(passwordEncoder.encode(adminPass));
 
     userRepository.save(admin);
@@ -97,25 +95,29 @@ public class UserService {
         setUserRoles(roles).
         setFirstName("User").
         setLastName("Userov").
-        setEmail("user@example.com").
+            setUsername("user@example.com").
         setPassword(passwordEncoder.encode(adminPass));
 
     userRepository.save(user);
   }
 
-  public void registerAndLogin(UserServiceModel userServiceModel) {
+  public void registerAndLogin(UserServiceModel userServiceModel, Locale preferredLocale) {
     UserEntity newUser =
             modelMapper.map(userServiceModel, UserEntity.class);
     newUser.setPassword(passwordEncoder.encode(userServiceModel.getPassword()));
+    newUser.setUserRoles(List.of(this.userRoleService.findRoleByName(UserRoleEnum.USER)));
 
     userRepository.save(newUser);
     login(newUser);
+    emailService.sendRegistrationEmail(newUser.getUsername(),
+            newUser.getFirstName() + " " + newUser.getLastName(),
+            preferredLocale);
   }
 
 
   private void login(UserEntity userEntity) {
     UserDetails userDetails =
-            userDetailsService.loadUserByUsername(userEntity.getEmail());
+            userDetailsService.loadUserByUsername(userEntity.getUsername());
 
     Authentication auth =
             new UsernamePasswordAuthenticationToken(
@@ -142,17 +144,17 @@ public class UserService {
     }
 
   public boolean existByEmail(String email) {
-    return this.userRepository.existsByEmail(email);
+    return this.userRepository.existsByUsername(email);
   }
 
   public void makeUserAdmin(String email) {
-    UserEntity user = this.userRepository.findUserByEmail(email).orElseThrow(() -> new UserNotFoundException());
+    UserEntity user = this.userRepository.findByUsername(email).orElseThrow(() -> new UserNotFoundException());
     user.getUserRoles().add(this.userRoleService.findRoleByName(UserRoleEnum.ADMIN));
     this.userRepository.save(user);
   }
 
   public void removeAdminRole(String email) {
-    UserEntity user = this.userRepository.findUserByEmail(email).orElseThrow(() -> new UserNotFoundException());
+    UserEntity user = this.userRepository.findByUsername(email).orElseThrow(() -> new UserNotFoundException());
     if(user.getId()!=1) {
       user.getUserRoles().remove(this.userRoleService.findRoleByName(UserRoleEnum.ADMIN));
       this.userRepository.save(user);
@@ -160,12 +162,12 @@ public class UserService {
   }
 
   public UserProfileUpdateViewModel getUserProfileViewModelByEmail(String email) {
-    UserEntity user = this.userRepository.findUserByEmail(email).orElseThrow(() -> new UserNotFoundException());
+    UserEntity user = this.userRepository.findByUsername(email).orElseThrow(() -> new UserNotFoundException());
     return this.modelMapper.map(user,UserProfileUpdateViewModel.class);
   }
 
   public void updateUserProfile(UserProfileUpdateServiceModel userProfileUpdateServiceModel, Principal principal) {
-    UserEntity user = this.userRepository.findUserByEmail(principal.getName()).orElseThrow(() -> new UserNotFoundException());
+    UserEntity user = this.userRepository.findByUsername(principal.getName()).orElseThrow(() -> new UserNotFoundException());
 //    user.setFirstName(userProfileUpdateServiceModel.getFirstName());
 //    user.setLastName(userProfileUpdateServiceModel.getLastName());
 //    user.setPartnerFirstName(userProfileUpdateServiceModel.getPartnerFirstName());
