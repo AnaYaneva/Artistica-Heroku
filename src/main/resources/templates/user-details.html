@@ -14,8 +14,9 @@
 <!-- Navbar End -->
 
 <!-- Registration Start -->
-<div class="container-fluid bg-registration py-5" style="margin: 90px 0;" th:object="${mentorProfileViewModel}">
+<div class="container-fluid bg-registration py-5" style="margin: 90px 0;" th:object="${userProfileViewModel}">
     <div class="container py-5">
+
         <div class="row align-items-center">
             <div class="col-lg-7 mb-5 mb-lg-0">
                 <div class="mb-4">
@@ -23,29 +24,13 @@
                     <h1 class="text-white" th:text="|*{firstName} *{lastName}|">Full name</h1>
                 </div>
                 <p class="text-white" th:text="*{username}">email</p>
-<!--                <ul class="list-inline text-white m-0">
-                    <li class="py-2"><i class="fa fa-check text-primary mr-3"></i>facebook</li>
-                    <li class="py-2"><i class="fa fa-check text-primary mr-3"></i>linkedIn</li>
-                    <li class="py-2"><i class="fa fa-check text-primary mr-3"></i>instagram</li>
-                </ul>-->
-            </div>
-            <div class="col-lg-5">
-                <div class="card border-0">
-                    <div class="card-header bg-light text-center p-4">
-                        <h4 class="m-0"><button class="btnEdit" data-toggle="modal" data-target="#modal-edit-profile"><i class="material-icons">Edit Profile</i></button></h4>
-                    </div>
-                    <div class="card-body rounded-bottom bg-primary p-5">
-                        <form>
-                            <div class="rounded overflow-hidden mb-2">
-                                <img class="img-fluid" th:src="@{/images/mentor.jpg}">
-                            </div>
-                            <div>
-                                <a class="btn btn-outline-light btn-square mx-1" th:href="@{*{instagram}}"><i class="fab fa-instagram"></i></a>
-                                <a class="btn btn-outline-light btn-square mx-1" th:href="@{*{facebook}}"><i class="fab fa-facebook-f"></i></a>
-                                <a class="btn btn-outline-light btn-square mx-1" th:href="@{*{linkedIn}}"><i class="fab fa-linkedin-in"></i></a>
-                            </div>
-                        </form>
-                    </div>
+                <!--                <ul class="list-inline text-white m-0">
+                                    <li class="py-2"><i class="fa fa-check text-primary mr-3"></i>facebook</li>
+                                    <li class="py-2"><i class="fa fa-check text-primary mr-3"></i>linkedIn</li>
+                                    <li class="py-2"><i class="fa fa-check text-primary mr-3"></i>instagram</li>
+                                </ul>-->
+                <div class="row justify-content-lg-end">
+                    <button class="btnEdit" data-toggle="modal" data-target="#modal-edit-profile"><i class="material-icons">Edit Profile</i></button>
                 </div>
             </div>
         </div>
@@ -95,19 +80,19 @@
                 </button>
             </div>
             <!------------------------------------------ FORM MODAL ----------------------------------------->
-            <form class="modal-body" th:action="@{/mentors/profile}" th:method="patch" th:object="${mentorProfileUpdateBindingModel}">
+            <form class="modal-body" th:action="@{/users/profile}" th:method="patch" th:object="${userProfileUpdateBindingModel}">
                 <script th:inline="javascript" th:if="${hasErrors}">$("#modal-edit-profile").modal("show");</script>
                 <div class="form-group">
-                <input th:field="*{firstName}"
-                       th:errorclass="is-invalid"
-                       type="text"
-                       class="form-control border-0 p-4"
-                       placeholder="First name"
-                       required="required" />
-                <small id="firstNameHelpInline" class="invalid-feedback bg-danger text-light rounded">
-                    First name length must be between 2 and 20 characters.
-                </small>
-        </div>
+                    <input th:field="*{firstName}"
+                           th:errorclass="is-invalid"
+                           type="text"
+                           class="form-control border-0 p-4"
+                           placeholder="First name"
+                           required="required" />
+                    <small id="firstNameHelpInline" class="invalid-feedback bg-danger text-light rounded">
+                        First name length must be between 2 and 20 characters.
+                    </small>
+                </div>
                 <div class="form-group">
                     <input th:field="*{lastName}"
                            th:errorclass="is-invalid"
@@ -119,45 +104,11 @@
                         First name length must be between 2 and 20 characters.
                     </small>
                 </div>
-                <div class="form-group">
-                    <input th:field="*{facebook}"
-                           th:errorclass="is-invalid"
-                           type="text"
-                           class="form-control border-0 p-4"
-                           placeholder="Your facebook account"
-                    />
-                    <small id="emailHelpInline" class="invalid-feedback bg-danger text-light rounded">
-                        Enter valid email address.
-                    </small>
-                </div>
-                <div class="form-group">
-                    <input th:field="*{instagram}"
-                           th:errorclass="is-invalid"
-                           type="text"
-                           class="form-control border-0 p-4"
-                           placeholder="Your instagram account"
-                    />
-                    <small id="emailHelpInline" class="invalid-feedback bg-danger text-light rounded">
-                        Enter valid email address.
-                    </small>
-                </div>
-                <div class="form-group">
-                    <input th:field="*{linkedIn}"
-                           th:errorclass="is-invalid"
-                           type="text"
-                           class="form-control border-0 p-4"
-                           placeholder="Your LinkedIn account"
-                    />
-                    <small id="emailHelpInline" class="invalid-feedback bg-danger text-light rounded">
-                        Enter valid email address.
-                    </small>
-                </div>
                 <button class="btn-edit-profile" id="btn-edit-profile" type="submit">Update</button>
             </form>
         </div>
     </div>
 </div>
-
 
 
 <!-- Footer Start -->

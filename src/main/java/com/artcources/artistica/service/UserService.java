@@ -7,7 +7,7 @@ import com.artcources.artistica.model.enums.UserRoleEnum;
 import com.artcources.artistica.model.service.UserProfileUpdateServiceModel;
 import com.artcources.artistica.model.service.UserServiceModel;
 import com.artcources.artistica.model.service.UsersAllServiceModel;
-import com.artcources.artistica.model.view.UserProfileUpdateViewModel;
+import com.artcources.artistica.model.view.UserProfileViewModel;
 import com.artcources.artistica.repository.UserRepository;
 import com.artcources.artistica.repository.UserRoleRepository;
 import org.modelmapper.ModelMapper;
@@ -161,17 +161,16 @@ public class UserService {
     }
   }
 
-  public UserProfileUpdateViewModel getUserProfileViewModelByEmail(String email) {
+  public UserProfileViewModel getUserProfileViewModelByEmail(String email) {
     UserEntity user = this.userRepository.findByUsername(email).orElseThrow(() -> new UserNotFoundException());
-    return this.modelMapper.map(user,UserProfileUpdateViewModel.class);
+    return this.modelMapper.map(user, UserProfileViewModel.class);
   }
 
   public void updateUserProfile(UserProfileUpdateServiceModel userProfileUpdateServiceModel, Principal principal) {
     UserEntity user = this.userRepository.findByUsername(principal.getName()).orElseThrow(() -> new UserNotFoundException());
-//    user.setFirstName(userProfileUpdateServiceModel.getFirstName());
-//    user.setLastName(userProfileUpdateServiceModel.getLastName());
-//    user.setPartnerFirstName(userProfileUpdateServiceModel.getPartnerFirstName());
-//    user.setPartnerLastName(userProfileUpdateServiceModel.getPartnerLastName());
+    user.setFirstName(userProfileUpdateServiceModel.getFirstName());
+    user.setLastName(userProfileUpdateServiceModel.getLastName());
+
     this.userRepository.save(user);
   }
 }

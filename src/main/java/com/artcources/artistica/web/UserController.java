@@ -2,7 +2,7 @@ package com.artcources.artistica.web;
 
 import com.artcources.artistica.model.binding.UserProfileUpdateBindingModel;
 import com.artcources.artistica.model.service.UserProfileUpdateServiceModel;
-import com.artcources.artistica.model.view.UserProfileUpdateViewModel;
+import com.artcources.artistica.model.view.UserProfileViewModel;
 import com.artcources.artistica.service.UserService;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Controller;
@@ -38,25 +38,25 @@ public class UserController {
             model.addAttribute("hasErrors",false);
         }
         //add binding userProfileUpdateBindingModel on get request so we can fill form inputs with needed values
-        UserProfileUpdateViewModel userProfileUpdateViewModel
+        UserProfileViewModel userProfileViewModel
                 = this.userService.getUserProfileViewModelByEmail(principal.getName());
         UserProfileUpdateBindingModel userProfileUpdateBindingModel
-                = this.modelMapper.map(userProfileUpdateViewModel, UserProfileUpdateBindingModel.class);
+                = this.modelMapper.map(userProfileViewModel, UserProfileUpdateBindingModel.class);
         // add attributes
-        model.addAttribute("user",userProfileUpdateViewModel);
+        model.addAttribute("userProfileViewModel", userProfileViewModel);
         model.addAttribute("userProfileUpdateBindingModel",userProfileUpdateBindingModel);
-        return "user-profile";
+        return "user-details";
     }
 
-    @GetMapping("/user-profile/errors")
+    @GetMapping("/profile/errors")
     public String profileErrors (Model model,Principal principal) {
-        UserProfileUpdateViewModel userProfileUpdateViewModel
+        UserProfileViewModel userProfileViewModel
                 = this.userService.getUserProfileViewModelByEmail(principal.getName());
-        model.addAttribute("user",userProfileUpdateViewModel);
+        model.addAttribute("user", userProfileViewModel);
         return "user-profile";
     }
 
-    @PatchMapping("/user-profile")
+    @PatchMapping("/profile")
     public String profileUpdate(@Valid UserProfileUpdateBindingModel userProfileUpdateBindingModel,
                                 BindingResult bindingResult,
                                 RedirectAttributes redirectAttributes,
@@ -66,14 +66,14 @@ public class UserController {
             redirectAttributes.addFlashAttribute("hasErrors",true);
             redirectAttributes.addFlashAttribute("userProfileUpdateBindingModel", userProfileUpdateBindingModel);
             redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.userProfileUpdateBindingModel", bindingResult);
-            return "redirect:/user-profile/errors";
+            return "redirect:/users/profile/errors";
         }
 
         UserProfileUpdateServiceModel userProfileUpdateServiceModel
                 = this.modelMapper.map(userProfileUpdateBindingModel, UserProfileUpdateServiceModel.class);
         this.userService.updateUserProfile(userProfileUpdateServiceModel,principal);
 
-        return "redirect:/user-profile";
+        return "redirect:/users/profile";
     }
 
 

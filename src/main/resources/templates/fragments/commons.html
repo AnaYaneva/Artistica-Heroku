@@ -163,9 +163,9 @@
                                     <a class="btn btn-primary py-2 px-4 ml-2 d-none d-lg-block"
                                        th:text="#{navbar_register}"
                                        th:href="@{/register}">Join Now</a></li>
-                                <li class=" nav-item nav-link" sec:authorize="isAuthenticated()">
+                                <li class=" nav-item nav-link" sec:authorize="isAuthenticated()&&!hasRole('MENTOR')">
                                     <a class="btn btn-primary py-2 px-4 ml-2 d-none d-lg-block"
-                                       th:href="@{/users/user}">My Profile</a></li>
+                                       th:href="@{/users/profile}">My Profile</a></li>
                                 <li class=" nav-item nav-link" sec:authorize="isAuthenticated()">
                                     <form
                                           th:action="@{/users/logout}" th:method="post">
