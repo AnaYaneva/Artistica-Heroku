@@ -1,8 +1,10 @@
 package com.artcources.artistica.model.binding;
 
-import com.artcources.artistica.model.entity.VideoEntity;
+import com.artcources.artistica.model.entity.MediaEntity;
 import com.artcources.artistica.model.enums.WorkshopCategoryEnum;
 import com.artcources.artistica.model.enums.ExperienceLevelEnum;
+
+import javax.persistence.OneToOne;
 
 public class WorkshopAddBindingModel {
 
@@ -10,7 +12,11 @@ public class WorkshopAddBindingModel {
 
     private String description;
 
-    private VideoEntity video;
+    private MediaAddBindingModel referencePhoto;
+
+    private MediaAddBindingModel finalPhoto;
+
+    private MediaAddBindingModel video;
 
     private ExperienceLevelEnum experienceLevel;
 
@@ -37,11 +43,29 @@ public class WorkshopAddBindingModel {
         return this;
     }
 
-    public VideoEntity getVideo() {
+    public MediaAddBindingModel getReferencePhoto() {
+        return referencePhoto;
+    }
+
+    public WorkshopAddBindingModel setReferencePhoto(MediaAddBindingModel referencePhoto) {
+        this.referencePhoto = referencePhoto;
+        return this;
+    }
+
+    public MediaAddBindingModel getFinalPhoto() {
+        return finalPhoto;
+    }
+
+    public WorkshopAddBindingModel setFinalPhoto(MediaAddBindingModel finalPhoto) {
+        this.finalPhoto = finalPhoto;
+        return this;
+    }
+
+    public MediaAddBindingModel getVideo() {
         return video;
     }
 
-    public WorkshopAddBindingModel setVideo(VideoEntity video) {
+    public WorkshopAddBindingModel setVideo(MediaAddBindingModel video) {
         this.video = video;
         return this;
     }

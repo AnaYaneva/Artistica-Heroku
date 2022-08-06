@@ -1,6 +1,5 @@
 package com.artcources.artistica.service;
 
-import com.artcources.artistica.model.entity.BaseUserEntity;
 import com.artcources.artistica.model.entity.UserEntity;
 import com.artcources.artistica.model.entity.UserRoleEntity;
 import com.artcources.artistica.repository.UserRepository;
@@ -63,7 +62,7 @@ public class AppUserDetailsService implements UserDetailsService {
 //    return mapToUserDetails(userMentorByEmail);
   }
 
-  private UserDetails mapToUserDetails(BaseUserEntity userMentorByEmail) {
+  private UserDetails mapToUserDetails(UserEntity userMentorByEmail) {
     List<GrantedAuthority> authorities =
             userMentorByEmail
                     .getUserRoles()

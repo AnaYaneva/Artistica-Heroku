@@ -1,9 +1,9 @@
 package com.artcources.artistica.repository;
 
-import com.artcources.artistica.model.entity.VideoEntity;
+import com.artcources.artistica.model.entity.MediaEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface VideoRepository extends JpaRepository<VideoEntity, Long> {
+public interface MediaRepository extends JpaRepository<MediaEntity, Long> {
 }

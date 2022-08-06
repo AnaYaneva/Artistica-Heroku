@@ -1,18 +1,18 @@
 package com.artcources.artistica.service;
 
-public class CloudinaryVideo {
+public class CloudinaryMedia {
 
     private String url;
     private String publicId;
 
-    public CloudinaryVideo() {
+    public CloudinaryMedia() {
     }
 
     public String getUrl() {
         return url;
     }
 
-    public CloudinaryVideo setUrl(String url) {
+    public CloudinaryMedia setUrl(String url) {
         this.url = url;
         return this;
     }
@@ -21,7 +21,7 @@ public class CloudinaryVideo {
         return publicId;
     }
 
-    public CloudinaryVideo setPublicId(String publicId) {
+    public CloudinaryMedia setPublicId(String publicId) {
         this.publicId = publicId;
         return this;
     }

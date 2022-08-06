@@ -1,19 +1,19 @@
 package com.artcources.artistica.model.view;
 
-public class PictureViewModel {
+public class MediaViewModel {
     private Long id;
     private String name;
     private String url;
     private String publicId;
 
-    public PictureViewModel() {
+    public MediaViewModel() {
     }
 
     public Long getId() {
         return id;
     }
 
-    public PictureViewModel setId(Long id) {
+    public MediaViewModel setId(Long id) {
         this.id = id;
         return this;
     }
@@ -22,7 +22,7 @@ public class PictureViewModel {
         return name;
     }
 
-    public PictureViewModel setName(String name) {
+    public MediaViewModel setName(String name) {
         this.name = name;
         return this;
     }
@@ -31,7 +31,7 @@ public class PictureViewModel {
         return url;
     }
 
-    public PictureViewModel setUrl(String url) {
+    public MediaViewModel setUrl(String url) {
         this.url = url;
         return this;
     }
@@ -40,7 +40,7 @@ public class PictureViewModel {
         return publicId;
     }
 
-    public PictureViewModel setPublicId(String publicId) {
+    public MediaViewModel setPublicId(String publicId) {
         this.publicId = publicId;
         return this;
     }

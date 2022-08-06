@@ -1,7 +1,6 @@
 package com.artcources.artistica.model.entity;
 
 import com.artcources.artistica.model.enums.ExperienceLevelEnum;
-import com.artcources.artistica.model.enums.UserRoleEnum;
 
 import javax.persistence.*;
 
@@ -11,7 +10,7 @@ public class ExperienceLevelEntity extends BaseEntity {
 
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
-    private ExperienceLevelEnum experienceLevel;
+    private ExperienceLevelEnum name;
 
     @Column(columnDefinition = "TEXT", nullable = true)
     private String description;
@@ -19,12 +18,12 @@ public class ExperienceLevelEntity extends BaseEntity {
     public ExperienceLevelEntity() {
     }
 
-    public ExperienceLevelEnum getExperienceLevel() {
-        return experienceLevel;
+    public ExperienceLevelEnum getName() {
+        return name;
     }
 
-    public ExperienceLevelEntity setExperienceLevel(ExperienceLevelEnum experienceLevel) {
-        this.experienceLevel = experienceLevel;
+    public ExperienceLevelEntity setName(ExperienceLevelEnum experienceLevel) {
+        this.name = experienceLevel;
         return this;
     }
 

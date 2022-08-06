@@ -1,18 +1,16 @@
 package com.artcources.artistica.web;
 
-import com.artcources.artistica.model.binding.WorkshopSearchBindingModel;
-import com.artcources.artistica.model.binding.VideoAddBindingModel;
-import com.artcources.artistica.model.binding.WorkshopAddBindingModel;
-import com.artcources.artistica.model.binding.WorkshopUpdateBindingModel;
-import com.artcources.artistica.model.entity.VideoEntity;
+import com.artcources.artistica.model.binding.*;
+import com.artcources.artistica.model.entity.MediaEntity;
 import com.artcources.artistica.model.enums.WorkshopCategoryEnum;
-import com.artcources.artistica.model.service.VideoAddServiceModel;
+import com.artcources.artistica.model.service.MediaAddServiceModel;
 import com.artcources.artistica.model.service.WorkshopAddServiceModel;
 import com.artcources.artistica.model.service.WorkshopUpdateServiceModel;
 import com.artcources.artistica.model.view.WorkshopDetailsViewModel;
 import com.artcources.artistica.model.view.WorkshopsAllViewModel;
+import com.artcources.artistica.repository.MediaRepository;
 import com.artcources.artistica.service.CloudinaryService;
-import com.artcources.artistica.service.CloudinaryVideo;
+import com.artcources.artistica.service.CloudinaryMedia;
 import com.artcources.artistica.service.WorkshopService;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Controller;
@@ -38,10 +36,13 @@ public class WorkshopController {
 
     private final ModelMapper modelMapper;
 
-    public WorkshopController(CloudinaryService cloudinaryService, WorkshopService workshopService, ModelMapper modelMapper) {
+    private final MediaRepository mediaRepository;
+
+    public WorkshopController(CloudinaryService cloudinaryService, WorkshopService workshopService, ModelMapper modelMapper, MediaRepository mediaRepository) {
         this.cloudinaryService = cloudinaryService;
         this.workshopService = workshopService;
         this.modelMapper = modelMapper;
+        this.mediaRepository = mediaRepository;
     }
 
     @GetMapping("/search")
@@ -121,13 +122,26 @@ public class WorkshopController {
         return "redirect:/workshops/" + idWorkshop;
     }
 
-    private VideoEntity createVideoEntity(MultipartFile file, String title) throws IOException {
-        final CloudinaryVideo uploaded = this.cloudinaryService.upload(file);
-        return (VideoEntity) new VideoEntity()
+    //@PostMapping("/add")
+    public String add(MediaBindingModel mediaBindingModel, BindingResult bindingResult, RedirectAttributes redirectAttributes) throws IOException {
+        if (bindingResult.hasErrors()) {
+            redirectAttributes.addFlashAttribute("videoBindingModel", mediaBindingModel);
+            redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.videoBindingModel", bindingResult);
+            return "redirect:/courses/add";
+        }
+        MediaEntity entity = createMediaEntity(mediaBindingModel.getFile(), mediaBindingModel.getTitle());
+        mediaRepository.save(entity);
+        return "redirect:/workshops/all";
+    }
+
+    private MediaEntity createMediaEntity(MultipartFile file, String title) throws IOException {
+        final CloudinaryMedia uploaded = this.cloudinaryService.upload(file);
+        return new MediaEntity()
                 .setPublicId(uploaded.getPublicId())
                 .setName(title)
                 .setUrl(uploaded.getUrl());
     }
+
 
     @ModelAttribute
     public WorkshopSearchBindingModel workshopSearchBindingModel(){
@@ -177,24 +191,24 @@ public class WorkshopController {
 
     //ADD NEW PICTURE TO THE EXISTING WORKSHOP
     @ModelAttribute
-    public VideoAddBindingModel videoAddBindingModel() {
-        return new VideoAddBindingModel();
+    public MediaAddBindingModel videoAddBindingModel() {
+        return new MediaAddBindingModel();
     }
 
     @PostMapping("/{id}/update/add-video")
     public String addNewVideo(@PathVariable Long id,
-                              @Valid VideoAddBindingModel videoAddBindingModel,
+                              @Valid MediaAddBindingModel mediaAddBindingModel,
                               BindingResult bindingResult,
                               RedirectAttributes redirectAttributes) throws IOException {
         if (bindingResult.hasErrors()) {
             redirectAttributes.addFlashAttribute("videoAddHasErrors",true);
-            redirectAttributes.addFlashAttribute("videoAddBindingModel", videoAddBindingModel);
+            redirectAttributes.addFlashAttribute("videoAddBindingModel", mediaAddBindingModel);
             redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.videoAddBindingModel", bindingResult);
             return "redirect:/workshops/"+id+"/update";
         }
 
-        VideoAddServiceModel videoAddServiceModel = this.modelMapper.map(videoAddBindingModel, VideoAddServiceModel.class);
-        this.workshopService.addNewVideo(videoAddServiceModel,id);
+        MediaAddServiceModel mediaAddServiceModel = this.modelMapper.map(mediaAddBindingModel, MediaAddServiceModel.class);
+        this.workshopService.addNewVideo(mediaAddServiceModel,id);
 
         return "redirect:/workshops/"+id+"/update";
     }

@@ -23,6 +23,71 @@
                                   th:method="post"
                                   ecnctype="multipart/>form-data"
                                   th:object="${workshopAddBindingModel}">
+
+                                <div class="form-group">
+                                <input th:field="*{referencePhoto.name}"
+                                       th:errorclass="is-invalid"
+                                       type="text"
+                                       class="form-control border-0 p-4"
+                                       placeholder="First name"
+                                       required="required" />
+                                <small id="2" class="invalid-feedback bg-danger text-light rounded">
+                                    First name length must be between 2 and 20 characters.
+                                </small>
+                                    <input th:field="*{referencePhoto.file}"
+                                           th:errorclass="is-invalid"
+                                           type="file"
+                                           class="form-control border-0 p-4"
+                                           placeholder="First name"
+                                           required="required" />
+                                    <small id="1" class="invalid-feedback bg-danger text-light rounded">
+                                        First name length must be between 2 and 20 characters.
+                                    </small>
+
+
+                                    <input th:field="*{finalPhoto.name}"
+                                           th:errorclass="is-invalid"
+                                           type="text"
+                                           class="form-control border-0 p-4"
+                                           placeholder="First name"
+                                           required="required" />
+                                    <small id="3" class="invalid-feedback bg-danger text-light rounded">
+                                        First name length must be between 2 and 20 characters.
+                                    </small>
+                                    <input th:field="*{finalPhoto.file}"
+                                           th:errorclass="is-invalid"
+                                           type="file"
+                                           class="form-control border-0 p-4"
+                                           placeholder="First name"
+                                           required="required" />
+                                    <small id="4" class="invalid-feedback bg-danger text-light rounded">
+                                        First name length must be between 2 and 20 characters.
+                                    </small>
+
+                                    <input th:field="*{video.name}"
+                                           th:errorclass="is-invalid"
+                                           type="text"
+                                           class="form-control border-0 p-4"
+                                           placeholder="First name"
+                                           required="required" />
+                                    <small id="5" class="invalid-feedback bg-danger text-light rounded">
+                                        First name length must be between 2 and 20 characters.
+                                    </small>
+                                    <input th:field="*{video.file}"
+                                           th:errorclass="is-invalid"
+                                           type="file"
+                                           class="form-control border-0 p-4"
+                                           placeholder="First name"
+                                           required="required" />
+                                    <small id="6" class="invalid-feedback bg-danger text-light rounded">
+                                        First name length must be between 2 and 20 characters.
+                                    </small>
+
+
+                                    <!-- <button type="button" class="button-add-picture col-md-6" id="button-add-picture">ADD PICTURE
+                                     </button>-->
+                                </div>
+
                                 <div class="form-group">
                                     <input th:field="*{name}"
                                            th:errorclass="is-invalid"
@@ -35,7 +100,7 @@
                                     </small>
                                 </div>
                                 <div class="form-group">
-                                    <input th:field="*{lastName}"
+                                    <input th:field="*{description}"
                                            th:errorclass="is-invalid"
                                            type="text"
                                            class="form-control border-0 p-4"
@@ -46,40 +111,7 @@
                                     </small>
                                 </div>
                                 <div class="form-group">
-                                    <input th:field="*{email}"
-                                           th:errorclass="is-invalid"
-                                           type="email"
-                                           class="form-control border-0 p-4"
-                                           placeholder="Your email"
-                                           required="required" />
-                                    <small id="emailHelpInline" class="invalid-feedback bg-danger text-light rounded">
-                                        Enter valid email address.
-                                    </small>
-                                </div>
-                                <div class="form-group">
-                                    <input  th:field="*{password}"
-                                            th:errorclass="is-invalid"
-                                            type="password"
-                                            class="form-control border-0 p-4"
-                                            placeholder="Password"
-                                            required="required" />
-                                    <small id="passwordHelpInline" class="invalid-feedback bg-danger text-light rounded">
-                                        Password length must be more than 3 characters long.
-                                    </small>
-                                </div>
-                                <div class="form-group">
-                                    <input  th:field="*{confirmPassword}"
-                                            th:errorclass="is-invalid"
-                                            type="password"
-                                            class="form-control border-0 p-4"
-                                            placeholder="Confirm password"
-                                            required="required" />
-                                    <small id="confirmPasswordHelpInline" class="invalid-feedback bg-danger text-light rounded">
-                                        Password length must be more than 3 characters long.
-                                    </small>
-                                </div>
-                                <div class="form-group">
-                                    <select th:field="*{level}"
+                                    <select th:field="*{experienceLevel}"
                                             th:errorclass="is-invalid"
                                             class="custom-select border-0 px-4"
                                             style="height: 47px;">
@@ -87,9 +119,17 @@
                                         <option th:each="l : ${T(com.artcources.artistica.model.enums.ExperienceLevelEnum).values()}" th:value="${l}" th:text="${l}"></option>
                                     </select>
                                 </div>
-
-                            <input type="text" name="title"/><br>
-                            <input name="picture" type="file"/><br>
+                                <div class="form-group">
+                                    <select th:field="*{category}"
+                                            th:errorclass="is-invalid"
+                                            class="custom-select border-0 px-4"
+                                            style="height: 47px;">
+                                        <option value="" selected>Category</option>
+                                        <option th:each="l : ${T(com.artcources.artistica.model.enums.WorkshopCategoryEnum).values()}" th:value="${l}" th:text="${l}"></option>
+                                    </select>
+                                </div>
+                           <!-- <input type="text" name="title"/><br>
+                            <input name="picture" type="file"/><br>-->
                                 <div>
                                     <button class="btn btn-dark btn-block border-0 py-3" type="submit">Create</button>
                                 </div>

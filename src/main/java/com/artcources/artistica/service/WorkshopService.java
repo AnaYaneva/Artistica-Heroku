@@ -5,17 +5,19 @@ import com.artcources.artistica.model.entity.WorkshopCategoryEntity;
 import com.artcources.artistica.model.entity.OnlineWorkshopEntity;
 import com.artcources.artistica.model.enums.WorkshopCategoryEnum;
 import com.artcources.artistica.model.enums.StatusEnum;
-import com.artcources.artistica.model.service.VideoAddServiceModel;
+import com.artcources.artistica.model.service.MediaAddServiceModel;
 import com.artcources.artistica.model.service.WorkshopAddServiceModel;
 import com.artcources.artistica.model.service.WorkshopUpdateServiceModel;
 import com.artcources.artistica.model.service.WorkshopsAllServiceModel;
 import com.artcources.artistica.model.view.WorkshopDetailsViewModel;
 import com.artcources.artistica.model.view.WorkshopsAllViewModel;
+import com.artcources.artistica.repository.ExperienceLevelRepository;
 import com.artcources.artistica.repository.WorkshopCategoryRepository;
 import com.artcources.artistica.repository.WorkshopRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
 import java.security.Principal;
 import java.util.Arrays;
 import java.util.List;
@@ -25,19 +27,22 @@ import java.util.stream.Collectors;
 public class WorkshopService {
     private final WorkshopCategoryRepository workshopCategoryRepository;
 
+    private final ExperienceLevelRepository experienceLevelRepository;
+
     private final WorkshopRepository workshopRepository;
     private final ModelMapper modelMapper;
     private final CloudinaryService cloudinaryService;
     private final MentorService mentorService;
-    private final VideoService videoService;
+    private final MediaService mediaService;
 
-    public WorkshopService(WorkshopCategoryRepository workshopCategoryRepository, WorkshopRepository workshopRepository, ModelMapper modelMapper, CloudinaryService cloudinaryService, MentorService mentorService, VideoService videoService) {
+    public WorkshopService(WorkshopCategoryRepository workshopCategoryRepository, ExperienceLevelRepository experienceLevelRepository, WorkshopRepository workshopRepository, ModelMapper modelMapper, CloudinaryService cloudinaryService, MentorService mentorService, MediaService mediaService) {
         this.workshopCategoryRepository = workshopCategoryRepository;
+        this.experienceLevelRepository = experienceLevelRepository;
         this.workshopRepository = workshopRepository;
         this.modelMapper = modelMapper;
         this.cloudinaryService = cloudinaryService;
         this.mentorService = mentorService;
-        this.videoService = videoService;
+        this.mediaService = mediaService;
     }
 
     public void init() {
@@ -57,20 +62,27 @@ public class WorkshopService {
 
     public Long addNewWorkshop(WorkshopAddServiceModel workshopAddServiceModel, Principal principal) {
 
-        //map offer service to offer entity
-        OnlineWorkshopEntity wokrshopToAdd = this.modelMapper.map(workshopAddServiceModel, OnlineWorkshopEntity.class);
-        //wokrshopToAdd.setCategory(workshopAddServiceModel.getCategory());
-        //wokrshopToAdd.setMentor(this.mentorService.findMentorByEmail(principal.getName()));
-        wokrshopToAdd.setStatus(StatusEnum.PENDING);
-        OnlineWorkshopEntity savedWorkshop = this.workshopRepository.save(wokrshopToAdd);
-        savedWorkshop.getVideo().clear();
+        //map workshop service to workshop entity
+        OnlineWorkshopEntity workshopToAdd = this.modelMapper.map(workshopAddServiceModel, OnlineWorkshopEntity.class);
+        workshopToAdd.setCategory(this.workshopCategoryRepository.findByName(workshopAddServiceModel.getCategory()));
+        workshopToAdd.setExperienceLevel(this.experienceLevelRepository.findByName(workshopAddServiceModel.getExperienceLevel()));
+        workshopToAdd.setMentor(this.mentorService.findMentorByEmail(principal.getName()));
+        workshopToAdd.setStatus(StatusEnum.PENDING);
 
-        //save pictures to Cloudinary,save them in repo and add in offer
-        workshopAddServiceModel.getVideo(/*?*/);
+        OnlineWorkshopEntity savedWorkshop = this.workshopRepository.save(workshopToAdd);
 
-        OnlineWorkshopEntity savedOfferWithPictures = this.workshopRepository.save(savedWorkshop);
+        //save pictures to Cloudinary,save them in repo and add in workshop
+        try {
+            this.mediaService.getVideoEntity(savedWorkshop, workshopAddServiceModel.getVideo());
+            this.mediaService.getReferencePhotoEntity(savedWorkshop, workshopAddServiceModel.getReferencePhoto());
+            this.mediaService.getFinalPhotoEntity(savedWorkshop, workshopAddServiceModel.getFinalPhoto());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
-        return savedOfferWithPictures.getId();
+        OnlineWorkshopEntity savedWorkshopWithPictures = this.workshopRepository.save(savedWorkshop);
+
+        return savedWorkshopWithPictures.getId();
     }
 
     public OnlineWorkshopEntity getWokrshopById(Long id) {
@@ -139,13 +151,13 @@ public class WorkshopService {
     }
 
     public void deleteVideo(Long picId) {
-        this.videoService.deletePicture(picId);
+        this.mediaService.deletePicture(picId);
     }
 
     public void deleteWorkshop(Long id) {
     }
 
-    public void addNewVideo(VideoAddServiceModel videoAddServiceModel, Long id) {
+    public void addNewVideo(MediaAddServiceModel mediaAddServiceModel, Long id) {
     }
 
     public List<WorkshopsAllViewModel> findAllWorkshopsByCategoryName(WorkshopCategoryEnum name) {

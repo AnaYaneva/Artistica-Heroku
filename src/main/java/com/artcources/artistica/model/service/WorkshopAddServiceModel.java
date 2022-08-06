@@ -1,38 +1,49 @@
 package com.artcources.artistica.model.service;
 
 import com.artcources.artistica.model.entity.ExperienceLevelEntity;
+import com.artcources.artistica.model.entity.MediaEntity;
 import com.artcources.artistica.model.entity.UserEntity;
+import com.artcources.artistica.model.entity.WorkshopCategoryEntity;
+import com.artcources.artistica.model.enums.ExperienceLevelEnum;
 import com.artcources.artistica.model.enums.WorkshopCategoryEnum;
 import com.artcources.artistica.model.enums.StatusEnum;
+
+import javax.persistence.*;
 
 public class WorkshopAddServiceModel {
 
     private Long id;
 
-
     private String name;
-
 
     private String description;
 
+    private MediaAddServiceModel referencePhoto;
 
+    private MediaAddServiceModel finalPhoto;
 
-    private VideoAddServiceModel video;
+    private MediaAddServiceModel video;
 
-
-    private ExperienceLevelEntity experienceLevel;
-
+    private ExperienceLevelEnum experienceLevel;
 
     private UserEntity mentor;
 
-
     private WorkshopCategoryEnum category;
 
-
+    private Long duration;
 
     private StatusEnum status;
 
     public WorkshopAddServiceModel() {
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public WorkshopAddServiceModel setId(Long id) {
+        this.id = id;
+        return this;
     }
 
     public String getName() {
@@ -53,29 +64,38 @@ public class WorkshopAddServiceModel {
         return this;
     }
 
-    public Long getId() {
-        return id;
+    public MediaAddServiceModel getReferencePhoto() {
+        return referencePhoto;
     }
 
-    public WorkshopAddServiceModel setId(Long id) {
-        this.id = id;
+    public WorkshopAddServiceModel setReferencePhoto(MediaAddServiceModel referencePhoto) {
+        this.referencePhoto = referencePhoto;
         return this;
     }
 
-    public VideoAddServiceModel getVideo() {
+    public MediaAddServiceModel getFinalPhoto() {
+        return finalPhoto;
+    }
+
+    public WorkshopAddServiceModel setFinalPhoto(MediaAddServiceModel finalPhoto) {
+        this.finalPhoto = finalPhoto;
+        return this;
+    }
+
+    public MediaAddServiceModel getVideo() {
         return video;
     }
 
-    public WorkshopAddServiceModel setVideo(VideoAddServiceModel video) {
+    public WorkshopAddServiceModel setVideo(MediaAddServiceModel video) {
         this.video = video;
         return this;
     }
 
-    public ExperienceLevelEntity getExperienceLevel() {
+    public ExperienceLevelEnum getExperienceLevel() {
         return experienceLevel;
     }
 
-    public WorkshopAddServiceModel setExperienceLevel(ExperienceLevelEntity experienceLevel) {
+    public WorkshopAddServiceModel setExperienceLevel(ExperienceLevelEnum experienceLevel) {
         this.experienceLevel = experienceLevel;
         return this;
     }
@@ -95,6 +115,15 @@ public class WorkshopAddServiceModel {
 
     public WorkshopAddServiceModel setCategory(WorkshopCategoryEnum category) {
         this.category = category;
+        return this;
+    }
+
+    public Long getDuration() {
+        return duration;
+    }
+
+    public WorkshopAddServiceModel setDuration(Long duration) {
+        this.duration = duration;
         return this;
     }
 

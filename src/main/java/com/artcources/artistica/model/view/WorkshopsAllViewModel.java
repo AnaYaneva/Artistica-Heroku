@@ -1,13 +1,11 @@
 package com.artcources.artistica.model.view;
 
-import java.util.List;
-
 public class WorkshopsAllViewModel {
     private String id;
     private String name;
     private String duration;
 
-    private PictureViewModel pictures;
+    private MediaViewModel pictures;
 
     public WorkshopsAllViewModel() {
     }

@@ -14,14 +14,14 @@ public class OnlineWorkshopEntity extends BaseEntity{
     @Column(nullable = false)
     private String description;
 
-//    @OneToMany(mappedBy = "workshop", fetch = FetchType.EAGER,cascade = CascadeType.REMOVE)
-//    private List<PictureEntity> pictures;
+    @OneToOne
+    private MediaEntity referencePhoto;
 
     @OneToOne
-    private PictureEntity picture;
+    private MediaEntity finalPhoto;
 
     @OneToOne
-    private VideoEntity video;
+    private MediaEntity video;
 
     @ManyToOne
     private ExperienceLevelEntity experienceLevel;
@@ -42,6 +42,15 @@ public class OnlineWorkshopEntity extends BaseEntity{
     public OnlineWorkshopEntity() {
     }
 
+    public MediaEntity getFinalPhoto() {
+        return finalPhoto;
+    }
+
+    public OnlineWorkshopEntity setFinalPhoto(MediaEntity finalPhoto) {
+        this.finalPhoto = finalPhoto;
+        return this;
+    }
+
     public String getName() {
         return name;
     }
@@ -60,11 +69,20 @@ public class OnlineWorkshopEntity extends BaseEntity{
         return this;
     }
 
-    public VideoEntity getVideo() {
+    public MediaEntity getReferencePhoto() {
+        return referencePhoto;
+    }
+
+    public OnlineWorkshopEntity setReferencePhoto(MediaEntity picture) {
+        this.referencePhoto = picture;
+        return this;
+    }
+
+    public MediaEntity getVideo() {
         return video;
     }
 
-    public OnlineWorkshopEntity setVideo(VideoEntity video) {
+    public OnlineWorkshopEntity setVideo(MediaEntity video) {
         this.video = video;
         return this;
     }
@@ -96,15 +114,6 @@ public class OnlineWorkshopEntity extends BaseEntity{
         return this;
     }
 
-    public StatusEnum getStatus() {
-        return status;
-    }
-
-    public OnlineWorkshopEntity setStatus(StatusEnum status) {
-        this.status = status;
-        return this;
-    }
-
     public Long getDuration() {
         return duration;
     }
@@ -114,12 +123,12 @@ public class OnlineWorkshopEntity extends BaseEntity{
         return this;
     }
 
-    public PictureEntity getPicture() {
-        return picture;
+    public StatusEnum getStatus() {
+        return status;
     }
 
-    public OnlineWorkshopEntity setPicture(PictureEntity picture) {
-        this.picture = picture;
+    public OnlineWorkshopEntity setStatus(StatusEnum status) {
+        this.status = status;
         return this;
     }
 }

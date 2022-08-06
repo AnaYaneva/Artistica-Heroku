@@ -1,6 +1,5 @@
 package com.artcources.artistica.service;
 
-import com.artcources.artistica.service.CloudinaryVideo;
 import com.cloudinary.Cloudinary;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -21,19 +20,19 @@ public class CloudinaryService {
         this.cloudinary = cloudinary;
     }
 
-    public CloudinaryVideo upload(MultipartFile file) throws IOException {
+    public CloudinaryMedia upload(MultipartFile file) throws IOException {
         File tempFile=File.createTempFile(TEMP_FILE, file.getOriginalFilename());
         file.transferTo(tempFile);
         try{
             @SuppressWarnings("unchecked")
             Map<String,String> upload = this.cloudinary
                     .uploader()
-                    .upload(tempFile, Map.of());
+                    .upload(tempFile, Map.of("resource_type", "auto"));
 
             String url=upload.getOrDefault(URL,"https://i.stack.imgur.com/6M513.png");
             String publicId=upload.getOrDefault(PUBLIC_ID,"");
 
-            return new CloudinaryVideo()
+            return new CloudinaryMedia()
                     .setUrl(url)
                     .setPublicId(publicId);
         } finally {

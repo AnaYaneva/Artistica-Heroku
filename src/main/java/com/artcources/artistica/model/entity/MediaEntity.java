@@ -1,20 +1,25 @@
 package com.artcources.artistica.model.entity;
 
-import javax.persistence.MappedSuperclass;
+import javax.persistence.Entity;
 
-@MappedSuperclass
-public abstract class BaseMediaEntity extends BaseEntity {
+import javax.persistence.Table;
+
+@Entity
+@Table(name = "media")
+public class MediaEntity extends BaseEntity {
 
     private String name;
     private String url;
     private String publicId;
 
+    public MediaEntity() {
+    }
 
     public String getName() {
         return name;
     }
 
-    public BaseMediaEntity setName(String name) {
+    public MediaEntity setName(String name) {
         this.name = name;
         return this;
     }
@@ -23,7 +28,7 @@ public abstract class BaseMediaEntity extends BaseEntity {
         return url;
     }
 
-    public BaseMediaEntity setUrl(String url) {
+    public MediaEntity setUrl(String url) {
         this.url = url;
         return this;
     }
@@ -32,8 +37,9 @@ public abstract class BaseMediaEntity extends BaseEntity {
         return publicId;
     }
 
-    public BaseMediaEntity setPublicId(String publicId) {
+    public MediaEntity setPublicId(String publicId) {
         this.publicId = publicId;
         return this;
     }
+
 }
