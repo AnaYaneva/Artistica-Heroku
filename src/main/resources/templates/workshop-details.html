@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="fragments/commons::head"></head>
+
+<body>
+
+    <!-- Topbar Start -->
+    <div th:replace="fragments/commons::topbar"></div>
+    <!-- Topbar End -->
+
+    <!-- Navbar Start -->
+    <div th:replace="fragments/commons::nav"></div>
+    <!-- Navbar End -->
+
+    <!-- Registration Start -->
+    <div class="container-fluid bg-registration py-5" style="margin: 90px 0;">
+        <div class="container py-5" th:object="${workshop}">
+            <div class="row align-items-center">
+                <div class="col-lg-7 mb-5 mb-lg-0">
+                    <div class="mb-4">
+                        <h5 class="text-primary text-uppercase mb-3" style="letter-spacing: 5px;">Category</h5>
+                        <h1 class="text-white">Title</h1>
+
+                        <h3 class="text-white">Mentor</h3>
+                        <h4 class="text-white">Experience level</h4>
+                    </div>
+                    <p class="text-white">Description</p>
+                    <ul class="list-inline text-white m-0">
+                        <li class="py-2"><i class="fa fa-check text-primary mr-3">Reference photo</i>
+                            <img class="img-fluid" th:src="@{/images/reference.jpg}">
+                        </li>
+                        <li class="py-2"><i class="fa fa-check text-primary mr-3">Final photo</i>
+                            <img class="img-fluid" th:src="@{/images/final.jpg}">
+                        </li>
+                    </ul>
+                </div>
+                <div class="col-lg-5">
+                    <div class="card border-0">
+                        <div class="card-header bg-light text-center p-4">
+                            <h1 class="m-0">Workshop</h1>
+                        </div>
+                        <div class="card-body rounded-bottom bg-primary p-5">
+
+                        </div>
+                    </div>
+                </div>
+                <div class="row justify-content-center">
+                    <th:block th:if="${isCurrentUserOwner}">
+                        <a class="col-md-3 button-update"
+                           th:href="@{/workshop/{id}/update (id=*{id})}">
+                            <i class="material-icons">edit</i>
+                            Edit
+                        </a>
+
+                        <button type="submit" class="col-md-3 button-delete"
+                                data-toggle="modal"
+                                data-target="#modal-delete-offer">
+                            <i class="material-icons">delete</i>
+                            Delete
+                        </button>
+                    </th:block>
+
+            </div>
+        </div>
+    </div>
+    <!-- Registration End -->
+    <!-- Footer Start -->
+    <footer th:replace="fragments/commons::footer"></footer>
+    <!-- Footer End -->
+
+
+    <!-- Back to Top -->
+    <a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i class="fa fa-angle-double-up"></i></a>
+
+
+    <!-- JavaScript Libraries -->
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js"></script>
+    <script src="lib/easing/easing.min.js"></script>
+    <script src="lib/owlcarousel/owl.carousel.min.js"></script>
+
+    <!-- Contact Javascript File -->
+    <script src="mail/jqBootstrapValidation.min.js"></script>
+    <script src="mail/contact.js"></script>
+
+    <!-- Template Javascript -->
+    <script src="js/main.js"></script>
+</body>
+
+</html>

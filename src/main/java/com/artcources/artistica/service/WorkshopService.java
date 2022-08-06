@@ -1,9 +1,9 @@
 package com.artcources.artistica.service;
 
 import com.artcources.artistica.exception.WorkshopNotFoundException;
-import com.artcources.artistica.model.entity.CourseCategoryEntity;
+import com.artcources.artistica.model.entity.WorkshopCategoryEntity;
 import com.artcources.artistica.model.entity.OnlineWorkshopEntity;
-import com.artcources.artistica.model.enums.CourseCategoryEnum;
+import com.artcources.artistica.model.enums.WorkshopCategoryEnum;
 import com.artcources.artistica.model.enums.StatusEnum;
 import com.artcources.artistica.model.service.VideoAddServiceModel;
 import com.artcources.artistica.model.service.WorkshopAddServiceModel;
@@ -45,13 +45,13 @@ public class WorkshopService {
             return;
         }
 
-        Arrays.stream(CourseCategoryEnum.values())
-                .forEach(courseCategoryEnum -> {
-                    CourseCategoryEntity courseCategory = new CourseCategoryEntity();
-                    courseCategory.setName(courseCategoryEnum);
-                    courseCategory.setDescription("Description for " + courseCategoryEnum.name());
+        Arrays.stream(WorkshopCategoryEnum.values())
+                .forEach(workshopCategoryEnum -> {
+                    WorkshopCategoryEntity workshopCategoryEntity = new WorkshopCategoryEntity();
+                    workshopCategoryEntity.setName(workshopCategoryEnum);
+                    workshopCategoryEntity.setDescription("Description for " + workshopCategoryEnum.name());
 
-                    workshopCategoryRepository.save(courseCategory);
+                    workshopCategoryRepository.save(workshopCategoryEntity);
                 });
     }
 
@@ -148,8 +148,23 @@ public class WorkshopService {
     public void addNewVideo(VideoAddServiceModel videoAddServiceModel, Long id) {
     }
 
-    public List<WorkshopsAllViewModel> findAllWorkshopsByCategoryName(CourseCategoryEnum name) {
+    public List<WorkshopsAllViewModel> findAllWorkshopsByCategoryName(WorkshopCategoryEnum name) {
         return workshopRepository.findAllByCategory_Name(name).stream()
                 .map(p -> modelMapper.map(p,WorkshopsAllViewModel.class)).collect(Collectors.toList());
+    }
+
+    public List<WorkshopsAllServiceModel> getAllApprovedWorkshopsByCategory(String category) {
+        return  this.workshopRepository.findAllByCategoryNameAndStatus(WorkshopCategoryEnum.valueOf(category.toUpperCase()),StatusEnum.APPROVED)
+                .stream()
+                .map(offer -> this.modelMapper.map(offer,WorkshopsAllServiceModel.class))
+                .collect(Collectors.toList());
+    }
+
+    public boolean isCurrentUserOwner(Principal principal, Long id) {
+        OnlineWorkshopEntity workshop = this.workshopRepository.findById(id).orElseThrow(() -> new WorkshopNotFoundException());
+        if(principal!=null && principal.getName().equals(workshop.getMentor().getUsername())) {
+            return true;
+        }
+        return false;
     }
 }

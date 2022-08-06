@@ -19,9 +19,9 @@
                             <h1 class="m-0">Sign Up Now</h1>
                         </div>
                         <div class="card-body rounded-bottom bg-primary p-5">
-                            <form th:action="@{/courses/search}"
+                            <form th:action="@{/workshops/search}"
                                   th:method="post"
-                                  th:object="${coursesSearchBindingModel}">
+                                  th:object="${workshopsSearchBindingModel}">
                                 <div class="form-group">
                                     <input th:field="*{keyword}"
                                            th:errorclass="is-invalid"

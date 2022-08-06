@@ -19,10 +19,10 @@
                             <h1 class="m-0">Create Workshop</h1>
                         </div>
                         <div class="card-body rounded-bottom bg-primary p-5">
-                            <form th:action="@{/courses/add}"
+                            <form th:action="@{/workshops/add}"
                                   th:method="post"
                                   ecnctype="multipart/>form-data"
-                                  th:object="${userRegisterBindingModel}">
+                                  th:object="${workshopAddBindingModel}">
                                 <div class="form-group">
                                     <input th:field="*{name}"
                                            th:errorclass="is-invalid"

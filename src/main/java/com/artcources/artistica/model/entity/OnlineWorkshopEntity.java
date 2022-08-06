@@ -30,7 +30,7 @@ public class OnlineWorkshopEntity extends BaseEntity{
     private UserEntity mentor;
 
     @ManyToOne
-    private CourseCategoryEntity category;
+    private WorkshopCategoryEntity category;
 
     @Column(nullable = false)
     private Long duration;
@@ -87,11 +87,11 @@ public class OnlineWorkshopEntity extends BaseEntity{
         return this;
     }
 
-    public CourseCategoryEntity getCategory() {
+    public WorkshopCategoryEntity getCategory() {
         return category;
     }
 
-    public OnlineWorkshopEntity setCategory(CourseCategoryEntity category) {
+    public OnlineWorkshopEntity setCategory(WorkshopCategoryEntity category) {
         this.category = category;
         return this;
     }

@@ -1,27 +1,27 @@
 package com.artcources.artistica.model.entity;
 
-import com.artcources.artistica.model.enums.CourseCategoryEnum;
+import com.artcources.artistica.model.enums.WorkshopCategoryEnum;
 
 import javax.persistence.*;
 
 @Entity
-@Table(name ="course_categories")
-public class CourseCategoryEntity extends BaseEntity{
+@Table(name ="workshop_categories")
+public class WorkshopCategoryEntity extends BaseEntity{
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
-    private CourseCategoryEnum name;
+    private WorkshopCategoryEnum name;
 
     @Column(columnDefinition = "TEXT", nullable = true)
     private String description;
 
-    public CourseCategoryEntity() {
+    public WorkshopCategoryEntity() {
     }
 
-    public CourseCategoryEnum getName() {
+    public WorkshopCategoryEnum getName() {
         return name;
     }
 
-    public CourseCategoryEntity setName(CourseCategoryEnum category) {
+    public WorkshopCategoryEntity setName(WorkshopCategoryEnum category) {
         this.name = category;
         return this;
     }
@@ -30,7 +30,7 @@ public class CourseCategoryEntity extends BaseEntity{
         return description;
     }
 
-    public CourseCategoryEntity setDescription(String description) {
+    public WorkshopCategoryEntity setDescription(String description) {
         this.description = description;
         return this;
     }

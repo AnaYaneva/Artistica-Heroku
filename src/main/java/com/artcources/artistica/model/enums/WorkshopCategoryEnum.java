@@ -1,6 +1,6 @@
 package com.artcources.artistica.model.enums;
 
-public enum CourseCategoryEnum{
+public enum WorkshopCategoryEnum {
     WATERCOLOR,
     ACRYLIC,
     SOFT_PASTELS,

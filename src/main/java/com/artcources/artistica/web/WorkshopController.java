@@ -1,11 +1,11 @@
 package com.artcources.artistica.web;
 
-import com.artcources.artistica.model.binding.CoursesSearchBindingModel;
+import com.artcources.artistica.model.binding.WorkshopSearchBindingModel;
 import com.artcources.artistica.model.binding.VideoAddBindingModel;
 import com.artcources.artistica.model.binding.WorkshopAddBindingModel;
 import com.artcources.artistica.model.binding.WorkshopUpdateBindingModel;
 import com.artcources.artistica.model.entity.VideoEntity;
-import com.artcources.artistica.model.enums.CourseCategoryEnum;
+import com.artcources.artistica.model.enums.WorkshopCategoryEnum;
 import com.artcources.artistica.model.service.VideoAddServiceModel;
 import com.artcources.artistica.model.service.WorkshopAddServiceModel;
 import com.artcources.artistica.model.service.WorkshopUpdateServiceModel;
@@ -29,8 +29,8 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Controller
-@RequestMapping("/courses")
-public class CoursesController {
+@RequestMapping("/workshops")
+public class WorkshopController {
 
     private final CloudinaryService cloudinaryService;
 
@@ -38,7 +38,7 @@ public class CoursesController {
 
     private final ModelMapper modelMapper;
 
-    public CoursesController(CloudinaryService cloudinaryService, WorkshopService workshopService, ModelMapper modelMapper) {
+    public WorkshopController(CloudinaryService cloudinaryService, WorkshopService workshopService, ModelMapper modelMapper) {
         this.cloudinaryService = cloudinaryService;
         this.workshopService = workshopService;
         this.modelMapper = modelMapper;
@@ -58,12 +58,45 @@ public class CoursesController {
 //        model.addAttribute("approvedWorkshops", approvedWorkshops);
         //model.addAttribute("allCategories", CategoryMentorEnum.values());
 
-            model.addAttribute("watercolor", workshopService.findAllWorkshopsByCategoryName(CourseCategoryEnum.WATERCOLOR));
-            model.addAttribute("acrylic", workshopService.findAllWorkshopsByCategoryName(CourseCategoryEnum.ACRYLIC));
-            model.addAttribute("pencils", workshopService.findAllWorkshopsByCategoryName(CourseCategoryEnum.GRAPHITE_PENCILS));
-            model.addAttribute("pastels", workshopService.findAllWorkshopsByCategoryName(CourseCategoryEnum.SOFT_PASTELS));
+        model.addAttribute("watercolor", workshopService.findAllWorkshopsByCategoryName(WorkshopCategoryEnum.WATERCOLOR));
+        model.addAttribute("acrylic", workshopService.findAllWorkshopsByCategoryName(WorkshopCategoryEnum.ACRYLIC));
+        model.addAttribute("pencils", workshopService.findAllWorkshopsByCategoryName(WorkshopCategoryEnum.GRAPHITE_PENCILS));
+        model.addAttribute("pastels", workshopService.findAllWorkshopsByCategoryName(WorkshopCategoryEnum.SOFT_PASTELS));
 
         return "workshops-all";
+    }
+
+    //SHOW ALL WORKSHOPS BY CATEGORY
+    @GetMapping("/category-{category}")
+    public String allMentorsWorkshopsByCategory(@PathVariable String category,Model model) {
+        List<WorkshopsAllViewModel> allApprovedWorkshopsByCategory = this.workshopService.getAllApprovedWorkshopsByCategory(category)
+                .stream()
+                .map(workshopsAllServiceModel -> this.modelMapper.map(workshopsAllServiceModel, WorkshopsAllViewModel.class))
+                .collect(Collectors.toList());
+        model.addAttribute("approvedWorkshops",allApprovedWorkshopsByCategory);
+        model.addAttribute("allCategories", WorkshopCategoryEnum.values());
+        return "all-workshops";
+    }
+
+    //WORKSHOP DETAILS PAGE
+    @ModelAttribute("workshopDetailsViewModel")
+    public WorkshopDetailsViewModel workshopDetailsViewModel() {
+        return new WorkshopDetailsViewModel();
+    }
+
+    @GetMapping("/{id}")
+    public String workshopDetails(@PathVariable Long id, Model model,Principal principal) {
+        boolean isCurrentUserOwner = this.workshopService.isCurrentUserOwner(principal, id);
+        WorkshopDetailsViewModel workshopDetailsViewModel = this.workshopService.findWorkshopViewModelById(id);
+        model.addAttribute("isCurrentUserOwner",isCurrentUserOwner);
+        model.addAttribute("workshop", workshopDetailsViewModel);
+        return "workshop-details";
+    }
+
+    // ADD WORKSHOP
+    @ModelAttribute
+    public WorkshopAddBindingModel workshopAddBindingModel() {
+        return new WorkshopAddBindingModel();
     }
 
     @GetMapping("/add")
@@ -80,12 +113,12 @@ public class CoursesController {
         if (bindingResult.hasErrors()) {
             redirectAttributes.addFlashAttribute("workshopAddBindingModel", workshopAddBindingModel);
             redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.workshopAddBindingModel", bindingResult);
-            return "redirect:/courses/add";
+            return "redirect:/workshops/add";
         }
 
         WorkshopAddServiceModel workshopAddServiceModel = this.modelMapper.map(workshopAddBindingModel, WorkshopAddServiceModel.class);
         Long idWorkshop=this.workshopService.addNewWorkshop(workshopAddServiceModel, principal);
-        return "redirect:/courses/" + idWorkshop;
+        return "redirect:/workshops/" + idWorkshop;
     }
 
     private VideoEntity createVideoEntity(MultipartFile file, String title) throws IOException {
@@ -97,27 +130,18 @@ public class CoursesController {
     }
 
     @ModelAttribute
-    public CoursesSearchBindingModel coursesSearchBindingModel(){
-        return new CoursesSearchBindingModel();
+    public WorkshopSearchBindingModel workshopSearchBindingModel(){
+        return new WorkshopSearchBindingModel();
     }
 
-    @ModelAttribute("workshopDetailsViewModel")
-    public WorkshopDetailsViewModel workshopDetailsViewModel() {
-        return new WorkshopDetailsViewModel();
-    }
 
-    @ModelAttribute("workshopDetailsViewModel")
-    public WorkshopAddBindingModel workshopAddBindingModel() {
-        return new WorkshopAddBindingModel();
-    }
-
-    // EDIT OFFER
+    // EDIT WORKSHOP
     @ModelAttribute
     public WorkshopUpdateBindingModel workshopUpdateBindingModel() {
         return new WorkshopUpdateBindingModel();
     }
 
-    @GetMapping("/workshops/{id}/update")
+    @GetMapping("/{id}/update")
     public String updateWorkshop(@PathVariable Long id, Model model) {
         WorkshopDetailsViewModel workshopDetailsViewModel = this.workshopService.findWorkshopViewModelById(id);
         WorkshopUpdateBindingModel workshopUpdateBindingModel = this.modelMapper.map(workshopDetailsViewModel, WorkshopUpdateBindingModel.class);
@@ -126,7 +150,7 @@ public class CoursesController {
         return "workshop-update";
     }
 
-    @PatchMapping("/workshops/{id}/update")
+    @PatchMapping("/{id}/update")
     public String updateWorkshop(@PathVariable Long id,
                                  @Valid WorkshopUpdateBindingModel workshopUpdateBindingModel,
                                  BindingResult bindingResult,
@@ -144,20 +168,20 @@ public class CoursesController {
         return "redirect:/workshops/"+id;
     }
 
-    @GetMapping("/workshops/{id}/update/errors")
+    @GetMapping("/{id}/update/errors")
     public String updateWorkshopErrors(@PathVariable Long id, Model model) {
         WorkshopDetailsViewModel workshopDetailsViewModel = this.workshopService.findWorkshopViewModelById(id);
         model.addAttribute("workshop", workshopDetailsViewModel);
         return "workshop-update";
     }
 
-    //ADD NEW PICTURE TO THE EXISTING OFFER
+    //ADD NEW PICTURE TO THE EXISTING WORKSHOP
     @ModelAttribute
     public VideoAddBindingModel videoAddBindingModel() {
         return new VideoAddBindingModel();
     }
 
-    @PostMapping("/workshops/{id}/update/add-video")
+    @PostMapping("/{id}/update/add-video")
     public String addNewVideo(@PathVariable Long id,
                               @Valid VideoAddBindingModel videoAddBindingModel,
                               BindingResult bindingResult,
@@ -176,16 +200,16 @@ public class CoursesController {
     }
 
 
-    //DELETE PICTURE FROM EXISTING OFFER
-    @DeleteMapping("/workshops/{id}/update/delete-video/{picId}")
+    //DELETE PICTURE FROM EXISTING WORKSHOP
+    @DeleteMapping("/{id}/update/delete-video/{picId}")
     public String deleteVideo(@PathVariable Long id, @PathVariable Long picId) {
         this.workshopService.deleteVideo(picId);
         return "redirect:/workshops/"+id+"/update";
     }
 
 
-    //DELETE OFFER
-    @DeleteMapping("/workshops/{id}/delete")
+    //DELETE WORKSHOP
+    @DeleteMapping("/{id}/delete")
     public String deleteWorkshop(@PathVariable Long id) {
         this.workshopService.deleteWorkshop(id);
         return "redirect:/mentor-profile/my-workshops";

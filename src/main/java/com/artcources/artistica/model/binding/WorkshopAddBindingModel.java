@@ -1,14 +1,8 @@
 package com.artcources.artistica.model.binding;
 
-import com.artcources.artistica.model.entity.CourseCategoryEntity;
-import com.artcources.artistica.model.entity.ExperienceLevelEntity;
-import com.artcources.artistica.model.entity.UserEntity;
 import com.artcources.artistica.model.entity.VideoEntity;
-import com.artcources.artistica.model.enums.CourseCategoryEnum;
+import com.artcources.artistica.model.enums.WorkshopCategoryEnum;
 import com.artcources.artistica.model.enums.ExperienceLevelEnum;
-import com.artcources.artistica.model.enums.StatusEnum;
-
-import javax.persistence.*;
 
 public class WorkshopAddBindingModel {
 
@@ -20,7 +14,7 @@ public class WorkshopAddBindingModel {
 
     private ExperienceLevelEnum experienceLevel;
 
-    private CourseCategoryEnum category;
+    private WorkshopCategoryEnum category;
 
     public WorkshopAddBindingModel() {
     }
@@ -61,11 +55,11 @@ public class WorkshopAddBindingModel {
         return this;
     }
 
-    public CourseCategoryEnum getCategory() {
+    public WorkshopCategoryEnum getCategory() {
         return category;
     }
 
-    public WorkshopAddBindingModel setCategory(CourseCategoryEnum category) {
+    public WorkshopAddBindingModel setCategory(WorkshopCategoryEnum category) {
         this.category = category;
         return this;
     }

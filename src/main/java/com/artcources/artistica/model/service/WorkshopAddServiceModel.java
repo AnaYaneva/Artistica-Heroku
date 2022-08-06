@@ -1,13 +1,9 @@
 package com.artcources.artistica.model.service;
 
-import com.artcources.artistica.model.entity.CourseCategoryEntity;
 import com.artcources.artistica.model.entity.ExperienceLevelEntity;
 import com.artcources.artistica.model.entity.UserEntity;
-import com.artcources.artistica.model.entity.VideoEntity;
-import com.artcources.artistica.model.enums.CourseCategoryEnum;
+import com.artcources.artistica.model.enums.WorkshopCategoryEnum;
 import com.artcources.artistica.model.enums.StatusEnum;
-
-import javax.persistence.*;
 
 public class WorkshopAddServiceModel {
 
@@ -30,7 +26,7 @@ public class WorkshopAddServiceModel {
     private UserEntity mentor;
 
 
-    private CourseCategoryEnum category;
+    private WorkshopCategoryEnum category;
 
 
 
@@ -93,11 +89,11 @@ public class WorkshopAddServiceModel {
         return this;
     }
 
-    public CourseCategoryEnum getCategory() {
+    public WorkshopCategoryEnum getCategory() {
         return category;
     }
 
-    public WorkshopAddServiceModel setCategory(CourseCategoryEnum category) {
+    public WorkshopAddServiceModel setCategory(WorkshopCategoryEnum category) {
         this.category = category;
         return this;
     }
