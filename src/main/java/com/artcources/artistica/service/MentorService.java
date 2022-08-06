@@ -4,6 +4,7 @@ import com.artcources.artistica.exception.UserNotFoundException;
 import com.artcources.artistica.model.binding.MentorProfileUpdateBindingModel;
 import com.artcources.artistica.model.entity.UserEntity;
 import com.artcources.artistica.model.enums.UserRoleEnum;
+import com.artcources.artistica.model.service.MentorProfileUpdateServiceModel;
 import com.artcources.artistica.model.service.MentorServiceModel;
 import com.artcources.artistica.model.service.MentorsAllServiceModel;
 import com.artcources.artistica.model.view.MentorProfileViewModel;
@@ -76,22 +77,19 @@ public class MentorService {
     }
 
     public void updateMentorProfile(MentorProfileUpdateBindingModel mentorProfileUpdateBindingModel, Principal principal) {
-//        //map binding model to service model
-//        MentorProfileUpdateServiceModel mentorProfileUpdateServiceModel
-//                = this.modelMapper.map(mentorProfileUpdateBindingModel, MentorProfileUpdateServiceModel.class);
-//        //map service model to mentor entity and set properties
-//        MentorEntity mentor=findMentorByEmail(principal.getName());
-//        mentor.setCompanyName(mentorProfileUpdateServiceModel.getCompanyName());
-//        mentor.setPhoneNumber(mentorProfileUpdateServiceModel.getPhoneNumber());
-//        //update address entity
-//        Address address = this.addressService.getAddressById(mentor.getAddress().getId()).orElseThrow(() -> new ObjectNotFoundException());
-//        address.setAddress(mentorProfileUpdateServiceModel.getAddress())
-//                .setCity(this.cityService.findByName(mentorProfileUpdateServiceModel.getCityName()));
-//        this.addressService.save(address);
-//        //update mentor address
-//        mentor.setAddress(address);
-//        // save mentor
-//        this.mentorRepository.save(mentor);
+        //map binding model to service model
+        MentorProfileUpdateServiceModel mentorProfileUpdateServiceModel
+                = this.modelMapper.map(mentorProfileUpdateBindingModel, MentorProfileUpdateServiceModel.class);
+        //map service model to mentor entity and set properties
+        UserEntity mentor=findMentorByEmail(principal.getName());
+        mentor.setFirstName(mentorProfileUpdateServiceModel.getFirstName());
+        mentor.setLastName(mentorProfileUpdateServiceModel.getLastName());
+        mentor.setFacebook(mentorProfileUpdateServiceModel.getFacebook());
+        mentor.setInstagram(mentorProfileUpdateServiceModel.getInstagram());
+        mentor.setLinkedIn(mentorProfileUpdateServiceModel.getLinkedIn());
+
+        // save mentor
+        this.userRepository.save(mentor);
     }
 
 
@@ -130,9 +128,6 @@ public class MentorService {
                 .map(mentor -> {
                     MentorProfileViewModel mentorProfileViewModel =
                             this.modelMapper.map(mentor, MentorProfileViewModel.class);
-//                    mentorProfileViewModel.setAddress(new AddressViewModel()
-//                            .setAddress(mentor.getAddress().getAddress())
-//                            .setCityName(mentor.getAddress().getCity().getName()));
                     return mentorProfileViewModel;
                 })
                 .orElseThrow(() -> new UserNotFoundException());

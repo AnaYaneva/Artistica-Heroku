@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="fragments/commons::head"></head>
+
+<body>
+<!-- Topbar Start -->
+<div th:replace="fragments/commons::topbar"></div>
+<!-- Topbar End -->
+
+<!-- Navbar Start -->
+<div th:replace="fragments/commons::nav"></div>
+<!-- Navbar End -->
+
+<!-- Registration Start -->
+<div class="container-fluid bg-registration py-5" style="margin: 90px 0;" th:object="${mentorProfileViewModel}">
+    <div class="container py-5">
+        <div class="row justify-content-lg-end">
+            <button class="btnEdit" data-toggle="modal" data-target="#modal-edit-profile"><i class="material-icons">Edit Profile</i></button>
+        </div>
+        <div class="row align-items-center">
+            <div class="col-lg-7 mb-5 mb-lg-0">
+                <div class="mb-4">
+                    <h5 class="text-primary text-uppercase mb-3" style="letter-spacing: 5px;"></h5>
+                    <h1 class="text-white" th:text="|*{firstName} *{lastName}|">Full name</h1>
+                </div>
+                <p class="text-white" th:text="*{username}">email</p>
+<!--                <ul class="list-inline text-white m-0">
+                    <li class="py-2"><i class="fa fa-check text-primary mr-3"></i>facebook</li>
+                    <li class="py-2"><i class="fa fa-check text-primary mr-3"></i>linkedIn</li>
+                    <li class="py-2"><i class="fa fa-check text-primary mr-3"></i>instagram</li>
+                </ul>-->
+            </div>
+            <div class="col-lg-5">
+                <div class="card border-0">
+                    <div class="card-header bg-light text-center p-4">
+                        <h1 class="m-0"><button class="btnEdit" data-toggle="modal" data-target="#modal-edit-profile"><i class="material-icons">Edit Profile</i></button></h1>
+                    </div>
+                    <div class="card-body rounded-bottom bg-primary p-5">
+                        <form>
+                            <div class="rounded overflow-hidden mb-2">
+                                <img class="img-fluid" th:src="@{/images/mentor.jpg}">
+                            </div>
+                            <div>
+                                <a class="btn btn-outline-light btn-square mx-1" th:href="@{*{instagram}}"><i class="fab fa-instagram"></i></a>
+                                <a class="btn btn-outline-light btn-square mx-1" th:href="@{*{facebook}}"><i class="fab fa-facebook-f"></i></a>
+                                <a class="btn btn-outline-light btn-square mx-1" th:href="@{*{linkedIn}}"><i class="fab fa-linkedin-in"></i></a>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Registration End -->
+
+<!-- Courses Start -->
+<div class="container-fluid py-5">
+    <div class="container py-5">
+        <div class="text-center mb-5">
+            <h5 class="text-primary text-uppercase mb-3" style="letter-spacing: 5px;">Courses</h5>
+            <h1>My Workshops</h1>
+        </div>
+        <div class="row" th:object="${mentorWorkshops}">
+            <div class="col-lg-4 col-md-6 mb-4">
+                <div class="rounded overflow-hidden mb-2">
+                    <img class="img-fluid" src="img/course-1.jpg" alt="">
+                    <div class="bg-secondary p-4">
+                        <div class="d-flex justify-content-between mb-3">
+                            <small class="m-0"><i class="fa fa-users text-primary mr-2"></i>25 Students</small>
+                            <small class="m-0"><i class="far fa-clock text-primary mr-2"></i>01h 30m</small>
+                        </div>
+                        <a class="h5" href="">Web design & development courses for beginner</a>
+                        <div class="border-top mt-4 pt-4">
+                            <div class="d-flex justify-content-between">
+                                <h6 class="m-0"><i class="fa fa-star text-primary mr-2"></i>4.5 <small>(250)</small></h6>
+                                <h5 class="m-0">$99</h5>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Courses End -->
+
+<!------------------------------------------ MODAL EDIT PROFILE----------------------------------------->
+<div class="modal  modal-general" id="modal-edit-profile" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-side modal-bottom-right modal-notify modal-danger" role="document">
+        <div class="modal-content custom-content">
+            <div class="modal-header">
+                <h4 class="title-modal gold-text">EDIT YOUR PROFILE</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true" class="white-text">&times;</span>
+                </button>
+            </div>
+            <!------------------------------------------ FORM MODAL ----------------------------------------->
+            <form class="modal-body" th:action="@{/mentors/profile}" th:method="patch" th:object="${mentorProfileUpdateBindingModel}">
+                <script th:inline="javascript" th:if="${hasErrors}">$("#modal-edit-profile").modal("show");</script>
+                <div class="form-group">
+                <input th:field="*{firstName}"
+                       th:errorclass="is-invalid"
+                       type="text"
+                       class="form-control border-0 p-4"
+                       placeholder="First name"
+                       required="required" />
+                <small id="firstNameHelpInline" class="invalid-feedback bg-danger text-light rounded">
+                    First name length must be between 2 and 20 characters.
+                </small>
+        </div>
+                <div class="form-group">
+                    <input th:field="*{lastName}"
+                           th:errorclass="is-invalid"
+                           type="text"
+                           class="form-control border-0 p-4"
+                           placeholder="Last name"
+                           required="required"/>
+                    <small id="lastNameHelpInline" class="invalid-feedback bg-danger text-light rounded">
+                        First name length must be between 2 and 20 characters.
+                    </small>
+                </div>
+                <div class="form-group">
+                    <input th:field="*{facebook}"
+                           th:errorclass="is-invalid"
+                           type="text"
+                           class="form-control border-0 p-4"
+                           placeholder="Your facebook account"
+                    />
+                    <small id="emailHelpInline" class="invalid-feedback bg-danger text-light rounded">
+                        Enter valid email address.
+                    </small>
+                </div>
+                <div class="form-group">
+                    <input th:field="*{instagram}"
+                           th:errorclass="is-invalid"
+                           type="text"
+                           class="form-control border-0 p-4"
+                           placeholder="Your instagram account"
+                    />
+                    <small id="emailHelpInline" class="invalid-feedback bg-danger text-light rounded">
+                        Enter valid email address.
+                    </small>
+                </div>
+                <div class="form-group">
+                    <input th:field="*{linkedIn}"
+                           th:errorclass="is-invalid"
+                           type="text"
+                           class="form-control border-0 p-4"
+                           placeholder="Your LinkedIn account"
+                    />
+                    <small id="emailHelpInline" class="invalid-feedback bg-danger text-light rounded">
+                        Enter valid email address.
+                    </small>
+                </div>
+                <button class="btn-edit-profile" id="btn-edit-profile" type="submit">Update</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+
+<!-- Footer Start -->
+<footer th:replace="fragments/commons::footer"></footer>
+<!-- Footer End -->
+
+
+<!-- Back to Top -->
+<a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i class="fa fa-angle-double-up"></i></a>
+
+
+<!-- JavaScript Libraries -->
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js"></script>
+<script src="lib/easing/easing.min.js"></script>
+<script src="lib/owlcarousel/owl.carousel.min.js"></script>
+
+<!-- Contact Javascript File -->
+<script src="mail/jqBootstrapValidation.min.js"></script>
+<script src="mail/contact.js"></script>
+
+<!-- Template Javascript -->
+<script src="js/main.js"></script>
+</body>
+
+</html>

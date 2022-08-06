@@ -147,8 +147,6 @@
                                                th:href="@{/admin/approve-workshop}" class="dropdown-item">w</a>
                                             <a th:text="#{admin_users}"
                                                th:href="@{/admin/users}" class="dropdown-item">Users</a>
-                                            <a th:text="#{admin_profile}"
-                                               th:href="@{/admin/profile}" class="dropdown-item">Profile</a>
                                         </div>
                                     </div>
                                 </li>
@@ -165,7 +163,7 @@
                                     <a class="btn btn-primary py-2 px-4 ml-2 d-none d-lg-block"
                                        th:text="#{navbar_register}"
                                        th:href="@{/register}">Join Now</a></li>
-                                <li class=" nav-item nav-link" sec:authorize="hasRole('ROLE_USER')">
+                                <li class=" nav-item nav-link" sec:authorize="isAuthenticated()">
                                     <a class="btn btn-primary py-2 px-4 ml-2 d-none d-lg-block"
                                        th:href="@{/users/user}">My Profile</a></li>
                                 <li class=" nav-item nav-link" sec:authorize="isAuthenticated()">

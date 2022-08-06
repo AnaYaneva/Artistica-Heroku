@@ -92,7 +92,7 @@ public class MentorsController {
         return new MentorProfileUpdateBindingModel();
     }
 
-    @GetMapping("/mentor-profile")
+    @GetMapping("/profile")
     public String profile (Model model, Principal principal) {
         if(!model.containsAttribute("hasErrors")) {
             model.addAttribute("hasErrors",false);
@@ -102,25 +102,27 @@ public class MentorsController {
                 = this.mentorService.getMentorProfileViewModelByEmail(principal.getName());
         MentorProfileUpdateBindingModel mentorProfileUpdateBindingModel
                 = this.modelMapper.map(mentorProfileViewModel, MentorProfileUpdateBindingModel.class);
-       // mentorProfileUpdateBindingModel.setCityName(mentorProfileViewModel.getAddress().getCityName());
         // add attributes
-        //model.addAttribute("cities", this.cityService.getAllCities());
         model.addAttribute("mentorProfileUpdateBindingModel",mentorProfileUpdateBindingModel);
         model.addAttribute("mentorProfileViewModel",mentorProfileViewModel);
-        return "mentor-profile";
+        List<WorkshopsAllViewModel> mentorWorkshops
+                =this.workshopService.getCurrentUserWorkshops(principal);
+        model.addAttribute("mentorWorkshops",mentorWorkshops);
+
+        return "mentor-details";
     }
 
-    @GetMapping("/mentor-profile/errors")
+    @GetMapping("/profile/errors")
     public String profileErrors (Model model,Principal principal) {
         MentorProfileViewModel mentorProfileViewModel
                 = this.mentorService.getMentorProfileViewModelByEmail(principal.getName());
         //model.addAttribute("cities", this.cityService.getAllCities());
         model.addAttribute("mentorProfileViewModel",mentorProfileViewModel);
-        return "mentor-profile";
+        return "mentor-details";
     }
 
 
-    @PatchMapping("/mentor-profile")
+    @PatchMapping("/profile")
     public String profileUpdate(@Valid MentorProfileUpdateBindingModel mentorProfileUpdateBindingModel,
                                 BindingResult bindingResult,
                                 RedirectAttributes redirectAttributes,
@@ -130,16 +132,16 @@ public class MentorsController {
             redirectAttributes.addFlashAttribute("hasErrors",true);
             redirectAttributes.addFlashAttribute("mentorProfileUpdateBindingModel", mentorProfileUpdateBindingModel);
             redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.mentorProfileUpdateBindingModel", bindingResult);
-            return "redirect:/mentor-profile/errors";
+            return "redirect:/profile/errors";
         }
 
         this.mentorService.updateMentorProfile(mentorProfileUpdateBindingModel,principal);
 
-        return "redirect:/mentor-profile";
+        return "redirect:/mentors/profile";
     }
 
     //MY OFFERS
-    @GetMapping("/mentor-profile/my-offers")
+    @GetMapping("/my-workshops")
     public String myOffers (Model model, Principal principal) {
         List<WorkshopsAllViewModel> mentorOffers
                 =this.workshopService.getCurrentUserWorkshops(principal);
