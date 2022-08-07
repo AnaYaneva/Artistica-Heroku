@@ -137,7 +137,7 @@ public class UserService {
               .map(user -> {
                 UsersAllServiceModel usersAllServiceModel = this.modelMapper.map(user, UsersAllServiceModel.class);
                 user.getUserRoles()
-                        .forEach(role -> usersAllServiceModel.getUserRoles().add(role.getName()));
+                        .forEach(role -> usersAllServiceModel.getUserRoles().add(role));
                 return usersAllServiceModel;
               })
               .collect(Collectors.toList());

@@ -26,6 +26,12 @@ public class UserEntity   extends BaseEntity {
     @Column(nullable = true)
     private String instagram;
 
+    @OneToMany(mappedBy = "mentor")
+    private List<OnlineWorkshopEntity> workshopsMentored = new ArrayList<>();
+
+    @ManyToMany(mappedBy = "students")
+    private List<OnlineWorkshopEntity> workshopsAttending = new ArrayList<>();
+
     public UserEntity() {
     }
 
@@ -100,4 +106,5 @@ public class UserEntity   extends BaseEntity {
         this.instagram = instagram;
         return this;
     }
+
 }

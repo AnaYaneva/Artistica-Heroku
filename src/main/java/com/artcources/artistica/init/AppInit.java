@@ -23,8 +23,8 @@ public class AppInit implements CommandLineRunner {
 
   @Override
   public void run(String... args) {
-    userService.init();
-    experienceLevelService.init();
-    workshopService.init();
+   //userService.init();
+    //experienceLevelService.init();
+    //workshopService.init();
   }
 }

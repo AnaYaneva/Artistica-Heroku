@@ -46,7 +46,7 @@ public class WorkshopService {
     }
 
     public void init() {
-        if (workshopCategoryRepository.count() !=0){
+        if (workshopCategoryRepository.count() != 0) {
             return;
         }
 
@@ -105,11 +105,11 @@ public class WorkshopService {
     }
 
     public List<WorkshopsAllServiceModel> getAllPendingWorkshopsServiceModel() {
-            return this.workshopRepository.findAllByStatus(StatusEnum.PENDING)
-                    .stream()
-                    .map(workshop -> this.modelMapper.map(workshop,WorkshopsAllServiceModel.class))
-                    .collect(Collectors.toList());
-        }
+        return this.workshopRepository.findAllByStatus(StatusEnum.PENDING)
+                .stream()
+                .map(workshop -> this.modelMapper.map(workshop, WorkshopsAllServiceModel.class))
+                .collect(Collectors.toList());
+    }
 
     public List<OnlineWorkshopEntity> getAllRejectedWorkshops() {
         return this.workshopRepository.findAllByStatus(StatusEnum.DECLINED);
@@ -130,7 +130,7 @@ public class WorkshopService {
 
     public List<WorkshopsAllServiceModel> getAllApprovedWorkshopsServiceModel() {
         return this.workshopRepository.findAllByStatus(StatusEnum.APPROVED)
-                .stream().map(offer -> this.modelMapper.map(offer,WorkshopsAllServiceModel.class))
+                .stream().map(offer -> this.modelMapper.map(offer, WorkshopsAllServiceModel.class))
                 .collect(Collectors.toList());
     }
 
@@ -139,9 +139,9 @@ public class WorkshopService {
 
         WorkshopDetailsViewModel workshopDetailsViewModel
                 = this.modelMapper.map(workshop, WorkshopDetailsViewModel.class);
-       // workshopDetailsViewModel.setMentor(workshop.getMentor().getEmail());
+        // workshopDetailsViewModel.setMentor(workshop.getMentor().getEmail());
         //workshopDetailsViewModel.setAddress(workshop.getMentor().getAddress().getAddress());
-       // workshopDetailsViewModel.setCity(workshop.getSupplier().getAddress().getCity().getName());
+        // workshopDetailsViewModel.setCity(workshop.getSupplier().getAddress().getCity().getName());
         //workshopDetailsViewModel.setRegion(workshop.getSupplier().getAddress().getCity().getRegion().getName());
 
         return workshopDetailsViewModel;
@@ -162,21 +162,25 @@ public class WorkshopService {
 
     public List<WorkshopsAllViewModel> findAllWorkshopsByCategoryName(WorkshopCategoryEnum name) {
         return workshopRepository.findAllByCategory_Name(name).stream()
-                .map(p -> modelMapper.map(p,WorkshopsAllViewModel.class)).collect(Collectors.toList());
+                .map(p -> modelMapper.map(p, WorkshopsAllViewModel.class)).collect(Collectors.toList());
     }
 
     public List<WorkshopsAllServiceModel> getAllApprovedWorkshopsByCategory(String category) {
-        return  this.workshopRepository.findAllByCategoryNameAndStatus(WorkshopCategoryEnum.valueOf(category.toUpperCase()),StatusEnum.APPROVED)
+        return this.workshopRepository.findAllByCategoryNameAndStatus(WorkshopCategoryEnum.valueOf(category.toUpperCase()), StatusEnum.APPROVED)
                 .stream()
-                .map(offer -> this.modelMapper.map(offer,WorkshopsAllServiceModel.class))
+                .map(offer -> this.modelMapper.map(offer, WorkshopsAllServiceModel.class))
                 .collect(Collectors.toList());
     }
 
     public boolean isCurrentUserOwner(Principal principal, Long id) {
         OnlineWorkshopEntity workshop = this.workshopRepository.findById(id).orElseThrow(() -> new WorkshopNotFoundException());
-        if(principal!=null && principal.getName().equals(workshop.getMentor().getUsername())) {
+        if (principal != null && principal.getName().equals(workshop.getMentor().getUsername())) {
             return true;
         }
         return false;
+    }
+
+    public List<WorkshopsAllViewModel> getMostPopular() {
+        return workshopRepository.findMostPopular();
     }
 }

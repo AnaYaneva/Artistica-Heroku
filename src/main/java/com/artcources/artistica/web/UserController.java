@@ -3,7 +3,9 @@ package com.artcources.artistica.web;
 import com.artcources.artistica.model.binding.UserProfileUpdateBindingModel;
 import com.artcources.artistica.model.service.UserProfileUpdateServiceModel;
 import com.artcources.artistica.model.view.UserProfileViewModel;
+import com.artcources.artistica.model.view.WorkshopsAllViewModel;
 import com.artcources.artistica.service.UserService;
+import com.artcources.artistica.service.WorkshopService;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -13,6 +15,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
 import java.security.Principal;
+import java.util.List;
 
 @Controller
 @RequestMapping("/users")
@@ -20,10 +23,12 @@ public class UserController {
 
     private final UserService userService;
     private final ModelMapper modelMapper;
+    private final WorkshopService workshopService;
 
-    public UserController(UserService userService, ModelMapper modelMapper) {
+    public UserController(UserService userService, ModelMapper modelMapper, WorkshopService workshopService) {
         this.userService = userService;
         this.modelMapper = modelMapper;
+        this.workshopService = workshopService;
     }
 
     //MY PROFILE PAGE
@@ -45,6 +50,10 @@ public class UserController {
         // add attributes
         model.addAttribute("userProfileViewModel", userProfileViewModel);
         model.addAttribute("userProfileUpdateBindingModel",userProfileUpdateBindingModel);
+
+        List<WorkshopsAllViewModel> mentorWorkshops
+                =this.workshopService.getCurrentUserWorkshops(principal);
+
         return "user-details";
     }
 

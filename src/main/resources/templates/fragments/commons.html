@@ -131,8 +131,6 @@
                                         <div class="dropdown-menu rounded-0 m-0">
                                             <a th:text="#{mentor_add_workshop}"
                                                th:href="@{/workshops/add}" class="dropdown-item"></a>
-                                            <a th:text="#{mentor_my_workshops}"
-                                               th:href="@{/mentors/my-workshops}" class="dropdown-item"></a>
                                             <a th:text="#{mentor_profile}"
                                                th:href="@{/mentors/profile}" class="dropdown-item"></a>
                                         </div>
@@ -144,9 +142,9 @@
                                            data-toggle="dropdown">Admin</a>
                                         <div class="dropdown-menu rounded-0 m-0">
                                             <a th:text="#{admin_workshops_approve}"
-                                               th:href="@{/admin/approve-workshop}" class="dropdown-item">w</a>
+                                               th:href="@{/admin/review-workshops}" class="dropdown-item">w</a>
                                             <a th:text="#{admin_users}"
-                                               th:href="@{/admin/users}" class="dropdown-item">Users</a>
+                                               th:href="@{/admin/manage-users}" class="dropdown-item">Users</a>
                                         </div>
                                     </div>
                                 </li>
@@ -251,7 +249,7 @@
 <!-- Category Start -->
 
 
-<!-- Courses Start -->
+<!-- Courses Start-->
 <div th:fragment="workshops" class="container-fluid py-5">
     <div class="container py-5">
         <div class="text-center mb-5">
@@ -413,6 +411,76 @@
 </div>
 <!-- Team End -->
 
+
+<!-- Workshop Start -->
+<div th:fragment="workshop" class="rounded overflow-hidden mb-2">
+    <img class="img-fluid" :src="images/course-1.jpg" alt="">
+    <div class="bg-secondary p-4">
+        <div class="d-flex justify-content-between mb-3">
+            <small class="m-0"><i class="fa fa-users text-primary mr-2"></i>25 Students</small>
+            <!--<small class="m-0"><i class="far fa-clock text-primary mr-2" th:text="*{duration}"></i>01h 30m</small>-->
+        </div>
+        <a class="h5" th:text="*{name}" href="@{/workshops/{id}(id=*{id})}">Web design & development courses for beginner</a>
+        <div class="border-top mt-4 pt-4">
+            <div class="d-flex justify-content-between">
+                <h6 class="m-0"><i class="fa fa-star text-primary mr-2"></i>4.5 <small>(250)</small></h6>
+                <h5 class="m-0">$99</h5>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Workshop End -->
+
+
+<!-- Workshop Details Start -->
+<div th:fragment="workshopDetails"class="row align-items-center">
+    <div class="col-lg-7 mb-5 mb-lg-0">
+        <div class="mb-4">
+            <h5 class="text-primary text-uppercase mb-3" style="letter-spacing: 5px;">Category</h5>
+            <h1 class="text-white">Title</h1>
+
+            <h3 class="text-white">Mentor</h3>
+            <h4 class="text-white">Experience level</h4>
+        </div>
+        <p class="text-white">Description</p>
+        <ul class="list-inline text-white m-0">
+            <li class="py-2"><i class="fa fa-check text-primary mr-3">Reference photo</i>
+                <img class="img-fluid" th:src="@{/images/reference.jpg}">
+            </li>
+            <li class="py-2"><i class="fa fa-check text-primary mr-3">Final photo</i>
+                <img class="img-fluid" th:src="@{/images/final.jpg}">
+            </li>
+        </ul>
+    </div>
+    <div class="col-lg-5">
+        <div class="card border-0">
+            <div class="card-header bg-light text-center p-4">
+                <h1 class="m-0">Workshop</h1>
+            </div>
+            <div class="card-body rounded-bottom bg-primary p-5">
+
+            </div>
+        </div>
+    </div>
+    <div class="row justify-content-center">
+        <th:block th:if="${isCurrentUserOwner}">
+            <a class="col-md-3 button-update"
+               th:href="@{/workshop/{id}/update (id=*{id})}">
+                <i class="material-icons">edit</i>
+                Edit
+            </a>
+
+            <button type="submit" class="col-md-3 button-delete"
+                    data-toggle="modal"
+                    data-target="#modal-delete-offer">
+                <i class="material-icons">delete</i>
+                Delete
+            </button>
+        </th:block>
+
+    </div>
+</div>
+<!-- Workshop Details End -->
 
 
 <!-- Footer Start -->

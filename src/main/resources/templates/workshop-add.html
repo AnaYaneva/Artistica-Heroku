@@ -18,7 +18,7 @@
                         <div class="card-header bg-light text-center p-4">
                             <h1 class="m-0">Create Workshop</h1>
                         </div>
-                        <div class="card-body rounded-bottom bg-primary p-5">
+                        <div class="card-body rounded-bottom bg-primary p-12">
                             <form th:action="@{/workshops/add}"
                                   th:method="post"
                                   ecnctype="multipart/>form-data"
@@ -29,7 +29,7 @@
                                        th:errorclass="is-invalid"
                                        type="text"
                                        class="form-control border-0 p-4"
-                                       placeholder="First name"
+                                       placeholder="Reference Photo name"
                                        required="required" />
                                 <small id="2" class="invalid-feedback bg-danger text-light rounded">
                                     First name length must be between 2 and 20 characters.

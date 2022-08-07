@@ -3,6 +3,7 @@ package com.artcources.artistica.model.entity;
 import com.artcources.artistica.model.enums.StatusEnum;
 
 import javax.persistence.*;
+import java.util.*;
 
 @Entity
 @Table(name = "online_workshops")
@@ -38,6 +39,8 @@ public class OnlineWorkshopEntity extends BaseEntity{
     @Enumerated(EnumType.STRING)
     private StatusEnum status;
 
+    @ManyToMany
+    List<UserEntity> students = new ArrayList<>();
 
     public OnlineWorkshopEntity() {
     }

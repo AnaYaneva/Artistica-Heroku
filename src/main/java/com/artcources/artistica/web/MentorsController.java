@@ -30,18 +30,14 @@ public class MentorsController {
 
     private final ModelMapper modelMapper;
     private final MentorService mentorService;
-    private final UserService userService;
     private final WorkshopService workshopService;
-    private final UserRoleRepository userRoleRepository;
     private LocaleResolver localeResolver;
 
 
-    public MentorsController(ModelMapper modelMapper, MentorService mentorService, UserService userService, WorkshopService workshopService, UserRoleRepository userRoleRepository, LocaleResolver localeResolver) {
+    public MentorsController(ModelMapper modelMapper, MentorService mentorService, WorkshopService workshopService, LocaleResolver localeResolver) {
         this.modelMapper = modelMapper;
         this.mentorService = mentorService;
-        this.userService = userService;
         this.workshopService = workshopService;
-        this.userRoleRepository = userRoleRepository;
         this.localeResolver = localeResolver;
     }
 
@@ -80,8 +76,6 @@ public class MentorsController {
 
 
         MentorServiceModel mentorRegisterServiceModel = this.modelMapper.map(mentorRegisterBindingModel, MentorServiceModel.class);
-//        UserRoleEntity mentorRole = userRoleRepository.findRoleByName(UserRoleEnum.MENTOR);
-//        mentorRegisterServiceModel.setUserRoles(List.of(mentorRole));
         this.mentorService.registerAndLogin(mentorRegisterServiceModel, localeResolver.resolveLocale(request));
         return "redirect:/";
     }
@@ -116,7 +110,6 @@ public class MentorsController {
     public String profileErrors (Model model,Principal principal) {
         MentorProfileViewModel mentorProfileViewModel
                 = this.mentorService.getMentorProfileViewModelByEmail(principal.getName());
-        //model.addAttribute("cities", this.cityService.getAllCities());
         model.addAttribute("mentorProfileViewModel",mentorProfileViewModel);
         return "mentor-details";
     }
@@ -140,13 +133,5 @@ public class MentorsController {
         return "redirect:/mentors/profile";
     }
 
-    //MY OFFERS
-    @GetMapping("/my-workshops")
-    public String myOffers (Model model, Principal principal) {
-        List<WorkshopsAllViewModel> mentorOffers
-                =this.workshopService.getCurrentUserWorkshops(principal);
-        //model.addAttribute("currentUserCompanyName",this.mentorService.getCurrentUserCompanyName(principal));
-        model.addAttribute("mentorOffers",mentorOffers);
-        return "my-offers";
-    }
+
 }
