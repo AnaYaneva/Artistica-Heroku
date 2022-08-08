@@ -15,6 +15,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.LocaleResolver;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -30,14 +31,18 @@ public class MentorsController {
 
     private final ModelMapper modelMapper;
     private final MentorService mentorService;
+    private final UserService userService;
     private final WorkshopService workshopService;
+    private final UserRoleRepository userRoleRepository;
     private LocaleResolver localeResolver;
 
 
-    public MentorsController(ModelMapper modelMapper, MentorService mentorService, WorkshopService workshopService, LocaleResolver localeResolver) {
+    public MentorsController(ModelMapper modelMapper, MentorService mentorService, UserService userService, WorkshopService workshopService, UserRoleRepository userRoleRepository, LocaleResolver localeResolver) {
         this.modelMapper = modelMapper;
         this.mentorService = mentorService;
+        this.userService = userService;
         this.workshopService = workshopService;
+        this.userRoleRepository = userRoleRepository;
         this.localeResolver = localeResolver;
     }
 
@@ -65,6 +70,7 @@ public class MentorsController {
 
     @PostMapping("/register")
     public String registerMentor(@Valid @ModelAttribute("mentorRegisterBindingModel") MentorRegisterBindingModel mentorRegisterBindingModel,
+                                 @RequestParam MultipartFile photo,
                                  BindingResult bindingResult,
                                  RedirectAttributes redirectAttributes,
                                  HttpServletRequest request) {
@@ -74,8 +80,10 @@ public class MentorsController {
             return "redirect:/mentors/register";
         }
 
-
         MentorServiceModel mentorRegisterServiceModel = this.modelMapper.map(mentorRegisterBindingModel, MentorServiceModel.class);
+        mentorRegisterServiceModel.setPhoto(photo);
+//        UserRoleEntity mentorRole = userRoleRepository.findRoleByName(UserRoleEnum.MENTOR);
+//        mentorRegisterServiceModel.setUserRoles(List.of(mentorRole));
         this.mentorService.registerAndLogin(mentorRegisterServiceModel, localeResolver.resolveLocale(request));
         return "redirect:/";
     }
@@ -96,7 +104,9 @@ public class MentorsController {
                 = this.mentorService.getMentorProfileViewModelByEmail(principal.getName());
         MentorProfileUpdateBindingModel mentorProfileUpdateBindingModel
                 = this.modelMapper.map(mentorProfileViewModel, MentorProfileUpdateBindingModel.class);
+       // mentorProfileUpdateBindingModel.setCityName(mentorProfileViewModel.getAddress().getCityName());
         // add attributes
+        //model.addAttribute("cities", this.cityService.getAllCities());
         model.addAttribute("mentorProfileUpdateBindingModel",mentorProfileUpdateBindingModel);
         model.addAttribute("mentorProfileViewModel",mentorProfileViewModel);
         List<WorkshopsAllViewModel> mentorWorkshops

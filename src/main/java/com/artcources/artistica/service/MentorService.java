@@ -17,9 +17,11 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
 import java.security.Principal;
 import java.util.List;
 import java.util.Locale;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -29,16 +31,19 @@ public class MentorService {
     private final UserRoleService userRoleService;
     private final ModelMapper modelMapper;
     private final AppUserDetailsService appUserDetailsService;
-
+    private final CloudinaryService cloudinaryService;
     private final EmailService emailService;
+    private final MediaService mediaService;
 
-    public MentorService(UserRepository mentorRepository, PasswordEncoder passwordEncoder, UserRoleService userRoleService, ModelMapper modelMapper, AppUserDetailsService appUserDetailsService, EmailService emailService) {
+    public MentorService(UserRepository mentorRepository, PasswordEncoder passwordEncoder, UserRoleService userRoleService, ModelMapper modelMapper, AppUserDetailsService appUserDetailsService, CloudinaryService cloudinaryService, EmailService emailService, MediaService mediaService) {
         this.userRepository = mentorRepository;
         this.passwordEncoder = passwordEncoder;
         this.userRoleService = userRoleService;
         this.modelMapper = modelMapper;
         this.appUserDetailsService = appUserDetailsService;
+        this.cloudinaryService = cloudinaryService;
         this.emailService = emailService;
+        this.mediaService = mediaService;
     }
 
 
@@ -47,7 +52,11 @@ public class MentorService {
                 modelMapper.map(mentorServiceModel, UserEntity.class);
         newUser.setPassword(passwordEncoder.encode(mentorServiceModel.getPassword()));
         newUser.setUserRoles(List.of(this.userRoleService.findRoleByName(UserRoleEnum.MENTOR)));
-
+        try {
+            mediaService.getPhotoEntity(newUser, mentorServiceModel.getPhoto());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         userRepository.save(newUser);
         login(newUser);
         emailService.sendRegistrationEmail(newUser.getUsername(),
@@ -124,14 +133,10 @@ public class MentorService {
 
 
     public MentorProfileViewModel getMentorProfileViewModelByEmail(String email) {
-        MentorProfileViewModel  mentorProfileViewModel1 = this.userRepository.findByUsername(email)
-                .map(mentor -> {
-                    MentorProfileViewModel mentorProfileViewModel =
-                            this.modelMapper.map(mentor, MentorProfileViewModel.class);
-                    return mentorProfileViewModel;
-                })
+        MentorProfileViewModel  mentorProfileViewModel = this.userRepository.findByUsername(email)
+                .map(m -> this.modelMapper.map(m, MentorProfileViewModel.class).setPhoto(Optional.ofNullable(m.getPhoto()).map(p->p.getUrl()).orElse("/images/default.jpg")))
                 .orElseThrow(() -> new UserNotFoundException());
-        return mentorProfileViewModel1;
+        return mentorProfileViewModel;
     }
 
 }

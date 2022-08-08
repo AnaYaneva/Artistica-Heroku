@@ -16,6 +16,8 @@ public class MentorProfileViewModel {
 
     private String lastName;
 
+    private String photo;
+
     private String facebook;
 
     private String linkedIn;
@@ -49,6 +51,15 @@ public class MentorProfileViewModel {
 
     public MentorProfileViewModel setLastName(String lastName) {
         this.lastName = lastName;
+        return this;
+    }
+
+    public String getPhoto() {
+        return photo;
+    }
+
+    public MentorProfileViewModel setPhoto(String photo) {
+        this.photo = photo;
         return this;
     }
 

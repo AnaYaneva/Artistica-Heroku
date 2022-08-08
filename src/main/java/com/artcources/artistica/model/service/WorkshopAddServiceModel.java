@@ -7,6 +7,7 @@ import com.artcources.artistica.model.entity.WorkshopCategoryEntity;
 import com.artcources.artistica.model.enums.ExperienceLevelEnum;
 import com.artcources.artistica.model.enums.WorkshopCategoryEnum;
 import com.artcources.artistica.model.enums.StatusEnum;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.persistence.*;
 
@@ -18,11 +19,11 @@ public class WorkshopAddServiceModel {
 
     private String description;
 
-    private MediaAddServiceModel referencePhoto;
+    private MultipartFile referencePhoto;
 
-    private MediaAddServiceModel finalPhoto;
+    private MultipartFile finalPhoto;
 
-    private MediaAddServiceModel video;
+    private MultipartFile video;
 
     private ExperienceLevelEnum experienceLevel;
 
@@ -64,29 +65,29 @@ public class WorkshopAddServiceModel {
         return this;
     }
 
-    public MediaAddServiceModel getReferencePhoto() {
+    public MultipartFile getReferencePhoto() {
         return referencePhoto;
     }
 
-    public WorkshopAddServiceModel setReferencePhoto(MediaAddServiceModel referencePhoto) {
+    public WorkshopAddServiceModel setReferencePhoto(MultipartFile referencePhoto) {
         this.referencePhoto = referencePhoto;
         return this;
     }
 
-    public MediaAddServiceModel getFinalPhoto() {
+    public MultipartFile getFinalPhoto() {
         return finalPhoto;
     }
 
-    public WorkshopAddServiceModel setFinalPhoto(MediaAddServiceModel finalPhoto) {
+    public WorkshopAddServiceModel setFinalPhoto(MultipartFile finalPhoto) {
         this.finalPhoto = finalPhoto;
         return this;
     }
 
-    public MediaAddServiceModel getVideo() {
+    public MultipartFile getVideo() {
         return video;
     }
 
-    public WorkshopAddServiceModel setVideo(MediaAddServiceModel video) {
+    public WorkshopAddServiceModel setVideo(MultipartFile video) {
         this.video = video;
         return this;
     }

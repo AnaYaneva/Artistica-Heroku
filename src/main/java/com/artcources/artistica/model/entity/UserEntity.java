@@ -16,7 +16,8 @@ public class UserEntity   extends BaseEntity {
     private String firstName;
     @Column(nullable = false)
     private String lastName;
-
+    @OneToOne
+    private MediaEntity photo;
     @ManyToMany(fetch = FetchType.EAGER)
     private List<UserRoleEntity> userRoles = new ArrayList<>();
     @Column(nullable = true)
@@ -25,12 +26,6 @@ public class UserEntity   extends BaseEntity {
     private String linkedIn;
     @Column(nullable = true)
     private String instagram;
-
-    @OneToMany(mappedBy = "mentor")
-    private List<OnlineWorkshopEntity> workshopsMentored = new ArrayList<>();
-
-    @ManyToMany(mappedBy = "students")
-    private List<OnlineWorkshopEntity> workshopsAttending = new ArrayList<>();
 
     public UserEntity() {
     }
@@ -71,6 +66,15 @@ public class UserEntity   extends BaseEntity {
         return this;
     }
 
+    public MediaEntity getPhoto() {
+        return photo;
+    }
+
+    public UserEntity setPhoto(MediaEntity photo) {
+        this.photo = photo;
+        return this;
+    }
+
     public List<UserRoleEntity> getUserRoles() {
         return userRoles;
     }
@@ -106,5 +110,4 @@ public class UserEntity   extends BaseEntity {
         this.instagram = instagram;
         return this;
     }
-
 }

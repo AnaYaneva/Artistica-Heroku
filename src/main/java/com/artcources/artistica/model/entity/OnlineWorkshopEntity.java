@@ -33,7 +33,7 @@ public class OnlineWorkshopEntity extends BaseEntity{
     @ManyToOne
     private WorkshopCategoryEntity category;
 
-    @Column(nullable = false)
+//    @Column(nullable = false)
     private Long duration;
 
     @Enumerated(EnumType.STRING)

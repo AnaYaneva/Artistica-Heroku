@@ -2,6 +2,7 @@ package com.artcources.artistica.web;
 
 import com.artcources.artistica.model.binding.*;
 import com.artcources.artistica.model.entity.MediaEntity;
+import com.artcources.artistica.model.entity.OnlineWorkshopEntity;
 import com.artcources.artistica.model.enums.WorkshopCategoryEnum;
 import com.artcources.artistica.model.service.MediaAddServiceModel;
 import com.artcources.artistica.model.service.WorkshopAddServiceModel;
@@ -13,6 +14,7 @@ import com.artcources.artistica.service.CloudinaryService;
 import com.artcources.artistica.service.CloudinaryMedia;
 import com.artcources.artistica.service.WorkshopService;
 import org.modelmapper.ModelMapper;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -87,6 +89,11 @@ public class WorkshopController {
 
     @GetMapping("/{id}")
     public String workshopDetails(@PathVariable Long id, Model model,Principal principal) {
+        OnlineWorkshopEntity workshop = workshopService.getWokrshopById(id);
+        if (workshop == null)
+        {
+            System.out.println("Zashto me mrazish");
+        }
         boolean isCurrentUserOwner = this.workshopService.isCurrentUserOwner(principal, id);
         WorkshopDetailsViewModel workshopDetailsViewModel = this.workshopService.findWorkshopViewModelById(id);
         model.addAttribute("isCurrentUserOwner",isCurrentUserOwner);
@@ -106,7 +113,11 @@ public class WorkshopController {
     }
 
     @PostMapping("/add")
-    public String add(@Valid WorkshopAddBindingModel workshopAddBindingModel,
+//    @RequestMapping(value = { "/add" }, method = RequestMethod.POST, consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public String add(WorkshopAddBindingModel workshopAddBindingModel,
+                      @RequestPart("referencePhoto") MultipartFile referencePhoto,
+                      @RequestPart("finalPhoto") MultipartFile finalPhoto,
+                      @RequestPart("video") MultipartFile video,
                       BindingResult bindingResult,
                       RedirectAttributes redirectAttributes,
                       Principal principal) throws IOException {
@@ -118,6 +129,9 @@ public class WorkshopController {
         }
 
         WorkshopAddServiceModel workshopAddServiceModel = this.modelMapper.map(workshopAddBindingModel, WorkshopAddServiceModel.class);
+        workshopAddServiceModel.setFinalPhoto(finalPhoto);
+        workshopAddServiceModel.setReferencePhoto(referencePhoto);
+        workshopAddServiceModel.setVideo(video);
         Long idWorkshop=this.workshopService.addNewWorkshop(workshopAddServiceModel, principal);
         return "redirect:/workshops/" + idWorkshop;
     }

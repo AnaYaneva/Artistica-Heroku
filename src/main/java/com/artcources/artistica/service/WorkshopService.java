@@ -21,6 +21,7 @@ import java.io.IOException;
 import java.security.Principal;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -69,20 +70,15 @@ public class WorkshopService {
         workshopToAdd.setMentor(this.mentorService.findMentorByEmail(principal.getName()));
         workshopToAdd.setStatus(StatusEnum.PENDING);
 
-        OnlineWorkshopEntity savedWorkshop = this.workshopRepository.save(workshopToAdd);
-
-        //save pictures to Cloudinary,save them in repo and add in workshop
         try {
-            this.mediaService.getVideoEntity(savedWorkshop, workshopAddServiceModel.getVideo());
-            this.mediaService.getReferencePhotoEntity(savedWorkshop, workshopAddServiceModel.getReferencePhoto());
-            this.mediaService.getFinalPhotoEntity(savedWorkshop, workshopAddServiceModel.getFinalPhoto());
+            this.mediaService.getVideoEntity(workshopToAdd, workshopAddServiceModel.getVideo());
+            this.mediaService.getReferencePhotoEntity(workshopToAdd, workshopAddServiceModel.getReferencePhoto());
+            this.mediaService.getFinalPhotoEntity(workshopToAdd,  workshopAddServiceModel.getFinalPhoto());
         } catch (IOException e) {
             e.printStackTrace();
         }
-
-        OnlineWorkshopEntity savedWorkshopWithPictures = this.workshopRepository.save(savedWorkshop);
-
-        return savedWorkshopWithPictures.getId();
+        OnlineWorkshopEntity savedWorkshop = this.workshopRepository.save(workshopToAdd);
+        return savedWorkshop.getId();
     }
 
     public OnlineWorkshopEntity getWokrshopById(Long id) {
@@ -136,13 +132,11 @@ public class WorkshopService {
 
     public WorkshopDetailsViewModel findWorkshopViewModelById(Long id) {
         OnlineWorkshopEntity workshop = this.workshopRepository.findById(id).orElseThrow(() -> new WorkshopNotFoundException());
-
-        WorkshopDetailsViewModel workshopDetailsViewModel
-                = this.modelMapper.map(workshop, WorkshopDetailsViewModel.class);
+        WorkshopDetailsViewModel workshopDetailsViewModel = this.modelMapper.map(workshop, WorkshopDetailsViewModel.class);
+        workshopDetailsViewModel.setFinalUrl(Optional.ofNullable(workshop.getFinalPhoto()).map(p->p.getUrl()).orElse("/images/default_final.jpg"));
+        workshopDetailsViewModel.setReferenceUrl(Optional.ofNullable(workshop.getReferencePhoto()).map(p->p.getUrl()).orElse("/images/default_ref.jpg"));
+        workshopDetailsViewModel.setVideoUrl(Optional.ofNullable(workshop.getVideo()).map(p->p.getUrl()).orElse("/images/default-video.jpg"));
         // workshopDetailsViewModel.setMentor(workshop.getMentor().getEmail());
-        //workshopDetailsViewModel.setAddress(workshop.getMentor().getAddress().getAddress());
-        // workshopDetailsViewModel.setCity(workshop.getSupplier().getAddress().getCity().getName());
-        //workshopDetailsViewModel.setRegion(workshop.getSupplier().getAddress().getCity().getRegion().getName());
 
         return workshopDetailsViewModel;
     }

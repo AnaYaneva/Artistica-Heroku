@@ -1,6 +1,7 @@
 package com.artcources.artistica.model.service;
 
 import com.artcources.artistica.model.entity.UserRoleEntity;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.persistence.Column;
 import javax.persistence.FetchType;
@@ -9,24 +10,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MentorServiceModel {
-    @Column(nullable = false,
-            unique = true)
     private String username;
-
     private String password;
-    @Column(nullable = false)
     private String firstName;
-    @Column(nullable = false)
     private String lastName;
-
-    @ManyToMany(fetch = FetchType.EAGER)
-    private List<UserRoleEntity> userRoles = new ArrayList<>();
-    @Column(nullable = true)
+    private List<UserRoleEntity> userRoles;
     private String facebook;
-    @Column(nullable = true)
     private String linkedIn;
-    @Column(nullable = true)
     private String instagram;
+    private MultipartFile photo;
 
     public MentorServiceModel() {
     }
@@ -100,6 +92,15 @@ public class MentorServiceModel {
 
     public MentorServiceModel setInstagram(String instagram) {
         this.instagram = instagram;
+        return this;
+    }
+
+    public MultipartFile getPhoto() {
+        return photo;
+    }
+
+    public MentorServiceModel setPhoto(MultipartFile photo) {
+        this.photo = photo;
         return this;
     }
 }

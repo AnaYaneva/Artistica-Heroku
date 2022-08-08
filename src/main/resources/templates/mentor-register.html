@@ -37,9 +37,8 @@
                             <h1 class="m-0">Sign Up Now</h1>
                         </div>
                         <div class="card-body rounded-bottom bg-primary p-5">
-                            <form th:action="@{/mentors/register}"
-                                  th:method="post"
-                                  th:object="${mentorRegisterBindingModel}">
+                            <form th:action="@{/mentors/register}" th:method="post"
+                                  th:object="${mentorRegisterBindingModel}" enctype="multipart/form-data">
                                 <div class="form-group">
                                     <input th:field="*{firstName}"
                                            th:errorclass="is-invalid"
@@ -95,6 +94,11 @@
                                         Password length must be more than 3 characters long.
                                     </small>
                                 </div>
+                                <label>Photo</label><br>
+                                <input th:object="${photo}"
+                                       type="file"
+                                       name="photo"
+                                       class="form-control border-0 p-4"/>
                                 <div class="form-group">
                                     <input th:field="*{facebook}"
                                            th:errorclass="is-invalid"

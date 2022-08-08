@@ -29,10 +29,10 @@
                     <p class="text-white">Description</p>
                     <ul class="list-inline text-white m-0">
                         <li class="py-2"><i class="fa fa-check text-primary mr-3">Reference photo</i>
-                            <img class="img-fluid" th:src="@{/images/reference.jpg}">
+                            <img class="img-fluid" th:src="*{referenceUrl}">
                         </li>
                         <li class="py-2"><i class="fa fa-check text-primary mr-3">Final photo</i>
-                            <img class="img-fluid" th:src="@{/images/final.jpg}">
+                            <img class="img-fluid" th:src="*{finalUrl}">
                         </li>
                     </ul>
                 </div>

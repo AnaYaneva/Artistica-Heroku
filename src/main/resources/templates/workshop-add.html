@@ -18,82 +18,32 @@
                         <div class="card-header bg-light text-center p-4">
                             <h1 class="m-0">Create Workshop</h1>
                         </div>
-                        <div class="card-body rounded-bottom bg-primary p-12">
-                            <form th:action="@{/workshops/add}"
-                                  th:method="post"
-                                  ecnctype="multipart/>form-data"
-                                  th:object="${workshopAddBindingModel}">
-
-                                <div class="form-group">
-                                <input th:field="*{referencePhoto.name}"
-                                       th:errorclass="is-invalid"
-                                       type="text"
-                                       class="form-control border-0 p-4"
-                                       placeholder="Reference Photo name"
-                                       required="required" />
-                                <small id="2" class="invalid-feedback bg-danger text-light rounded">
-                                    First name length must be between 2 and 20 characters.
-                                </small>
-                                    <input th:field="*{referencePhoto.file}"
-                                           th:errorclass="is-invalid"
-                                           type="file"
-                                           class="form-control border-0 p-4"
-                                           placeholder="First name"
-                                           required="required" />
-                                    <small id="1" class="invalid-feedback bg-danger text-light rounded">
-                                        First name length must be between 2 and 20 characters.
-                                    </small>
-
-
-                                    <input th:field="*{finalPhoto.name}"
-                                           th:errorclass="is-invalid"
-                                           type="text"
-                                           class="form-control border-0 p-4"
-                                           placeholder="First name"
-                                           required="required" />
-                                    <small id="3" class="invalid-feedback bg-danger text-light rounded">
-                                        First name length must be between 2 and 20 characters.
-                                    </small>
-                                    <input th:field="*{finalPhoto.file}"
-                                           th:errorclass="is-invalid"
-                                           type="file"
-                                           class="form-control border-0 p-4"
-                                           placeholder="First name"
-                                           required="required" />
-                                    <small id="4" class="invalid-feedback bg-danger text-light rounded">
-                                        First name length must be between 2 and 20 characters.
-                                    </small>
-
-                                    <input th:field="*{video.name}"
-                                           th:errorclass="is-invalid"
-                                           type="text"
-                                           class="form-control border-0 p-4"
-                                           placeholder="First name"
-                                           required="required" />
-                                    <small id="5" class="invalid-feedback bg-danger text-light rounded">
-                                        First name length must be between 2 and 20 characters.
-                                    </small>
-                                    <input th:field="*{video.file}"
-                                           th:errorclass="is-invalid"
-                                           type="file"
-                                           class="form-control border-0 p-4"
-                                           placeholder="First name"
-                                           required="required" />
-                                    <small id="6" class="invalid-feedback bg-danger text-light rounded">
-                                        First name length must be between 2 and 20 characters.
-                                    </small>
-
-
-                                    <!-- <button type="button" class="button-add-picture col-md-6" id="button-add-picture">ADD PICTURE
-                                     </button>-->
-                                </div>
+                        <div class="card-body rounded-bottom bg-primary p-5">
+                            <form id="add-workshop-form" th:action="@{/workshops/add}"
+                                  th:method="post" th:object="${workshopAddBindingModel}"
+                                  enctype="multipart/form-data">
+                                <label>Reference photo</label><br>
+                                <input th:object="${referencePhoto}"
+                                       name="referencePhoto"
+                                       type="file"
+                                       class="form-control border-0 p-4"/>
+                                <label>Final photo</label><br>
+                                <input th:object="${finalPhoto}"
+                                       type="file"
+                                       name="finalPhoto"
+                                       class="form-control border-0 p-4"/>
+                                <label>Video</label><br>
+                                <input th:object="${video}"
+                                       type="file"
+                                       name="video"
+                                       class="form-control border-0 p-4"/>
 
                                 <div class="form-group">
                                     <input th:field="*{name}"
                                            th:errorclass="is-invalid"
                                            type="text"
                                            class="form-control border-0 p-4"
-                                           placeholder="First name"
+                                           placeholder="Name"
                                            required="required" />
                                     <small id="firstNameHelpInline" class="invalid-feedback bg-danger text-light rounded">
                                         First name length must be between 2 and 20 characters.
@@ -104,7 +54,7 @@
                                            th:errorclass="is-invalid"
                                            type="text"
                                            class="form-control border-0 p-4"
-                                           placeholder="Last name"
+                                           placeholder="Description"
                                            required="required"/>
                                     <small id="lastNameHelpInline" class="invalid-feedback bg-danger text-light rounded">
                                         First name length must be between 2 and 20 characters.
@@ -128,8 +78,6 @@
                                         <option th:each="l : ${T(com.artcources.artistica.model.enums.WorkshopCategoryEnum).values()}" th:value="${l}" th:text="${l}"></option>
                                     </select>
                                 </div>
-                           <!-- <input type="text" name="title"/><br>
-                            <input name="picture" type="file"/><br>-->
                                 <div>
                                     <button class="btn btn-dark btn-block border-0 py-3" type="submit">Create</button>
                                 </div>
