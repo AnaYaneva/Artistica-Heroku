@@ -61,24 +61,34 @@ public class WorkshopController {
 //        model.addAttribute("approvedWorkshops", approvedWorkshops);
         //model.addAttribute("allCategories", CategoryMentorEnum.values());
 
-        model.addAttribute("watercolor", workshopService.findAllWorkshopsByCategoryName(WorkshopCategoryEnum.WATERCOLOR));
-        model.addAttribute("acrylic", workshopService.findAllWorkshopsByCategoryName(WorkshopCategoryEnum.ACRYLIC));
-        model.addAttribute("pencils", workshopService.findAllWorkshopsByCategoryName(WorkshopCategoryEnum.GRAPHITE_PENCILS));
-        model.addAttribute("pastels", workshopService.findAllWorkshopsByCategoryName(WorkshopCategoryEnum.SOFT_PASTELS));
+        model.addAttribute("watercolor", workshopService.getAllApprovedWorkshopsByCategory(WorkshopCategoryEnum.WATERCOLOR));
+        model.addAttribute("acrylic", workshopService.getAllApprovedWorkshopsByCategory(WorkshopCategoryEnum.ACRYLIC));
+        model.addAttribute("graphite_pencils", workshopService.getAllApprovedWorkshopsByCategory(WorkshopCategoryEnum.GRAPHITE_PENCILS));
+        model.addAttribute("soft_pastels", workshopService.getAllApprovedWorkshopsByCategory(WorkshopCategoryEnum.SOFT_PASTELS));
 
         return "workshops-all";
     }
 
     //SHOW ALL WORKSHOPS BY CATEGORY
-    @GetMapping("/category-{category}")
-    public String allMentorsWorkshopsByCategory(@PathVariable String category,Model model) {
-        List<WorkshopsAllViewModel> allApprovedWorkshopsByCategory = this.workshopService.getAllApprovedWorkshopsByCategory(category)
+    @GetMapping("/categories/category-{category}")
+    public String allWorkshopsByCategory(@PathVariable String category,Model model) {
+        List<WorkshopsAllViewModel> allApprovedWorkshopsByCategory = this.workshopService.getAllApprovedWorkshopsByCategory(WorkshopCategoryEnum.valueOf(category.toUpperCase()))
                 .stream()
                 .map(workshopsAllServiceModel -> this.modelMapper.map(workshopsAllServiceModel, WorkshopsAllViewModel.class))
                 .collect(Collectors.toList());
-        model.addAttribute("approvedWorkshops",allApprovedWorkshopsByCategory);
-        model.addAttribute("allCategories", WorkshopCategoryEnum.values());
-        return "all-workshops";
+        model.addAttribute("workshops",allApprovedWorkshopsByCategory);
+        return "workshops-all-by-criteria";
+    }
+
+    //SHOW ALL WORKSHOPS BY EXP LEVEL
+    @GetMapping("/experienceLevel/experienceLevel-{experienceLevel}")
+    public String allWorkshopsByExperienceLevel(@PathVariable String experienceLevel,Model model) {
+        List<WorkshopsAllViewModel> allApprovedWorkshopsByExpLevel = this.workshopService.getAllApprovedWorkshopsByExperienceLevel(experienceLevel)
+                .stream()
+                .map(workshopsAllServiceModel -> this.modelMapper.map(workshopsAllServiceModel, WorkshopsAllViewModel.class))
+                .collect(Collectors.toList());
+        model.addAttribute("approvedWorkshops",allApprovedWorkshopsByExpLevel);
+        return "workshops-all-by-criteria";
     }
 
     //WORKSHOP DETAILS PAGE

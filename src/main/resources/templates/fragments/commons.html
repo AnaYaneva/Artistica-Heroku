@@ -85,7 +85,7 @@
                     <div
                             th:each="c : ${T(com.artcources.artistica.model.enums.WorkshopCategoryEnum).values()}"
                             class="navbar-nav w-100">
-                        <a th:attr="href=@{'/workshops/all#' + ${c.name().toLowerCase()}}"
+                        <a th:attr="href=@{'/workshops/categories/' + ${c.name().toLowerCase()}}"
                            class="nav-item nav-link"
                            th:text="${#strings.capitalize(c.name().toLowerCase().replace('_',' '))}"></a>
                     </div>
@@ -414,13 +414,13 @@
 
 <!-- Workshop Start -->
 <div th:fragment="workshop" class="rounded overflow-hidden mb-2">
-    <img class="img-fluid" :src="images/course-1.jpg" alt="">
+    <img class="img-fluid" th:src="*{finalUrl}" alt="">
     <div class="bg-secondary p-4">
         <div class="d-flex justify-content-between mb-3">
             <small class="m-0"><i class="fa fa-users text-primary mr-2"></i>25 Students</small>
             <!--<small class="m-0"><i class="far fa-clock text-primary mr-2" th:text="*{duration}"></i>01h 30m</small>-->
         </div>
-        <a class="h5" th:text="*{name}" href="@{/workshops/{id}(id=*{id})}">Web design & development courses for beginner</a>
+        <a class="h5" th:text="*{name}" th:href="@{/workshops/{id}(id=*{id})}">Web design & development courses for beginner</a>
         <div class="border-top mt-4 pt-4">
             <div class="d-flex justify-content-between">
                 <h6 class="m-0"><i class="fa fa-star text-primary mr-2"></i>4.5 <small>(250)</small></h6>

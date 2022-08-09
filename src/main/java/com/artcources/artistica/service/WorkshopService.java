@@ -5,6 +5,7 @@ import com.artcources.artistica.model.binding.WorkshopUpdateBindingModel;
 import com.artcources.artistica.model.entity.UserEntity;
 import com.artcources.artistica.model.entity.WorkshopCategoryEntity;
 import com.artcources.artistica.model.entity.OnlineWorkshopEntity;
+import com.artcources.artistica.model.enums.ExperienceLevelEnum;
 import com.artcources.artistica.model.enums.WorkshopCategoryEnum;
 import com.artcources.artistica.model.enums.StatusEnum;
 import com.artcources.artistica.model.service.*;
@@ -181,13 +182,13 @@ public class WorkshopService {
     public void addNewVideo(MediaAddServiceModel mediaAddServiceModel, Long id) {
     }
 
-    public List<WorkshopsAllViewModel> findAllWorkshopsByCategoryName(WorkshopCategoryEnum name) {
-        return workshopRepository.findAllByCategory_Name(name).stream()
-                .map(p -> modelMapper.map(p, WorkshopsAllViewModel.class)).collect(Collectors.toList());
-    }
+//    public List<WorkshopsAllViewModel> findAllWorkshopsByCategoryName(WorkshopCategoryEnum name) {
+//        return workshopRepository.findAllByCategory_Name(name).stream()
+//                .map(p -> modelMapper.map(p, WorkshopsAllViewModel.class)).collect(Collectors.toList());
+//    }
 
-    public List<WorkshopsAllServiceModel> getAllApprovedWorkshopsByCategory(String category) {
-        return this.workshopRepository.findAllByCategoryNameAndStatus(WorkshopCategoryEnum.valueOf(category.toUpperCase()), StatusEnum.APPROVED)
+    public List<WorkshopsAllServiceModel> getAllApprovedWorkshopsByCategory(WorkshopCategoryEnum name) {
+        return this.workshopRepository.findAllByCategory_NameAndStatus(name, StatusEnum.APPROVED)
                 .stream()
                 .map(workshop -> this.modelMapper.map(workshop, WorkshopsAllServiceModel.class))
                 .collect(Collectors.toList());
@@ -206,6 +207,13 @@ public class WorkshopService {
                 .stream()
                 .map(workshop -> this.modelMapper.map(workshop, WorkshopsAllViewModel.class))
                 .limit(8)
+                .collect(Collectors.toList());
+    }
+
+    public List<WorkshopsAllServiceModel> getAllApprovedWorkshopsByExperienceLevel(String experienceLevel) {
+        return this.workshopRepository.findAllByExperienceLevelAndStatus(ExperienceLevelEnum.valueOf(experienceLevel.toUpperCase()), StatusEnum.APPROVED)
+                .stream()
+                .map(workshop -> this.modelMapper.map(workshop, WorkshopsAllServiceModel.class))
                 .collect(Collectors.toList());
     }
 }

@@ -1,6 +1,7 @@
 package com.artcources.artistica.repository;
 
 import com.artcources.artistica.model.entity.OnlineWorkshopEntity;
+import com.artcources.artistica.model.enums.ExperienceLevelEnum;
 import com.artcources.artistica.model.enums.WorkshopCategoryEnum;
 import com.artcources.artistica.model.enums.StatusEnum;
 import com.artcources.artistica.model.view.WorkshopsAllViewModel;
@@ -18,7 +19,9 @@ public interface WorkshopRepository  extends JpaRepository<OnlineWorkshopEntity,
 
     List<OnlineWorkshopEntity> findAllByMentor_Username(String email);
 
-    List<OnlineWorkshopEntity> findAllByCategoryNameAndStatus(WorkshopCategoryEnum categoryName, StatusEnum status);
+    List<OnlineWorkshopEntity> findAllByCategory_NameAndStatus(WorkshopCategoryEnum categoryName, StatusEnum status);
+
+    List<OnlineWorkshopEntity> findAllByExperienceLevelAndStatus(ExperienceLevelEnum experienceLevelEnum, StatusEnum status);
     @Query("SELECT w FROM OnlineWorkshopEntity w ORDER BY size(w.students) DESC")
     List<OnlineWorkshopEntity> findMostPopular();
 

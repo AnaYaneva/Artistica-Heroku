@@ -204,19 +204,35 @@ INSERT INTO media (id, name,public_id, url)
 VALUES (2,'referencePhoto','r6xpnrxmp4xsfaac3wqb','http://res.cloudinary.com/dmumqnbm0/image/upload/v1659974382/r6xpnrxmp4xsfaac3wqb.jpg');
 INSERT INTO media (id, name,public_id, url)
 VALUES (3,'finalPhoto','jwpvze3mrn0huxlf1cq7','http://res.cloudinary.com/dmumqnbm0/image/upload/v1659974384/jwpvze3mrn0huxlf1cq7.jpg');
+INSERT INTO media (id, name,public_id, url)
+VALUES (4,'finalPhoto','zooguqbpbcqycnmeje2u','https://res.cloudinary.com/dmumqnbm0/image/upload/v1659965773/zooguqbpbcqycnmeje2u.jpg');
+INSERT INTO media (id, name,public_id, url)
+VALUES (5,'finalPhoto','sample','https://res.cloudinary.com/dmumqnbm0/image/upload/v1659466405/sample.jpg');
+INSERT INTO media (id, name,public_id, url)
+VALUES (6,'finalPhoto','qunlsdutfvj0ep2wumja','https://res.cloudinary.com/dmumqnbm0/image/upload/v1659965776/qunlsdutfvj0ep2wumja.jpg');
+INSERT INTO media (id, name,public_id, url)
+VALUES (7,'finalPhoto','ldfmqhbt76eb0lwulhtm','https://res.cloudinary.com/dmumqnbm0/image/upload/v1659966900/ldfmqhbt76eb0lwulhtm.jpg');
+INSERT INTO media (id, name,public_id, url)
+VALUES (8,'finalPhoto','fiv0sjim775ishdykb5s','https://res.cloudinary.com/dmumqnbm0/image/upload/v1659966405/fiv0sjim775ishdykb5s.jpg');
 
 -- INSERT online_workshops -------------------------------------------
-INSERT INTO online_workshops (id,
-    description,
-duration,
-name,
-status,
-category_id,
-experience_level_id,
-final_photo_id,
-mentor_id,
-reference_photo_id,
-video_id)
-VALUES (1,'asdm,fa,NHDJSAKNDKNSA.,ASMDASD',null,'chushki','PENDING',3,2,3,1,2,1);
+INSERT INTO online_workshops (id,description,duration,name,status,category_id,experience_level_id,final_photo_id,mentor_id,reference_photo_id,video_id)
+VALUES (1,'In venenatis, dui ac tincidunt sagittis, ipsum ex dignissim erat, finibus tincidunt diam metus in tellus. Praesent rhoncus id ipsum non facilisis. Quisque vitae nunc id dui scelerisque sodales sit amet vitae nisi. Nunc ultrices, dolor ut volutpat porttitor, diam mi varius magna, sed tempor nunc magna sit amet nisl. In orci nisl, iaculis nec cursus at, ullamcorper molestie neque. Integer luctus felis dolor, ac facilisis mauris bibendum et. Quisque non sem volutpat, vestibulum lorem a, blandit mauris. Aliquam malesuada ipsum quam, vitae sagittis libero faucibus non. Aliquam efficitur ultricies risus et tincidunt. Suspendisse potenti. Duis commodo imperdiet augue, sit amet ultrices mauris lacinia a. Sed malesuada, ipsum quis ullamcorper sagittis, ex nisi efficitur ex, nec tempus mi mauris ut felis. Nam vulputate fermentum erat, ut luctus lectus feugiat nec. Mauris pretium, mauris sed commodo dictum, ipsum urna tempor dolor, et ullamcorper nibh lectus quis dolor.'
+,null,'Beautiful flower1','APPROVED',3,2,3,1,2,1);
+INSERT INTO online_workshops (id,description,duration,name,status,category_id,experience_level_id,final_photo_id,mentor_id,reference_photo_id,video_id)
+VALUES (2,'In venenatis, dui ac tincidunt sagittis, ipsum ex dignissim erat, finibus tincidunt diam metus in tellus. Praesent rhoncus id ipsum non facilisis. Quisque vitae nunc id dui scelerisque sodales sit amet vitae nisi. Nunc ultrices, dolor ut volutpat porttitor, diam mi varius magna, sed tempor nunc magna sit amet nisl. In orci nisl, iaculis nec cursus at, ullamcorper molestie neque. Integer luctus felis dolor, ac facilisis mauris bibendum et. Quisque non sem volutpat, vestibulum lorem a, blandit mauris. Aliquam malesuada ipsum quam, vitae sagittis libero faucibus non. Aliquam efficitur ultricies risus et tincidunt. Suspendisse potenti. Duis commodo imperdiet augue, sit amet ultrices mauris lacinia a. Sed malesuada, ipsum quis ullamcorper sagittis, ex nisi efficitur ex, nec tempus mi mauris ut felis. Nam vulputate fermentum erat, ut luctus lectus feugiat nec. Mauris pretium, mauris sed commodo dictum, ipsum urna tempor dolor, et ullamcorper nibh lectus quis dolor.'
+,null,'Beautiful flower2','APPROVED',1,1,4,6,2,1);
+INSERT INTO online_workshops (id,description,duration,name,status,category_id,experience_level_id,final_photo_id,mentor_id,reference_photo_id,video_id)
+VALUES (3,'In venenatis, dui ac tincidunt sagittis, ipsum ex dignissim erat, finibus tincidunt diam metus in tellus. Praesent rhoncus id ipsum non facilisis. Quisque vitae nunc id dui scelerisque sodales sit amet vitae nisi. Nunc ultrices, dolor ut volutpat porttitor, diam mi varius magna, sed tempor nunc magna sit amet nisl. In orci nisl, iaculis nec cursus at, ullamcorper molestie neque. Integer luctus felis dolor, ac facilisis mauris bibendum et. Quisque non sem volutpat, vestibulum lorem a, blandit mauris. Aliquam malesuada ipsum quam, vitae sagittis libero faucibus non. Aliquam efficitur ultricies risus et tincidunt. Suspendisse potenti. Duis commodo imperdiet augue, sit amet ultrices mauris lacinia a. Sed malesuada, ipsum quis ullamcorper sagittis, ex nisi efficitur ex, nec tempus mi mauris ut felis. Nam vulputate fermentum erat, ut luctus lectus feugiat nec. Mauris pretium, mauris sed commodo dictum, ipsum urna tempor dolor, et ullamcorper nibh lectus quis dolor.'
+,null,'Beautiful flower3','APPROVED',2,2,5,6,2,1);
+INSERT INTO online_workshops (id,description,duration,name,status,category_id,experience_level_id,final_photo_id,mentor_id,reference_photo_id,video_id)
+VALUES (4,'In venenatis, dui ac tincidunt sagittis, ipsum ex dignissim erat, finibus tincidunt diam metus in tellus. Praesent rhoncus id ipsum non facilisis. Quisque vitae nunc id dui scelerisque sodales sit amet vitae nisi. Nunc ultrices, dolor ut volutpat porttitor, diam mi varius magna, sed tempor nunc magna sit amet nisl. In orci nisl, iaculis nec cursus at, ullamcorper molestie neque. Integer luctus felis dolor, ac facilisis mauris bibendum et. Quisque non sem volutpat, vestibulum lorem a, blandit mauris. Aliquam malesuada ipsum quam, vitae sagittis libero faucibus non. Aliquam efficitur ultricies risus et tincidunt. Suspendisse potenti. Duis commodo imperdiet augue, sit amet ultrices mauris lacinia a. Sed malesuada, ipsum quis ullamcorper sagittis, ex nisi efficitur ex, nec tempus mi mauris ut felis. Nam vulputate fermentum erat, ut luctus lectus feugiat nec. Mauris pretium, mauris sed commodo dictum, ipsum urna tempor dolor, et ullamcorper nibh lectus quis dolor.'
+,null,'Beautiful flower4','APPROVED',3,1,6,1,2,1);
+INSERT INTO online_workshops (id,description,duration,name,status,category_id,experience_level_id,final_photo_id,mentor_id,reference_photo_id,video_id)
+VALUES (5,'In venenatis, dui ac tincidunt sagittis, ipsum ex dignissim erat, finibus tincidunt diam metus in tellus. Praesent rhoncus id ipsum non facilisis. Quisque vitae nunc id dui scelerisque sodales sit amet vitae nisi. Nunc ultrices, dolor ut volutpat porttitor, diam mi varius magna, sed tempor nunc magna sit amet nisl. In orci nisl, iaculis nec cursus at, ullamcorper molestie neque. Integer luctus felis dolor, ac facilisis mauris bibendum et. Quisque non sem volutpat, vestibulum lorem a, blandit mauris. Aliquam malesuada ipsum quam, vitae sagittis libero faucibus non. Aliquam efficitur ultricies risus et tincidunt. Suspendisse potenti. Duis commodo imperdiet augue, sit amet ultrices mauris lacinia a. Sed malesuada, ipsum quis ullamcorper sagittis, ex nisi efficitur ex, nec tempus mi mauris ut felis. Nam vulputate fermentum erat, ut luctus lectus feugiat nec. Mauris pretium, mauris sed commodo dictum, ipsum urna tempor dolor, et ullamcorper nibh lectus quis dolor.'
+,null,'Beautiful flower5','PENDING',3,1,7,5,2,1);
+INSERT INTO online_workshops (id,description,duration,name,status,category_id,experience_level_id,final_photo_id,mentor_id,reference_photo_id,video_id)
+VALUES (6,'In venenatis, dui ac tincidunt sagittis, ipsum ex dignissim erat, finibus tincidunt diam metus in tellus. Praesent rhoncus id ipsum non facilisis. Quisque vitae nunc id dui scelerisque sodales sit amet vitae nisi. Nunc ultrices, dolor ut volutpat porttitor, diam mi varius magna, sed tempor nunc magna sit amet nisl. In orci nisl, iaculis nec cursus at, ullamcorper molestie neque. Integer luctus felis dolor, ac facilisis mauris bibendum et. Quisque non sem volutpat, vestibulum lorem a, blandit mauris. Aliquam malesuada ipsum quam, vitae sagittis libero faucibus non. Aliquam efficitur ultricies risus et tincidunt. Suspendisse potenti. Duis commodo imperdiet augue, sit amet ultrices mauris lacinia a. Sed malesuada, ipsum quis ullamcorper sagittis, ex nisi efficitur ex, nec tempus mi mauris ut felis. Nam vulputate fermentum erat, ut luctus lectus feugiat nec. Mauris pretium, mauris sed commodo dictum, ipsum urna tempor dolor, et ullamcorper nibh lectus quis dolor.'
+,null,'Beautiful flower6','APPROVED',4,3,8,5,2,1);
 
 

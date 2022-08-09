@@ -39,17 +39,16 @@
 
     <!-- Courses Start -->
     <div class="container-fluid py-5">
-        <div th:each="c : ${T(com.artcources.artistica.model.enums.WorkshopCategoryEnum).values()}" th:object="${c}" class="container py-5">
+        <div class="container py-5">
             <div class="text-center mb-5">
                 <h5 class="text-primary text-uppercase mb-3" style="letter-spacing: 5px;">Courses</h5>
-                <a th:name="${c.name().toLowerCase()}"></a>
-                <h1 th:text="${#strings.capitalize(c.name().toLowerCase().replace('_',' '))}">Our Popular Courses</h1>
+                <h1>Our Popular Courses</h1>
             </div>
             <div class="row">
 <!--                <div th:if="${c.size()==0}" class="container-empty">-->
 <!--                    <div class="content-empty">Seems like we don`t have workshops in this category yet. Don`t worry, we will.</div>-->
 <!--                </div>-->
-                <div th:each="o : ${c.name().toLowerCase()}" th:object="${o}" class="col-lg-4 col-md-6 mb-4">
+                <div th:each="w : *{workshops}" th:object="${w}" class="col-lg-4 col-md-6 mb-4">
                     <!--<div th:replace="fragments/commons::workshop"></div>-->
                     <div th:fragment="workshop" class="rounded overflow-hidden mb-2">
                         <img class="img-fluid" th:src="*{finalUrl}" alt="">
