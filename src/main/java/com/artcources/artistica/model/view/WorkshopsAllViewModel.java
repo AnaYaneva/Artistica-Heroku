@@ -7,7 +7,6 @@ import com.artcources.artistica.model.enums.ExperienceLevelEnum;
 public class WorkshopsAllViewModel {
     private String id;
     private String name;
-    private String duration;
     private String finalUrl;
     private ExperienceLevelEnum experienceLevel;
     private UserEntity mentor;
@@ -34,19 +33,6 @@ public class WorkshopsAllViewModel {
         return this;
     }
 
-    public String getDuration() {
-        return duration;
-    }
-
-    public WorkshopsAllViewModel setDuration(Long duration) {
-        this.duration = ""+duration/60+"h " + String.format("%02d",duration%60)+"m";
-        return this;
-    }
-
-    public WorkshopsAllViewModel setDuration(String duration) {
-        this.duration = duration;
-        return this;
-    }
 
     public String getFinalUrl() {
         return finalUrl;

@@ -196,3 +196,27 @@ INSERT INTO users_user_roles (user_entity_id, user_roles_id)
 VALUES (6, 2);
 INSERT INTO users_user_roles (user_entity_id, user_roles_id)
 VALUES (5, 2);
+
+-- INSERT media -------------------------------------------
+INSERT INTO media (id, name,public_id, url)
+VALUES (1,'video','zunz7jfigkentsf4xy3n','https://res.cloudinary.com/dmumqnbm0/video/upload/v1659978880/zunz7jfigkentsf4xy3n.mp4');
+INSERT INTO media (id, name,public_id, url)
+VALUES (2,'referencePhoto','r6xpnrxmp4xsfaac3wqb','http://res.cloudinary.com/dmumqnbm0/image/upload/v1659974382/r6xpnrxmp4xsfaac3wqb.jpg');
+INSERT INTO media (id, name,public_id, url)
+VALUES (3,'finalPhoto','jwpvze3mrn0huxlf1cq7','http://res.cloudinary.com/dmumqnbm0/image/upload/v1659974384/jwpvze3mrn0huxlf1cq7.jpg');
+
+-- INSERT online_workshops -------------------------------------------
+INSERT INTO online_workshops (id,
+    description,
+duration,
+name,
+status,
+category_id,
+experience_level_id,
+final_photo_id,
+mentor_id,
+reference_photo_id,
+video_id)
+VALUES (1,'asdm,fa,NHDJSAKNDKNSA.,ASMDASD',null,'chushki','PENDING',3,2,3,1,2,1);
+
+

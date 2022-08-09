@@ -20,7 +20,7 @@ public interface WorkshopRepository  extends JpaRepository<OnlineWorkshopEntity,
 
     List<OnlineWorkshopEntity> findAllByCategoryNameAndStatus(WorkshopCategoryEnum categoryName, StatusEnum status);
     @Query("SELECT w FROM OnlineWorkshopEntity w ORDER BY size(w.students) DESC")
-    List<WorkshopsAllViewModel> findMostPopular();
+    List<OnlineWorkshopEntity> findMostPopular();
 
     // Optional<OnlineWorkshopEntity> findWorkshopByAbout(String about);
 }

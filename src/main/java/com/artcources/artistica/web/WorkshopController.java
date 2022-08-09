@@ -98,6 +98,7 @@ public class WorkshopController {
         WorkshopDetailsViewModel workshopDetailsViewModel = this.workshopService.findWorkshopViewModelById(id);
         model.addAttribute("isCurrentUserOwner",isCurrentUserOwner);
         model.addAttribute("workshop", workshopDetailsViewModel);
+        model.addAttribute("mentor", workshopDetailsViewModel.getMentor());
         return "workshop-details";
     }
 
@@ -189,9 +190,8 @@ public class WorkshopController {
             redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.workshopUpdateBindingModel", bindingResult);
             return "redirect:/workshops/{id}/update/errors";
         }
+        this.workshopService.updateWorkshop(workshopUpdateBindingModel,id);
 
-        WorkshopUpdateServiceModel workshopUpdateServiceModel = this.modelMapper.map(workshopUpdateBindingModel, WorkshopUpdateServiceModel.class);
-        this.workshopService.updateWorkshop(workshopUpdateServiceModel,id);
 
         return "redirect:/workshops/"+id;
     }
@@ -240,7 +240,7 @@ public class WorkshopController {
     @DeleteMapping("/{id}/delete")
     public String deleteWorkshop(@PathVariable Long id) {
         this.workshopService.deleteWorkshop(id);
-        return "redirect:/mentor-profile/my-workshops";
+        return "redirect:/wokshops/all";
     }
 
 }

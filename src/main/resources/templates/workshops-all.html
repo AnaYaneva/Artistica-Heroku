@@ -49,7 +49,7 @@
 <!--                <div th:if="${c.size()==0}" class="container-empty">-->
 <!--                    <div class="content-empty">Seems like we don`t have workshops in this category yet. Don`t worry, we will.</div>-->
 <!--                </div>-->
-                <div th:each="o : ${c.name().toLowerCase()}" th:object="${o}" class="col-lg-4 col-md-6 mb-4">
+                <div th:each="o : *{watercolor}" th:object="${o}" class="col-lg-4 col-md-6 mb-4">
                     <div th:replace="fragments/commons::workshop"></div>
                 </div>
             </div>

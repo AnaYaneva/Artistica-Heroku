@@ -3,26 +3,28 @@ package com.artcources.artistica.model.service;
 import com.artcources.artistica.model.entity.UserEntity;
 import com.artcources.artistica.model.entity.WorkshopCategoryEntity;
 import com.artcources.artistica.model.enums.ExperienceLevelEnum;
+import com.artcources.artistica.model.enums.WorkshopCategoryEnum;
 
 public class WorkshopUpdateServiceModel {
 
-    private String id;
+    private Long id;
     private String name;
-    private String duration;
-    private String finalUrl;
+    private String description;
     private ExperienceLevelEnum experienceLevel;
     private UserEntity mentor;
-    private WorkshopCategoryEntity category;
-
+    private WorkshopCategoryEnum category;
+    private String referenceUrl;
+    private String finalUrl;
+    private String videoUrl;
 
     public WorkshopUpdateServiceModel() {
     }
 
-    public String getId() {
+    public Long getId() {
         return id;
     }
 
-    public WorkshopUpdateServiceModel setId(String id) {
+    public WorkshopUpdateServiceModel setId(Long id) {
         this.id = id;
         return this;
     }
@@ -36,21 +38,12 @@ public class WorkshopUpdateServiceModel {
         return this;
     }
 
-    public String getDuration() {
-        return duration;
+    public String getDescription() {
+        return description;
     }
 
-    public WorkshopUpdateServiceModel setDuration(String duration) {
-        this.duration = duration;
-        return this;
-    }
-
-    public String getFinalUrl() {
-        return finalUrl;
-    }
-
-    public WorkshopUpdateServiceModel setFinalUrl(String finalUrl) {
-        this.finalUrl = finalUrl;
+    public WorkshopUpdateServiceModel setDescription(String description) {
+        this.description = description;
         return this;
     }
 
@@ -72,12 +65,39 @@ public class WorkshopUpdateServiceModel {
         return this;
     }
 
-    public WorkshopCategoryEntity getCategory() {
+    public WorkshopCategoryEnum getCategory() {
         return category;
     }
 
-    public WorkshopUpdateServiceModel setCategory(WorkshopCategoryEntity category) {
+    public WorkshopUpdateServiceModel setCategory(WorkshopCategoryEnum category) {
         this.category = category;
+        return this;
+    }
+
+    public String getReferenceUrl() {
+        return referenceUrl;
+    }
+
+    public WorkshopUpdateServiceModel setReferenceUrl(String referenceUrl) {
+        this.referenceUrl = referenceUrl;
+        return this;
+    }
+
+    public String getFinalUrl() {
+        return finalUrl;
+    }
+
+    public WorkshopUpdateServiceModel setFinalUrl(String finalUrl) {
+        this.finalUrl = finalUrl;
+        return this;
+    }
+
+    public String getVideoUrl() {
+        return videoUrl;
+    }
+
+    public WorkshopUpdateServiceModel setVideoUrl(String videoUrl) {
+        this.videoUrl = videoUrl;
         return this;
     }
 }

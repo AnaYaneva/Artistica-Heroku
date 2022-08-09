@@ -1,14 +1,13 @@
 package com.artcources.artistica.service;
 
 import com.artcources.artistica.exception.WorkshopNotFoundException;
+import com.artcources.artistica.model.binding.WorkshopUpdateBindingModel;
+import com.artcources.artistica.model.entity.UserEntity;
 import com.artcources.artistica.model.entity.WorkshopCategoryEntity;
 import com.artcources.artistica.model.entity.OnlineWorkshopEntity;
 import com.artcources.artistica.model.enums.WorkshopCategoryEnum;
 import com.artcources.artistica.model.enums.StatusEnum;
-import com.artcources.artistica.model.service.MediaAddServiceModel;
-import com.artcources.artistica.model.service.WorkshopAddServiceModel;
-import com.artcources.artistica.model.service.WorkshopUpdateServiceModel;
-import com.artcources.artistica.model.service.WorkshopsAllServiceModel;
+import com.artcources.artistica.model.service.*;
 import com.artcources.artistica.model.view.WorkshopDetailsViewModel;
 import com.artcources.artistica.model.view.WorkshopsAllViewModel;
 import com.artcources.artistica.repository.ExperienceLevelRepository;
@@ -82,7 +81,10 @@ public class WorkshopService {
     }
 
     public OnlineWorkshopEntity getWokrshopById(Long id) {
-        return this.workshopRepository.findById(id).orElseThrow(() -> new WorkshopNotFoundException());
+        OnlineWorkshopEntity workshop= this.workshopRepository.findById(id).orElseThrow(() -> new WorkshopNotFoundException());
+
+
+        return workshop;
     }
 
 
@@ -124,6 +126,19 @@ public class WorkshopService {
         return collect;
     }
 
+    public List<WorkshopsAllViewModel> getCurrentUserWorkshopsByEmail(String username) {
+        List<WorkshopsAllViewModel> collect = this.workshopRepository.findAllByMentor_Username(username)
+                .stream()
+                .map(workshop -> {
+                    WorkshopsAllViewModel workshopsAllViewModel = this.modelMapper.map(workshop, WorkshopsAllViewModel.class);
+                    //workshopsAllViewModel.setCategory(workshop.getCategory().getName());
+                    return workshopsAllViewModel;
+                })
+                .collect(Collectors.toList());
+
+        return collect;
+    }
+
     public List<WorkshopsAllServiceModel> getAllApprovedWorkshopsServiceModel() {
         return this.workshopRepository.findAllByStatus(StatusEnum.APPROVED)
                 .stream().map(offer -> this.modelMapper.map(offer, WorkshopsAllServiceModel.class))
@@ -135,13 +150,24 @@ public class WorkshopService {
         WorkshopDetailsViewModel workshopDetailsViewModel = this.modelMapper.map(workshop, WorkshopDetailsViewModel.class);
         workshopDetailsViewModel.setFinalUrl(Optional.ofNullable(workshop.getFinalPhoto()).map(p->p.getUrl()).orElse("/images/default_final.jpg"));
         workshopDetailsViewModel.setReferenceUrl(Optional.ofNullable(workshop.getReferencePhoto()).map(p->p.getUrl()).orElse("/images/default_ref.jpg"));
-        workshopDetailsViewModel.setVideoUrl(Optional.ofNullable(workshop.getVideo()).map(p->p.getUrl()).orElse("/images/default-video.jpg"));
-        // workshopDetailsViewModel.setMentor(workshop.getMentor().getEmail());
+        workshopDetailsViewModel.setVideoUrl(Optional.ofNullable(workshop.getVideo()).map(p->p.getUrl()).orElse("/images/default-video.mp4"));
+        workshopDetailsViewModel.setMentor(workshop.getMentor());
+        workshopDetailsViewModel.setCategory(workshop.getCategory().getName());
+        workshopDetailsViewModel.setExperienceLevel(workshop.getExperienceLevel().getName());
 
         return workshopDetailsViewModel;
     }
 
-    public void updateWorkshop(WorkshopUpdateServiceModel workshopUpdateServiceModel, Long id) {
+    public void updateWorkshop(WorkshopUpdateBindingModel workshopUpdateBindingModel, Long id) {
+        WorkshopUpdateServiceModel workshopUpdateServiceModel = this.modelMapper.map(workshopUpdateBindingModel, WorkshopUpdateServiceModel.class);
+        OnlineWorkshopEntity workshop = workshopRepository.findById(id).orElseThrow();
+        workshop.setName(workshopUpdateServiceModel.getName());
+        workshop.setCategory(workshopCategoryRepository.findByName(workshopUpdateServiceModel.getCategory()));
+        workshop.setDescription(workshopUpdateServiceModel.getDescription());
+        workshop.setExperienceLevel(experienceLevelRepository.findByName(workshopUpdateServiceModel.getExperienceLevel()));
+
+
+        this.workshopRepository.save(workshop);
     }
 
     public void deleteVideo(Long picId) {
@@ -149,6 +175,7 @@ public class WorkshopService {
     }
 
     public void deleteWorkshop(Long id) {
+        workshopRepository.delete(workshopRepository.findById(id).orElseThrow());
     }
 
     public void addNewVideo(MediaAddServiceModel mediaAddServiceModel, Long id) {
@@ -162,7 +189,7 @@ public class WorkshopService {
     public List<WorkshopsAllServiceModel> getAllApprovedWorkshopsByCategory(String category) {
         return this.workshopRepository.findAllByCategoryNameAndStatus(WorkshopCategoryEnum.valueOf(category.toUpperCase()), StatusEnum.APPROVED)
                 .stream()
-                .map(offer -> this.modelMapper.map(offer, WorkshopsAllServiceModel.class))
+                .map(workshop -> this.modelMapper.map(workshop, WorkshopsAllServiceModel.class))
                 .collect(Collectors.toList());
     }
 
@@ -175,6 +202,10 @@ public class WorkshopService {
     }
 
     public List<WorkshopsAllViewModel> getMostPopular() {
-        return workshopRepository.findMostPopular();
+        return this.workshopRepository.findMostPopular()
+                .stream()
+                .map(workshop -> this.modelMapper.map(workshop, WorkshopsAllViewModel.class))
+                .limit(8)
+                .collect(Collectors.toList());
     }
 }

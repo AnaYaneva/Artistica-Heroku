@@ -3,6 +3,7 @@ package com.artcources.artistica.model.view;
 import com.artcources.artistica.model.entity.*;
 import com.artcources.artistica.model.enums.ExperienceLevelEnum;
 import com.artcources.artistica.model.enums.StatusEnum;
+import com.artcources.artistica.model.enums.WorkshopCategoryEnum;
 
 import javax.persistence.*;
 
@@ -13,7 +14,7 @@ public class WorkshopDetailsViewModel {
     private String description;
     private ExperienceLevelEnum experienceLevel;
     private UserEntity mentor;
-    private WorkshopCategoryEntity category;
+    private WorkshopCategoryEnum category;
     private String referenceUrl;
     private String finalUrl;
     private String videoUrl;
@@ -66,11 +67,11 @@ public class WorkshopDetailsViewModel {
         return this;
     }
 
-    public WorkshopCategoryEntity getCategory() {
+    public WorkshopCategoryEnum getCategory() {
         return category;
     }
 
-    public WorkshopDetailsViewModel setCategory(WorkshopCategoryEntity category) {
+    public WorkshopDetailsViewModel setCategory(WorkshopCategoryEnum category) {
         this.category = category;
         return this;
     }

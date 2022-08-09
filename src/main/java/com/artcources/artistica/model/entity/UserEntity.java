@@ -110,4 +110,10 @@ public class UserEntity   extends BaseEntity {
         this.instagram = instagram;
         return this;
     }
+
+    @Override
+    public String toString() {
+        return
+               firstName + ' ' +  lastName;
+    }
 }

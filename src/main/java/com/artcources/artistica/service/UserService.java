@@ -52,54 +52,6 @@ public class UserService {
     this.modelMapper = modelMapper;
   }
 
-  public void init() {
-    if (userRepository.count() == 0 && userRoleRepository.count() == 0) {
-      UserRoleEntity adminRole = new UserRoleEntity().setName(UserRoleEnum.ADMIN);
-      UserRoleEntity mentorRole = new UserRoleEntity().setName(UserRoleEnum.MENTOR);
-      UserRoleEntity studentRole = new UserRoleEntity().setName(UserRoleEnum.USER);
-      
-      adminRole = userRoleRepository.save(adminRole);
-      mentorRole = userRoleRepository.save(mentorRole);
-      studentRole = userRoleRepository.save(studentRole);
-      
-      initAdmin(List.of(adminRole, mentorRole));
-      initMentor(List.of(mentorRole));
-      initUser(List.of());
-    }
-  }
-
-  private void initMentor(List<UserRoleEntity> roles) {
-    UserEntity mentor = new UserEntity().
-            setUserRoles(roles).
-            setFirstName("Mentor").
-            setLastName("Mentorov").
-            setUsername("mentor@example.com").
-            setPassword(passwordEncoder.encode(adminPass));
-
-    userRepository.save(mentor);
-  }
-
-  private void initAdmin(List<UserRoleEntity> roles) {
-    UserEntity admin = new UserEntity().
-        setUserRoles(roles).
-        setFirstName("Admin").
-        setLastName("Adminov").
-            setUsername("admin@example.com").
-        setPassword(passwordEncoder.encode(adminPass));
-
-    userRepository.save(admin);
-  }
-
-  private void initUser(List<UserRoleEntity> roles) {
-    UserEntity user =  new UserEntity().
-        setUserRoles(roles).
-        setFirstName("User").
-        setLastName("Userov").
-            setUsername("user@example.com").
-        setPassword(passwordEncoder.encode(adminPass));
-
-    userRepository.save(user);
-  }
 
   public void registerAndLogin(UserServiceModel userServiceModel, Locale preferredLocale) {
     UserEntity newUser =
