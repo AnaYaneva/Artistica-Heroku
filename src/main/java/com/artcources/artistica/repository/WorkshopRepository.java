@@ -9,6 +9,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
+import java.util.Arrays;
 import java.util.List;
 
 @Repository
@@ -24,6 +25,11 @@ public interface WorkshopRepository  extends JpaRepository<OnlineWorkshopEntity,
     List<OnlineWorkshopEntity> findAllByExperienceLevel_NameAndStatus(ExperienceLevelEnum experienceLevelEnum, StatusEnum status);
     @Query("SELECT w FROM OnlineWorkshopEntity w ORDER BY size(w.students) DESC")
     List<OnlineWorkshopEntity> findMostPopular();
+
+    @Query("SELECT w FROM OnlineWorkshopEntity w WHERE w.name LIKE '%keyword%'")
+    List<OnlineWorkshopEntity>  findByKeyword(String keyword);
+
+    List<OnlineWorkshopEntity> findAllByNameLike(String keyword);
 
     // Optional<OnlineWorkshopEntity> findWorkshopByAbout(String about);
 }

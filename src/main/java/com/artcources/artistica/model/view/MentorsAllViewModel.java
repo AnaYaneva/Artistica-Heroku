@@ -3,6 +3,7 @@ package com.artcources.artistica.model.view;
 public class MentorsAllViewModel {
     private String id;
 
+    private String username;
     private String firstName;
 
     private String lastName;
@@ -11,7 +12,18 @@ public class MentorsAllViewModel {
     private String linkedIn;
     private String instagram;
 
+    private String photoUrl;
+
     public MentorsAllViewModel() {
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public MentorsAllViewModel setUsername(String username) {
+        this.username = username;
+        return this;
     }
 
     public String getId() {
@@ -20,6 +32,15 @@ public class MentorsAllViewModel {
 
     public MentorsAllViewModel setId(String id) {
         this.id = id;
+        return this;
+    }
+
+    public String getPhotoUrl() {
+        return photoUrl;
+    }
+
+    public MentorsAllViewModel setPhotoUrl(String photoUrl) {
+        this.photoUrl = photoUrl;
         return this;
     }
 

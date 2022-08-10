@@ -49,8 +49,37 @@ public class WorkshopController {
     }
 
     @GetMapping("/search")
-    public String search() {
-        return "search";
+    public String search(Model model){
+       return "search";
+    }
+
+    @PostMapping("/search")
+    public String search(@Valid WorkshopSearchBindingModel workshopSearchBindingModel,
+                              BindingResult bindingResult,
+                              Model model) {
+
+        if (bindingResult.hasErrors()) {
+            model.addAttribute("workshopSearchBindingModel", workshopSearchBindingModel);
+            model.addAttribute(
+                    "org.springframework.validation.BindingResult.workshopSearchBindingModel",
+                    bindingResult);
+            return "search";
+        }
+
+
+
+        return "redirect:/workshops/search/" + workshopSearchBindingModel.getKeyword();
+    }
+
+    @GetMapping("/search/{keyword}")
+    public String search(@PathVariable String keyword,Model model) {
+
+            model.addAttribute("workshops", workshopService.searchWorkshop(keyword));
+
+
+
+        model.addAttribute("title", "Search resylts by: " + keyword);
+        return "workshops-all-by-criteria";
     }
 
     @GetMapping("/all")

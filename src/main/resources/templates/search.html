@@ -5,44 +5,115 @@
 <head th:replace="fragments/commons::head"></head>
 
 <body>
+    <!-- Topbar Start -->
+    <div th:replace="fragments/commons::topbar"></div>
+    <!-- Topbar End -->
+
     <!-- Navbar Start -->
     <div th:replace="fragments/commons::nav"></div>
     <!-- Navbar End -->
+<!--
+    <div class="container">
+        <h2 class="text-center text-white">Search for offers</h2>
+        <form
+                th:method="GET"
+                th:action="@{/offers/search}"
+                th:object="${searchOfferModel}"
+                class="form-inline"
+                style="justify-content: center; margin-top: 50px;"
+        >
+            <div style="position: relative">
+                <input
+                        th:field="*{model}"
+                        th:errorclass="is-invalid"
+                        class="form-control mr-sm-2"
+                        style="width: 280px;"
+                        type="search"
+                        placeholder="Model name..."
+                        aria-label="Search"
+                        id="model"
+                />
+                <input
+                        th:field="*{minPrice}"
+                        th:errorclass="is-invalid"
+                        class="form-control mr-sm-2"
+                        style="width: 280px;"
+                        type="search"
+                        placeholder="Min price..."
+                        aria-label="Search"
+                        id="minPrice"
+                />
+                <input
+                        th:field="*{maxPrice}"
+                        th:errorclass="is-invalid"
+                        class="form-control mr-sm-2"
+                        style="width: 280px;"
+                        type="search"
+                        placeholder="Max price..."
+                        aria-label="Search"
+                        id="maxPrice"
+                />
+                <small
+                        id="searchOfferHelpInline"
+                        class="bg-danger text-light rounded invalid-feedback"
+                        style="width: 97%; position: absolute; padding: 3px 15px; text-align: center;"
+                >
+                    Try writing something this time.
+                </small>
+            </div>
+            <button class="btn btn-outline-info my-2 my-sm-0" type="submit">Search</button>
+        </form>
+    </div>
 
-    <!-- Registration Start -->
+    <div class="offers row mx-auto d-flex flex-row justify-content-center" style="margin-top: 40px;">
+
+        <div th:each="offer: ${offers}" class="offer card col-sm-6 col-md-3  col-lg-2 m-1 p-0">
+            <div class="card-img-top-wrapper">
+                <img class="card-img-top" th:src="${offer.imageUrl}" alt="Car image">
+            </div>
+            <div class="card-body pb-1">
+                <h5 class="card-title" th:text="${offer.getOfferHighlight}"></h5>
+            </div>
+            <ul class="offer-details list-group list-group-flush">
+                <li class="list-group-item">
+                    <div class="card-text"><span th:text="'Mileage: ' + ${offer.mileage} + ' km'"></span></div>
+                    <div class="card-text"><span th:text="'Price: ' + ${offer.price} + ' lv'"></span></div>
+                    <div class="card-text"><span th:text="'Engine: ' + ${offer.engine}"></span></div>
+                    <div class="card-text"><span th:text="'Transmission: ' + ${offer.transmission}"></span></div>
+                </li>
+            </ul>
+            <div class="card-body">
+                <a class="card-link" href="/">Details</a>
+            </div>
+        </div>
+        <h3 th:if="${offers != null && offers.size == 0}" class="text-info">There are no offers with this model yet</h3>
+    </div>-->
+
+    <!-- Search Start -->
     <div class="container-fluid bg-registration py-5" style="margin: 90px 0;">
         <div class="container py-5">
             <div class="row align-items-center">
-                <div class="col-lg-5">
+                <div class="col-lg-12">
                     <div class="card border-0">
                         <div class="card-header bg-light text-center p-4">
-                            <h1 class="m-0">Sign Up Now</h1>
+                            <h1 class="m-0">Search in Title</h1>
                         </div>
                         <div class="card-body rounded-bottom bg-primary p-5">
                             <form th:action="@{/workshops/search}"
                                   th:method="post"
-                                  th:object="${workshopsSearchBindingModel}">
+                                  th:object="${workshopSearchBindingModel}">
                                 <div class="form-group">
-                                    <input th:field="*{keyword}"
-                                           th:errorclass="is-invalid"
+                                    <input id="keyword"
+                                           name="keyword"
+                                           th:value="*{keyword}"
                                            type="text"
                                            class="form-control border-0 p-4"
-                                           placeholder="First name"
+                                           placeholder="Search by Keyword"
                                            required="required" />
-                                    <small id="firstNameHelpInline" class="invalid-feedback bg-danger text-light rounded">
-                                        First name length must be between 2 and 20 characters.
+                                    <small id="emailHelpInline" class="invalid-feedback bg-danger text-light rounded">
+
                                     </small>
                                 </div>
-
-<!--                                <div class="form-group">-->
-<!--                                    <select th:field="*{category}"-->
-<!--                                            th:errorclass="is-invalid"-->
-<!--                                            class="custom-select border-0 px-4"-->
-<!--                                            style="height: 47px;">-->
-<!--                                        <option value="" selected>Level of Experience</option>-->
-<!--                                        <option th:each="l : ${T(com.artcources.artistica.model.enums.CourseCategoryEnum).values()}" th:value="${l}" th:text="${l}"></option>-->
-<!--                                    </select>-->
-<!--                                </div>-->
                                 <div>
                                     <button class="btn btn-dark btn-block border-0 py-3" type="submit">Search</button>
                                 </div>
@@ -53,7 +124,10 @@
             </div>
         </div>
     </div>
-    <!-- Registration End -->
+    <!-- Search End -->
+
+
+
     <!-- Footer Start -->
     <footer th:replace="fragments/commons::footer"></footer>
     <!-- Footer End -->

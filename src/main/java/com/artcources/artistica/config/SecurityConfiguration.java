@@ -47,7 +47,7 @@ public class SecurityConfiguration  {
         requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll().
         // everyone can login and register
         antMatchers("/", "/users/login", "/users/register",  "/mentors/register", "/register", "/contacts", "/about","/api/**").permitAll().
-        antMatchers("/workshops/add", "/workshops", "/workshops/all", "/workshops/search", "/mentors", "/mentor", "/projects", "/users/user").permitAll()
+        antMatchers("/workshops/add", "/workshops", "/workshops/all", "/workshops/search",  "/workshops/search/**", "/mentors", "/mentor", "/projects", "/users/user").permitAll()
         // pages available only for mentors
             .antMatchers("/workshops/{id}/update/**", "/workshops/{id}/delete")
             .access("@webSecurity.isOwnerOfWorkshop(authentication,#id)").

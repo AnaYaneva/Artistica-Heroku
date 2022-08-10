@@ -1,6 +1,7 @@
 package com.artcources.artistica.service;
 
 import com.artcources.artistica.exception.WorkshopNotFoundException;
+import com.artcources.artistica.model.binding.WorkshopSearchBindingModel;
 import com.artcources.artistica.model.binding.WorkshopUpdateBindingModel;
 import com.artcources.artistica.model.entity.UserEntity;
 import com.artcources.artistica.model.entity.WorkshopCategoryEntity;
@@ -214,6 +215,13 @@ public class WorkshopService {
         return this.workshopRepository.findAllByExperienceLevel_NameAndStatus(experienceLevel, StatusEnum.APPROVED)
                 .stream()
                 .map(workshop -> this.modelMapper.map(workshop, WorkshopsAllServiceModel.class))
+                .collect(Collectors.toList());
+    }
+
+    public List<WorkshopsAllViewModel> searchWorkshop(String keyword) {
+        return this.workshopRepository.findAllByNameLike("%" + keyword + "%")
+                .stream()
+                .map(workshop -> this.modelMapper.map(workshop, WorkshopsAllViewModel.class))
                 .collect(Collectors.toList());
     }
 }

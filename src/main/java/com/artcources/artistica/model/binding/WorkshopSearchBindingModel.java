@@ -20,4 +20,8 @@ public class WorkshopSearchBindingModel {
         this.keyword = keyword;
         return this;
     }
+
+    public boolean isEmpty() {
+        return keyword == null;
+    }
 }

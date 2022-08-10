@@ -12,9 +12,9 @@ import java.util.List;
 
 public class MentorsAllServiceModel {
     private String id;
-
+    private String username;
     private String email;
-
+    private String photoUrl;
     private String firstName;
 
     private String lastName;
@@ -27,6 +27,24 @@ public class MentorsAllServiceModel {
     private String instagram;
 
     public MentorsAllServiceModel() {
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public MentorsAllServiceModel setUsername(String username) {
+        this.username = username;
+        return this;
+    }
+
+    public String getPhotoUrl() {
+        return photoUrl;
+    }
+
+    public MentorsAllServiceModel setPhotoUrl(String photoUrl) {
+        this.photoUrl = photoUrl;
+        return this;
     }
 
     public String getEmail() {

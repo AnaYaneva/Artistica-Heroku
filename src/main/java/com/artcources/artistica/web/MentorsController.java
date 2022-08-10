@@ -23,6 +23,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.security.Principal;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Controller
@@ -50,7 +51,8 @@ public class MentorsController {
     public String all(Model model) {
         List<MentorsAllViewModel> mentorsAllViewModels = this.mentorService.findAllMentors()
                 .stream()
-                .map(mentorsAllServiceModel -> this.modelMapper.map(mentorsAllServiceModel, MentorsAllViewModel.class))
+                .map(mentorsAllServiceModel -> this.modelMapper.map(mentorsAllServiceModel, MentorsAllViewModel.class)
+                        .setPhotoUrl(Optional.ofNullable(mentorsAllServiceModel.getPhotoUrl()).orElse("/images/default.jpg")))
                 .collect(Collectors.toList());
         model.addAttribute("mentors", mentorsAllViewModels);
 

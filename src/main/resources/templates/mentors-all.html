@@ -80,17 +80,16 @@
                 <div class="team-item rounded overflow-hidden mb-2">
                     <div class="team-img position-relative">
 
-                        <img class="img-fluid" src="images/team-1.jpg" alt="">
+                        <img class="img-fluid" th:src="*{photoUrl}" alt="">
                         <div class="team-social">
                             <a class="btn btn-outline-light btn-square mx-1" th:href="@{*{instagram}}"><i class="fab fa-instagram"></i></a>
                             <a class="btn btn-outline-light btn-square mx-1" th:href="@{*{facebook}}"><i class="fab fa-facebook-f"></i></a>
                             <a class="btn btn-outline-light btn-square mx-1" th:href="@{*{linkedIn}}"><i class="fab fa-linkedin-in"></i></a>
                         </div>
                     </div>
-                    <a th:href="@{/mentors/{id}(id=*{id})}">
+                    <a th:href="@{/mentors/{username}(username=*{username})}">
                         <div class="bg-secondary p-4">
                             <h5 th:text="|*{firstName} *{lastName}|">Jhon Doe</h5>
-                            <p class="m-0">Web Designer</p>
                         </div>
                     </a>
                 </div>
