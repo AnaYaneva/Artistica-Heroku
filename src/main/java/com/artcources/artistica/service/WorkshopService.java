@@ -210,8 +210,8 @@ public class WorkshopService {
                 .collect(Collectors.toList());
     }
 
-    public List<WorkshopsAllServiceModel> getAllApprovedWorkshopsByExperienceLevel(String experienceLevel) {
-        return this.workshopRepository.findAllByExperienceLevelAndStatus(ExperienceLevelEnum.valueOf(experienceLevel.toUpperCase()), StatusEnum.APPROVED)
+    public List<WorkshopsAllServiceModel> getAllApprovedWorkshopsByExperienceLevel(ExperienceLevelEnum experienceLevel) {
+        return this.workshopRepository.findAllByExperienceLevel_NameAndStatus(experienceLevel, StatusEnum.APPROVED)
                 .stream()
                 .map(workshop -> this.modelMapper.map(workshop, WorkshopsAllServiceModel.class))
                 .collect(Collectors.toList());

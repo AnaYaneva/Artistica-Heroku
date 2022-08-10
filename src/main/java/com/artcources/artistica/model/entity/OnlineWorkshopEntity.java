@@ -42,6 +42,9 @@ public class OnlineWorkshopEntity extends BaseEntity{
     @ManyToMany
     List<UserEntity> students = new ArrayList<>();
 
+    @OneToMany(targetEntity = CommentEntity.class, mappedBy = "workshop", cascade = CascadeType.ALL)
+    private Set<CommentEntity> comments = new HashSet<>();
+
     public OnlineWorkshopEntity() {
     }
 
@@ -132,6 +135,24 @@ public class OnlineWorkshopEntity extends BaseEntity{
 
     public OnlineWorkshopEntity setStatus(StatusEnum status) {
         this.status = status;
+        return this;
+    }
+
+    public List<UserEntity> getStudents() {
+        return students;
+    }
+
+    public OnlineWorkshopEntity setStudents(List<UserEntity> students) {
+        this.students = students;
+        return this;
+    }
+
+    public Set<CommentEntity> getComments() {
+        return comments;
+    }
+
+    public OnlineWorkshopEntity setComments(Set<CommentEntity> comments) {
+        this.comments = comments;
         return this;
     }
 }

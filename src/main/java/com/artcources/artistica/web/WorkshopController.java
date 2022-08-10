@@ -3,6 +3,7 @@ package com.artcources.artistica.web;
 import com.artcources.artistica.model.binding.*;
 import com.artcources.artistica.model.entity.MediaEntity;
 import com.artcources.artistica.model.entity.OnlineWorkshopEntity;
+import com.artcources.artistica.model.enums.ExperienceLevelEnum;
 import com.artcources.artistica.model.enums.WorkshopCategoryEnum;
 import com.artcources.artistica.model.service.MediaAddServiceModel;
 import com.artcources.artistica.model.service.WorkshopAddServiceModel;
@@ -54,40 +55,51 @@ public class WorkshopController {
 
     @GetMapping("/all")
     public String all(Model model) {
-//        List<WorkshopsAllViewModel> approvedWorkshops = this.workshopService.getAllApprovedWorkshopsServiceModel()
-//                .stream()
-//                .map(workshopsAllServiceModel -> this.modelMapper.map(workshopsAllServiceModel, WorkshopsAllViewModel.class))
-//                .collect(Collectors.toList());
-//        model.addAttribute("approvedWorkshops", approvedWorkshops);
-        //model.addAttribute("allCategories", CategoryMentorEnum.values());
-
-        model.addAttribute("watercolor", workshopService.getAllApprovedWorkshopsByCategory(WorkshopCategoryEnum.WATERCOLOR));
-        model.addAttribute("acrylic", workshopService.getAllApprovedWorkshopsByCategory(WorkshopCategoryEnum.ACRYLIC));
-        model.addAttribute("graphite_pencils", workshopService.getAllApprovedWorkshopsByCategory(WorkshopCategoryEnum.GRAPHITE_PENCILS));
-        model.addAttribute("soft_pastels", workshopService.getAllApprovedWorkshopsByCategory(WorkshopCategoryEnum.SOFT_PASTELS));
+        List<WorkshopsAllViewModel> watercolor = this.workshopService.getAllApprovedWorkshopsByCategory(WorkshopCategoryEnum.WATERCOLOR)
+                .stream()
+                .map(workshopsAllServiceModel -> this.modelMapper.map(workshopsAllServiceModel, WorkshopsAllViewModel.class))
+                .collect(Collectors.toList());
+        List<WorkshopsAllViewModel> acrylic = this.workshopService.getAllApprovedWorkshopsByCategory(WorkshopCategoryEnum.WATERCOLOR)
+                .stream()
+                .map(workshopsAllServiceModel -> this.modelMapper.map(workshopsAllServiceModel, WorkshopsAllViewModel.class))
+                .collect(Collectors.toList());
+        List<WorkshopsAllViewModel> graphitePencils = this.workshopService.getAllApprovedWorkshopsByCategory(WorkshopCategoryEnum.WATERCOLOR)
+                .stream()
+                .map(workshopsAllServiceModel -> this.modelMapper.map(workshopsAllServiceModel, WorkshopsAllViewModel.class))
+                .collect(Collectors.toList());
+        List<WorkshopsAllViewModel> softPastels = this.workshopService.getAllApprovedWorkshopsByCategory(WorkshopCategoryEnum.WATERCOLOR)
+                .stream()
+                .map(workshopsAllServiceModel -> this.modelMapper.map(workshopsAllServiceModel, WorkshopsAllViewModel.class))
+                .collect(Collectors.toList());
+        model.addAttribute("watercolor", watercolor);
+        model.addAttribute("acrylic", acrylic);
+        model.addAttribute("graphite_pencils", graphitePencils);
+        model.addAttribute("soft_pastels", softPastels);
 
         return "workshops-all";
     }
 
     //SHOW ALL WORKSHOPS BY CATEGORY
-    @GetMapping("/categories/category-{category}")
+    @GetMapping("/categories/{category}")
     public String allWorkshopsByCategory(@PathVariable String category,Model model) {
         List<WorkshopsAllViewModel> allApprovedWorkshopsByCategory = this.workshopService.getAllApprovedWorkshopsByCategory(WorkshopCategoryEnum.valueOf(category.toUpperCase()))
                 .stream()
                 .map(workshopsAllServiceModel -> this.modelMapper.map(workshopsAllServiceModel, WorkshopsAllViewModel.class))
                 .collect(Collectors.toList());
         model.addAttribute("workshops",allApprovedWorkshopsByCategory);
+        model.addAttribute("title", "By Category: " + category);
         return "workshops-all-by-criteria";
     }
 
     //SHOW ALL WORKSHOPS BY EXP LEVEL
-    @GetMapping("/experienceLevel/experienceLevel-{experienceLevel}")
+    @GetMapping("/experienceLevel/{experienceLevel}")
     public String allWorkshopsByExperienceLevel(@PathVariable String experienceLevel,Model model) {
-        List<WorkshopsAllViewModel> allApprovedWorkshopsByExpLevel = this.workshopService.getAllApprovedWorkshopsByExperienceLevel(experienceLevel)
+        List<WorkshopsAllViewModel> allApprovedWorkshopsByExpLevel = this.workshopService.getAllApprovedWorkshopsByExperienceLevel(ExperienceLevelEnum.valueOf(experienceLevel))
                 .stream()
                 .map(workshopsAllServiceModel -> this.modelMapper.map(workshopsAllServiceModel, WorkshopsAllViewModel.class))
                 .collect(Collectors.toList());
-        model.addAttribute("approvedWorkshops",allApprovedWorkshopsByExpLevel);
+        model.addAttribute("workshops",allApprovedWorkshopsByExpLevel);
+        model.addAttribute("title", "By Experience Level: " + experienceLevel);
         return "workshops-all-by-criteria";
     }
 
@@ -147,17 +159,17 @@ public class WorkshopController {
         return "redirect:/workshops/" + idWorkshop;
     }
 
-    //@PostMapping("/add")
-    public String add(MediaBindingModel mediaBindingModel, BindingResult bindingResult, RedirectAttributes redirectAttributes) throws IOException {
-        if (bindingResult.hasErrors()) {
-            redirectAttributes.addFlashAttribute("videoBindingModel", mediaBindingModel);
-            redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.videoBindingModel", bindingResult);
-            return "redirect:/courses/add";
-        }
-        MediaEntity entity = createMediaEntity(mediaBindingModel.getFile(), mediaBindingModel.getTitle());
-        mediaRepository.save(entity);
-        return "redirect:/workshops/all";
-    }
+//    //@PostMapping("/add")
+//    public String add(MediaBindingModel mediaBindingModel, BindingResult bindingResult, RedirectAttributes redirectAttributes) throws IOException {
+//        if (bindingResult.hasErrors()) {
+//            redirectAttributes.addFlashAttribute("videoBindingModel", mediaBindingModel);
+//            redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.videoBindingModel", bindingResult);
+//            return "redirect:/courses/add";
+//        }
+//        MediaEntity entity = createMediaEntity(mediaBindingModel.getFile(), mediaBindingModel.getTitle());
+//        mediaRepository.save(entity);
+//        return "redirect:/workshops/all";
+//    }
 
     private MediaEntity createMediaEntity(MultipartFile file, String title) throws IOException {
         final CloudinaryMedia uploaded = this.cloudinaryService.upload(file);

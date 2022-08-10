@@ -30,25 +30,20 @@ public class UserService {
   private final EmailService emailService;
   private final UserRoleService userRoleService;
   private final UserRepository userRepository;
-  private final UserRoleRepository userRoleRepository;
   private final PasswordEncoder passwordEncoder;
   private final AppUserDetailsService userDetailsService;
-  private String adminPass;
 
   private final ModelMapper modelMapper;
 
   public UserService(EmailService emailService, UserRoleService userRoleService, UserRepository userRepository,
-                     UserRoleRepository userRoleRepository,
                      PasswordEncoder passwordEncoder,
                      AppUserDetailsService userDetailsService,
-                     @Value("${app.default.admin.password}") String adminPass, ModelMapper modelMapper)  {
+                      ModelMapper modelMapper)  {
     this.emailService = emailService;
     this.userRoleService = userRoleService;
     this.userRepository = userRepository;
-    this.userRoleRepository = userRoleRepository;
     this.passwordEncoder = passwordEncoder;
     this.userDetailsService = userDetailsService;
-    this.adminPass = adminPass;
     this.modelMapper = modelMapper;
   }
 

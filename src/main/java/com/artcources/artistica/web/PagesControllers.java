@@ -27,7 +27,8 @@ public class PagesControllers {
   public String home(Model model){
     List<WorkshopsAllViewModel> popularWorkshops = workshopService.getMostPopular();
 
-    model.addAttribute("popularWorkshops", popularWorkshops);
+    model.addAttribute("workshops", popularWorkshops);
+    model.addAttribute("title", "Our popular wokrshops");
     return "index";
   }
 

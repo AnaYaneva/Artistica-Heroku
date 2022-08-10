@@ -236,3 +236,8 @@ VALUES (6,'In venenatis, dui ac tincidunt sagittis, ipsum ex dignissim erat, fin
 ,null,'Beautiful flower6','APPROVED',4,3,8,5,2,1);
 
 
+INSERT INTO comments (id, approved, created, text, author_id, workshop_id)
+VALUES (1, true, '2022-08-09 23:10:49.000000', 'nbhjvfhgbv nbvnmbvnbhvnb', 2, 2);
+INSERT INTO comments (id, approved, created, text, author_id, workshop_id)
+VALUES (2, true, '2022-08-06 23:10:49.000000', 'dssssnbhjdadvfhgbv nbvnmbvsxzcdzvcsdcnbhvnb', 6, 2);
+
