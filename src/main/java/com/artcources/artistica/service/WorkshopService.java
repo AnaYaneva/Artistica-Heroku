@@ -84,7 +84,7 @@ public class WorkshopService {
         return savedWorkshop.getId();
     }
 
-    public OnlineWorkshopEntity getWokrshopById(Long id) {
+    public OnlineWorkshopEntity getWorkshopById(Long id) {
         OnlineWorkshopEntity workshop= this.workshopRepository.findById(id).orElseThrow(() -> new WorkshopNotFoundException());
 
 
@@ -94,16 +94,16 @@ public class WorkshopService {
 
     public void rejectWorkshop(Long id) {
 
-        OnlineWorkshopEntity offer = this.workshopRepository.findById(id).orElseThrow(() -> new WorkshopNotFoundException());
-        offer.setStatus(StatusEnum.DECLINED);
-        this.workshopRepository.save(offer);
+        OnlineWorkshopEntity workshop = this.workshopRepository.findById(id).orElseThrow(() -> new WorkshopNotFoundException());
+        workshop.setStatus(StatusEnum.DECLINED);
+        this.workshopRepository.save(workshop);
     }
 
     public void approveWorkshop(Long id) {
 
-        OnlineWorkshopEntity offer = this.workshopRepository.findById(id).orElseThrow(() -> new WorkshopNotFoundException());
-        offer.setStatus(StatusEnum.APPROVED);
-        this.workshopRepository.save(offer);
+        OnlineWorkshopEntity workshop = this.workshopRepository.findById(id).orElseThrow(() -> new WorkshopNotFoundException());
+        workshop.setStatus(StatusEnum.APPROVED);
+        this.workshopRepository.save(workshop);
     }
 
     public List<WorkshopsAllServiceModel> getAllPendingWorkshopsServiceModel() {
@@ -122,7 +122,6 @@ public class WorkshopService {
                 .stream()
                 .map(workshop -> {
                     WorkshopsAllViewModel workshopsAllViewModel = this.modelMapper.map(workshop, WorkshopsAllViewModel.class);
-                    //workshopsAllViewModel.setCategory(workshop.getCategory().getName());
                     return workshopsAllViewModel;
                 })
                 .collect(Collectors.toList());
@@ -145,7 +144,7 @@ public class WorkshopService {
 
     public List<WorkshopsAllServiceModel> getAllApprovedWorkshopsServiceModel() {
         return this.workshopRepository.findAllByStatus(StatusEnum.APPROVED)
-                .stream().map(offer -> this.modelMapper.map(offer, WorkshopsAllServiceModel.class))
+                .stream().map(workshop -> this.modelMapper.map(workshop, WorkshopsAllServiceModel.class))
                 .collect(Collectors.toList());
     }
 
@@ -265,5 +264,12 @@ public class WorkshopService {
         }
 
         return false;
+    }
+
+    public List<WorkshopsAllViewModel> getWorkshopsAttendingByUserEmail(String name) {
+            return this.workshopRepository.findAllByStudents_Username(name)
+                    .stream()
+                    .map(workshop -> this.modelMapper.map(workshop, WorkshopsAllViewModel.class))
+                    .collect(Collectors.toList());
     }
 }

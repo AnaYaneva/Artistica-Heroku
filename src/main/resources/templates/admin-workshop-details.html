@@ -19,9 +19,9 @@
         <div class="container py-5" th:object="${workshop}">
             <div th:replace="fragments/commons::workshopDetails"></div>
         </div>
-        <div class="offer-content">
+        <div class="workshop-content">
             <a class="link-title" th:href="@{/workshops/{id}(id=*{id})}">
-                <h3 class="offer-title" th:text="*{title}"><a th:href="@{/workshops/{id}(id=*{id})}">workshop
+                <h3 class="workshop-title" th:text="*{title}"><a th:href="@{/workshops/{id}(id=*{id})}">workshop
                 </a></h3>
                 <hr class="">
                 <div class="row justify-content-center">

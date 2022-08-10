@@ -238,7 +238,7 @@
                 <div class="cat-item position-relative overflow-hidden rounded mb-2">
                     <img class="img-fluid" th:attr="src=@{'/images/cat-' + ${c.name().toLowerCase()} + '.jpg'}" alt="">
                     <a class="cat-overlay text-white text-decoration-none"
-                       th:attr="href=@{'/workshops/all#' + ${c.name().toLowerCase()}}">
+                       th:attr="href=@{'/workshops/categories/' + ${c.name().toLowerCase()}}">
                         <h4 class="text-white font-weight-medium"
                             th:text="${#strings.capitalize(c.name().toLowerCase().replace('_',' '))}"></h4>
                         <span>100 Courses</span>
@@ -383,7 +383,7 @@
 
             <button type="submit" class="col-md-3 button-delete"
                     data-toggle="modal"
-                    data-target="#modal-delete-offer">
+                    data-target="#modal-delete-workshop">
                 <i class="material-icons">delete</i>
                 Delete
             </button>
@@ -419,7 +419,7 @@
                         <h5 class="text-primary text-uppercase mb-4" style="letter-spacing: 5px;" th:text="#{footer_workshops}">Our Workshops</h5>
                         <div class="d-flex flex-column justify-content-start">
                             <a th:each="c : ${T(com.artcources.artistica.model.enums.WorkshopCategoryEnum).values()}"
-                               class="text-white mb-2" th:attr="href=@{'/workshops/' + ${c.name().toLowerCase()}}"
+                               class="text-white mb-2" th:attr="href=@{'/workshops/categories/' + ${c.name().toLowerCase()}}"
                                th:text="${#strings.capitalize(c.name().toLowerCase().replace('_',' '))}">
                                 <i class="fa fa-angle-right mr-2"></i>
                             </a>

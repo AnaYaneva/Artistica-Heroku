@@ -4,12 +4,10 @@ import com.artcources.artistica.model.entity.OnlineWorkshopEntity;
 import com.artcources.artistica.model.enums.ExperienceLevelEnum;
 import com.artcources.artistica.model.enums.WorkshopCategoryEnum;
 import com.artcources.artistica.model.enums.StatusEnum;
-import com.artcources.artistica.model.view.WorkshopsAllViewModel;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
-import java.util.Arrays;
 import java.util.List;
 
 @Repository
@@ -30,6 +28,8 @@ public interface WorkshopRepository  extends JpaRepository<OnlineWorkshopEntity,
     List<OnlineWorkshopEntity>  findByKeyword(String keyword);
 
     List<OnlineWorkshopEntity> findAllByNameLike(String keyword);
+
+    List<OnlineWorkshopEntity> findAllByStudents_Username(String username);
 
     // Optional<OnlineWorkshopEntity> findWorkshopByAbout(String about);
 }

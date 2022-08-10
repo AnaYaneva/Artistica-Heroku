@@ -140,7 +140,7 @@ public class WorkshopController {
 
     @GetMapping("/{id}")
     public String workshopDetails(@PathVariable Long id, Model model,Principal principal) {
-        OnlineWorkshopEntity workshop = workshopService.getWokrshopById(id);
+        OnlineWorkshopEntity workshop = workshopService.getWorkshopById(id);
 
         boolean isCurrentUserStudent = this.workshopService.isCurrentUserStudent(principal, id);
         boolean isCurrentUserOwner = this.workshopService.isCurrentUserOwner(principal, id);
@@ -295,7 +295,7 @@ public class WorkshopController {
 
     //REMOVE ADMIN ROLE
     @PatchMapping("/removeFromList")
-    public String removeWokrshopFromList(@RequestParam Long id, Principal principal){
+    public String removeWorkshopFromList(@RequestParam Long id, Principal principal){
         boolean isUserExist = this.workshopService.existById(id);
         if(isUserExist) {
             this.workshopService.removeWorkshopFromUser(id,principal);

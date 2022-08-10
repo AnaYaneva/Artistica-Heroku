@@ -36,8 +36,8 @@
     <!-- Category Start -->
     <div th:replace="fragments/commons::categories"></div>
     <!-- Category Start -->
-
-    <!-- Courses Start -->
+<!--
+    &lt;!&ndash; Courses Start &ndash;&gt;
     <div class="container-fluid py-5">
         <div th:each="c : ${T(com.artcources.artistica.model.enums.WorkshopCategoryEnum).values()}" th:object="${c}" class="container py-5">
             <div class="text-center mb-5">
@@ -52,10 +52,10 @@
             </div>
         </div>
     </div>
-    <!-- Courses End -->
+    &lt;!&ndash; Courses End &ndash;&gt;->>-->
 
 
-<!-- Footer Start -->
+<!--- Footer Start -->
 <footer th:replace="fragments/commons::footer"></footer>
 <!-- Footer End -->
 

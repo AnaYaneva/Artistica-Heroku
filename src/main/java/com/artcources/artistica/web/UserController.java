@@ -47,7 +47,12 @@ public class UserController {
                 = this.userService.getUserProfileViewModelByEmail(principal.getName());
         UserProfileUpdateBindingModel userProfileUpdateBindingModel
                 = this.modelMapper.map(userProfileViewModel, UserProfileUpdateBindingModel.class);
+
+        List<WorkshopsAllViewModel> workshops
+                =this.workshopService.getWorkshopsAttendingByUserEmail(principal.getName());
+
         // add attributes
+        model.addAttribute("workshops",workshops);
         model.addAttribute("userProfileViewModel", userProfileViewModel);
         model.addAttribute("userProfileUpdateBindingModel",userProfileUpdateBindingModel);
 

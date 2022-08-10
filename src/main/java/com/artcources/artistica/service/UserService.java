@@ -8,6 +8,7 @@ import com.artcources.artistica.model.service.UserProfileUpdateServiceModel;
 import com.artcources.artistica.model.service.UserServiceModel;
 import com.artcources.artistica.model.service.UsersAllServiceModel;
 import com.artcources.artistica.model.view.UserProfileViewModel;
+import com.artcources.artistica.model.view.WorkshopsAllViewModel;
 import com.artcources.artistica.repository.UserRepository;
 import com.artcources.artistica.repository.UserRoleRepository;
 import org.modelmapper.ModelMapper;
@@ -120,4 +121,5 @@ public class UserService {
 
     this.userRepository.save(user);
   }
+
 }

@@ -97,9 +97,9 @@
                         </div>
                     </div>
                 </div>
-                <h1 class="title gold-text">ALL SUPPLIERS</h1>
+                <h1 class="title gold-text">ALL MENTORS</h1>
                 <hr>
-                <div class="supplier row">
+                <div class="mentor row">
                     <div class="prop col-md-1">ID</div>
                     <div class="prop col-md-2">Created</div>
                     <div class="prop col-md-2">Company name</div>
@@ -107,7 +107,7 @@
                     <div class="prop col-md-1">ROLE</div>
                     <div class="prop col-md-1">ROLE</div>
                 </div>
-                <div class="supplier row" th:each="supplier:${allSuppliers}" th:object="${supplier}">
+                <div class="mentor row" th:each="mentor:${allMentors}" th:object="${mentor}">
                     <div class="prop col-md-1" th:text="*{id}">1</div>
                     <div class="prop col-md-2" th:text="*{created}">1</div>
                     <div class="prop col-md-2" th:text="*{companyName}"></div>

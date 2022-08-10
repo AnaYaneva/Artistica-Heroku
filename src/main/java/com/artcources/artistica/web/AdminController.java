@@ -76,9 +76,9 @@ public class AdminController {
         return "redirect:/admin/manage-users";
     }
 
-    //REVIEW OFFERS
+    //REVIEW WORKSHOPS
     @GetMapping("/review-workshops")
-    public String reviewOffers(Model model) {
+    public String reviewWorkshops(Model model) {
         List<WorkshopsAllServiceModel> allPendingWorkshops = this.workshopService.getAllPendingWorkshopsServiceModel()
                 .stream()
                 .map(workshopsAllServiceModel -> this.modelMapper.map(workshopsAllServiceModel, WorkshopsAllServiceModel.class))
@@ -87,15 +87,15 @@ public class AdminController {
         return "admin-approve-workshop";
     }
 
-    //APPROVE OFFER
+    //APPROVE WORKSHOP
     @PatchMapping("/review-workshop/approve/{id}")
-    public String approveOffer(@PathVariable Long id) {
+    public String approveWorkshop(@PathVariable Long id) {
         this.workshopService.approveWorkshop(id);
         return "redirect:/admin/review-workshop";
     }
 
     @PatchMapping("/review-workshop/reject/{id}")
-    public String rejectOffer(@PathVariable Long id) {
+    public String rejectWorkshop(@PathVariable Long id) {
         this.workshopService.rejectWorkshop(id);
         return "redirect:/admin/review-workshop";
     }

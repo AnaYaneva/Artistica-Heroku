@@ -17,13 +17,13 @@ public class RejectedWorkshopCleanScheduler {
     }
 
 //    @Scheduled(cron = "00 00 00 * * *")
-//    public void cleanRejectedOffersNotUpdated30Days() {
-//        this.workshopService.getAllRejectedOffers()
-//                .forEach(offer -> {
-//                    LocalDate created = offer.getCreated();
+//    public void cleanRejectedWorkshopsNotUpdated30Days() {
+//        this.workshopService.getAllRejectedWorkshops()
+//                .forEach(workshop -> {
+//                    LocalDate created = workshop.getCreated();
 //                    LocalDate expiredDate = created.plusMonths(1L);
 //                    if (expiredDate.equals(LocalDate.now())) {
-//                        this.workshopService.deleteOffer(offer.getId());
+//                        this.workshopService.deleteWorkshop(workshop.getId());
 //                    }
 //                });
 //    }

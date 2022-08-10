@@ -18,7 +18,7 @@ public class WebSecurity {
 
 
     public boolean isOwnerOfWorkshop(Authentication authentication, Long id) {
-        OnlineWorkshopEntity workshop=this.workshopService.getWokrshopById(id);
+        OnlineWorkshopEntity workshop=this.workshopService.getWorkshopById(id);
 
         if (workshop.getMentor().getUsername().equals(authentication.getName())) {
             return true;

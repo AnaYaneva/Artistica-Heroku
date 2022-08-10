@@ -42,7 +42,7 @@ public class PagesControllers {
             .collect(Collectors.toList());
     model.addAttribute("mentors", mentorsAllViewModels);
     model.addAttribute("workshops", popularWorkshops);
-    model.addAttribute("title", "Our popular wokrshops");
+    model.addAttribute("title", "Our popular workshops");
     return "index";
   }
 
