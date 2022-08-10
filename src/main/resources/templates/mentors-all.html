@@ -76,24 +76,7 @@
         </div>
         <div class="row" >
             <div th:each="m : ${mentors}" th:object="${m}" class="col-md-6 col-lg-3 text-center team mb-4">
-
-                <div class="team-item rounded overflow-hidden mb-2">
-                    <div class="team-img position-relative">
-
-                        <img class="img-fluid" th:src="*{photoUrl}" alt="">
-                        <div class="team-social">
-                            <a class="btn btn-outline-light btn-square mx-1" th:href="@{*{instagram}}"><i class="fab fa-instagram"></i></a>
-                            <a class="btn btn-outline-light btn-square mx-1" th:href="@{*{facebook}}"><i class="fab fa-facebook-f"></i></a>
-                            <a class="btn btn-outline-light btn-square mx-1" th:href="@{*{linkedIn}}"><i class="fab fa-linkedin-in"></i></a>
-                        </div>
-                    </div>
-                    <a th:href="@{/mentors/{username}(username=*{username})}">
-                        <div class="bg-secondary p-4">
-                            <h5 th:text="|*{firstName} *{lastName}|">Jhon Doe</h5>
-                        </div>
-                    </a>
-                </div>
-
+                <div th:replace="fragments/commons::mentor"></div>
             </div>
         </div>
     </div>

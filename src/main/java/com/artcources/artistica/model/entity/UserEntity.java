@@ -20,6 +20,10 @@ public class UserEntity   extends BaseEntity {
     private MediaEntity photo;
     @ManyToMany(fetch = FetchType.EAGER)
     private List<UserRoleEntity> userRoles = new ArrayList<>();
+
+    @ManyToMany(mappedBy = "students")
+    private List<OnlineWorkshopEntity> attending = new ArrayList<>();
+
     @Column(nullable = true)
     private String facebook;
     @Column(nullable = true)
@@ -108,6 +112,15 @@ public class UserEntity   extends BaseEntity {
 
     public UserEntity setInstagram(String instagram) {
         this.instagram = instagram;
+        return this;
+    }
+
+    public List<OnlineWorkshopEntity> getAttending() {
+        return attending;
+    }
+
+    public UserEntity setAttending(List<OnlineWorkshopEntity> students) {
+        this.attending = students;
         return this;
     }
 

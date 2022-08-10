@@ -1,7 +1,6 @@
 package com.artcources.artistica.service;
 
 import com.artcources.artistica.exception.WorkshopNotFoundException;
-import com.artcources.artistica.model.binding.WorkshopSearchBindingModel;
 import com.artcources.artistica.model.binding.WorkshopUpdateBindingModel;
 import com.artcources.artistica.model.entity.UserEntity;
 import com.artcources.artistica.model.entity.WorkshopCategoryEntity;
@@ -13,6 +12,7 @@ import com.artcources.artistica.model.service.*;
 import com.artcources.artistica.model.view.WorkshopDetailsViewModel;
 import com.artcources.artistica.model.view.WorkshopsAllViewModel;
 import com.artcources.artistica.repository.ExperienceLevelRepository;
+import com.artcources.artistica.repository.UserRepository;
 import com.artcources.artistica.repository.WorkshopCategoryRepository;
 import com.artcources.artistica.repository.WorkshopRepository;
 import org.modelmapper.ModelMapper;
@@ -36,8 +36,9 @@ public class WorkshopService {
     private final CloudinaryService cloudinaryService;
     private final MentorService mentorService;
     private final MediaService mediaService;
+    private final UserRepository userRepository;
 
-    public WorkshopService(WorkshopCategoryRepository workshopCategoryRepository, ExperienceLevelRepository experienceLevelRepository, WorkshopRepository workshopRepository, ModelMapper modelMapper, CloudinaryService cloudinaryService, MentorService mentorService, MediaService mediaService) {
+    public WorkshopService(WorkshopCategoryRepository workshopCategoryRepository, ExperienceLevelRepository experienceLevelRepository, WorkshopRepository workshopRepository, ModelMapper modelMapper, CloudinaryService cloudinaryService, MentorService mentorService, MediaService mediaService, UserRepository userRepository) {
         this.workshopCategoryRepository = workshopCategoryRepository;
         this.experienceLevelRepository = experienceLevelRepository;
         this.workshopRepository = workshopRepository;
@@ -45,6 +46,7 @@ public class WorkshopService {
         this.cloudinaryService = cloudinaryService;
         this.mentorService = mentorService;
         this.mediaService = mediaService;
+        this.userRepository = userRepository;
     }
 
     public void init() {
@@ -115,7 +117,7 @@ public class WorkshopService {
         return this.workshopRepository.findAllByStatus(StatusEnum.DECLINED);
     }
 
-    public List<WorkshopsAllViewModel> getCurrentUserWorkshops(Principal principal) {
+    public List<WorkshopsAllViewModel> getCurrentMentorWorkshops(Principal principal) {
         List<WorkshopsAllViewModel> collect = this.workshopRepository.findAllByMentor_Username(principal.getName())
                 .stream()
                 .map(workshop -> {
@@ -128,7 +130,7 @@ public class WorkshopService {
         return collect;
     }
 
-    public List<WorkshopsAllViewModel> getCurrentUserWorkshopsByEmail(String username) {
+    public List<WorkshopsAllViewModel> getWorkshopsByMentorEmail(String username) {
         List<WorkshopsAllViewModel> collect = this.workshopRepository.findAllByMentor_Username(username)
                 .stream()
                 .map(workshop -> {
@@ -207,7 +209,7 @@ public class WorkshopService {
         return this.workshopRepository.findMostPopular()
                 .stream()
                 .map(workshop -> this.modelMapper.map(workshop, WorkshopsAllViewModel.class))
-                .limit(8)
+                .limit(6)
                 .collect(Collectors.toList());
     }
 
@@ -223,5 +225,45 @@ public class WorkshopService {
                 .stream()
                 .map(workshop -> this.modelMapper.map(workshop, WorkshopsAllViewModel.class))
                 .collect(Collectors.toList());
+    }
+
+    public boolean existById(Long id) {
+        return this.workshopRepository.existsById(id);
+    }
+
+    public void addWorkshopToUser(Long id, Principal principal) {
+        OnlineWorkshopEntity workshop = workshopRepository.findById(id).get();
+        UserEntity user = userRepository.findByUsername(principal.getName()).get();
+
+        user.getAttending().add(workshop);
+        userRepository.save(user);
+
+        workshop.getStudents().add(user);
+        workshopRepository.save(workshop);
+    }
+
+    public void removeWorkshopFromUser(Long id, Principal principal) {
+        OnlineWorkshopEntity workshop = workshopRepository.findById(id).get();
+        UserEntity user = userRepository.findByUsername(principal.getName()).get();
+
+        user.getAttending().remove(workshop);
+        userRepository.save(user);
+
+        workshop.getStudents().remove(user);
+        workshopRepository.save(workshop);
+    }
+
+    public boolean isCurrentUserStudent(Principal principal, Long id) {
+        OnlineWorkshopEntity workshop = this.workshopRepository.findById(id).orElseThrow(() -> new WorkshopNotFoundException());
+
+        if (principal!=null){
+            for (UserEntity student:workshop.getStudents()) {
+                if(student.getUsername().equals(principal.getName())){
+                 return true;
+                }
+            }
+        }
+
+        return false;
     }
 }

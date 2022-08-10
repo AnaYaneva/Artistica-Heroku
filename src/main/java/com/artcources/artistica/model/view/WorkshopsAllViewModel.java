@@ -4,6 +4,9 @@ import com.artcources.artistica.model.entity.UserEntity;
 import com.artcources.artistica.model.entity.WorkshopCategoryEntity;
 import com.artcources.artistica.model.enums.ExperienceLevelEnum;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class WorkshopsAllViewModel {
     private String id;
     private String name;
@@ -11,6 +14,8 @@ public class WorkshopsAllViewModel {
     private ExperienceLevelEnum experienceLevel;
     private UserEntity mentor;
     private WorkshopCategoryEntity category;
+
+    List<UserEntity> students = new ArrayList<>();
 
     public WorkshopsAllViewModel() {
     }
@@ -67,6 +72,15 @@ public class WorkshopsAllViewModel {
 
     public WorkshopsAllViewModel setCategory(WorkshopCategoryEntity category) {
         this.category = category;
+        return this;
+    }
+
+    public List<UserEntity> getStudents() {
+        return students;
+    }
+
+    public WorkshopsAllViewModel setStudents(List<UserEntity> students) {
+        this.students = students;
         return this;
     }
 }

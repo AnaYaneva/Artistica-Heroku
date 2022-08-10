@@ -4,6 +4,9 @@ import com.artcources.artistica.model.entity.UserEntity;
 import com.artcources.artistica.model.enums.ExperienceLevelEnum;
 import com.artcources.artistica.model.enums.WorkshopCategoryEnum;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class WorkshopsAllServiceModel {
     private String id;
     private String name;
@@ -12,6 +15,7 @@ public class WorkshopsAllServiceModel {
     private ExperienceLevelEnum experienceLevel;
     private UserEntity mentor;
     private WorkshopCategoryEnum category;
+    List<UserEntity> students = new ArrayList<>();
 
     public WorkshopsAllServiceModel() {
     }
@@ -22,6 +26,15 @@ public class WorkshopsAllServiceModel {
 
     public WorkshopsAllServiceModel setId(String id) {
         this.id = id;
+        return this;
+    }
+
+    public List<UserEntity> getStudents() {
+        return students;
+    }
+
+    public WorkshopsAllServiceModel setStudents(List<UserEntity> students) {
+        this.students = students;
         return this;
     }
 

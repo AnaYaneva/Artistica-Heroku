@@ -52,7 +52,7 @@ public class UserController {
         model.addAttribute("userProfileUpdateBindingModel",userProfileUpdateBindingModel);
 
         List<WorkshopsAllViewModel> mentorWorkshops
-                =this.workshopService.getCurrentUserWorkshops(principal);
+                =this.workshopService.getCurrentMentorWorkshops(principal);
 
         return "user-details";
     }

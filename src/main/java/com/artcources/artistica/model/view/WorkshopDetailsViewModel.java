@@ -4,8 +4,10 @@ import com.artcources.artistica.model.entity.*;
 import com.artcources.artistica.model.enums.ExperienceLevelEnum;
 import com.artcources.artistica.model.enums.StatusEnum;
 import com.artcources.artistica.model.enums.WorkshopCategoryEnum;
+import org.apache.catalina.User;
 
 import javax.persistence.*;
+import java.util.List;
 
 public class WorkshopDetailsViewModel {
 
@@ -18,6 +20,8 @@ public class WorkshopDetailsViewModel {
     private String referenceUrl;
     private String finalUrl;
     private String videoUrl;
+
+    private List<UserEntity> students;
 
     public WorkshopDetailsViewModel() {
     }
@@ -100,6 +104,15 @@ public class WorkshopDetailsViewModel {
 
     public WorkshopDetailsViewModel setVideoUrl(String videoUrl) {
         this.videoUrl = videoUrl;
+        return this;
+    }
+
+    public List<UserEntity> getStudents() {
+        return students;
+    }
+
+    public WorkshopDetailsViewModel setStudents(List<UserEntity> students) {
+        this.students = students;
         return this;
     }
 }

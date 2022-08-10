@@ -70,6 +70,16 @@
                     </th:block>
 
             </div>
+                <div  th:unless="${isCurrentUserStudent}" class="col-md-2">
+                    <form th:action="@{/workshops/addToList(id=*{id})}" th:method="PATCH">
+                        <button class="small-btn" type="submit">Make admin</button>
+                    </form>
+                </div>
+                <div th:if="${isCurrentUserStudent}" class="col-md-2">
+                    <form th:action="@{/workshops/removeFromList(id=*{id})}" th:method="PATCH">
+                        <button class="small-btn-remove" type="submit">Remove admin</button>
+                    </form>
+                </div>
         </div>
     </div>
     </div>

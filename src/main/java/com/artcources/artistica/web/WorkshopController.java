@@ -141,15 +141,15 @@ public class WorkshopController {
     @GetMapping("/{id}")
     public String workshopDetails(@PathVariable Long id, Model model,Principal principal) {
         OnlineWorkshopEntity workshop = workshopService.getWokrshopById(id);
-        if (workshop == null)
-        {
-            System.out.println("Zashto me mrazish");
-        }
+
+        boolean isCurrentUserStudent = this.workshopService.isCurrentUserStudent(principal, id);
         boolean isCurrentUserOwner = this.workshopService.isCurrentUserOwner(principal, id);
         WorkshopDetailsViewModel workshopDetailsViewModel = this.workshopService.findWorkshopViewModelById(id);
         model.addAttribute("isCurrentUserOwner",isCurrentUserOwner);
         model.addAttribute("workshop", workshopDetailsViewModel);
         model.addAttribute("mentor", workshopDetailsViewModel.getMentor());
+        model.addAttribute("isCurrentUserStudent", isCurrentUserStudent);
+
         return "workshop-details";
     }
 
@@ -165,7 +165,6 @@ public class WorkshopController {
     }
 
     @PostMapping("/add")
-//    @RequestMapping(value = { "/add" }, method = RequestMethod.POST, consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public String add(WorkshopAddBindingModel workshopAddBindingModel,
                       @RequestPart("referencePhoto") MultipartFile referencePhoto,
                       @RequestPart("finalPhoto") MultipartFile finalPhoto,
@@ -188,17 +187,6 @@ public class WorkshopController {
         return "redirect:/workshops/" + idWorkshop;
     }
 
-//    //@PostMapping("/add")
-//    public String add(MediaBindingModel mediaBindingModel, BindingResult bindingResult, RedirectAttributes redirectAttributes) throws IOException {
-//        if (bindingResult.hasErrors()) {
-//            redirectAttributes.addFlashAttribute("videoBindingModel", mediaBindingModel);
-//            redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.videoBindingModel", bindingResult);
-//            return "redirect:/courses/add";
-//        }
-//        MediaEntity entity = createMediaEntity(mediaBindingModel.getFile(), mediaBindingModel.getTitle());
-//        mediaRepository.save(entity);
-//        return "redirect:/workshops/all";
-//    }
 
     private MediaEntity createMediaEntity(MultipartFile file, String title) throws IOException {
         final CloudinaryMedia uploaded = this.cloudinaryService.upload(file);
@@ -292,6 +280,28 @@ public class WorkshopController {
     public String deleteWorkshop(@PathVariable Long id) {
         this.workshopService.deleteWorkshop(id);
         return "redirect:/wokshops/all";
+    }
+
+    //ADD ADMIN ROLE
+    @PatchMapping("/addToList")
+    public String addWorkshoptoList(@RequestParam Long id, Principal principal){
+        boolean isWorkshopExist = this.workshopService.existById((id));
+        if(isWorkshopExist) {
+            this.workshopService.addWorkshopToUser((id),principal);
+        }
+
+        return "redirect:/workshops/"+id;
+    }
+
+    //REMOVE ADMIN ROLE
+    @PatchMapping("/removeFromList")
+    public String removeWokrshopFromList(@RequestParam Long id, Principal principal){
+        boolean isUserExist = this.workshopService.existById(id);
+        if(isUserExist) {
+            this.workshopService.removeWorkshopFromUser(id,principal);
+        }
+
+        return "redirect:/workshops/"+id;
     }
 
 }

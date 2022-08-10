@@ -101,41 +101,36 @@ public class MentorsController {
         if(!model.containsAttribute("hasErrors")) {
             model.addAttribute("hasErrors",false);
         }
-        //add binding mentorProfileUpdateBindingModel on get request so we can fill form inputs with needed values
         MentorProfileViewModel mentorProfileViewModel
                 = this.mentorService.getMentorProfileViewModelByEmail(principal.getName());
         MentorProfileUpdateBindingModel mentorProfileUpdateBindingModel
                 = this.modelMapper.map(mentorProfileViewModel, MentorProfileUpdateBindingModel.class);
-       // mentorProfileUpdateBindingModel.setCityName(mentorProfileViewModel.getAddress().getCityName());
-        // add attributes
-        //model.addAttribute("cities", this.cityService.getAllCities());
+
         model.addAttribute("mentorProfileUpdateBindingModel",mentorProfileUpdateBindingModel);
         model.addAttribute("mentorProfileViewModel",mentorProfileViewModel);
         List<WorkshopsAllViewModel> mentorWorkshops
-                =this.workshopService.getCurrentUserWorkshops(principal);
+                =this.workshopService.getCurrentMentorWorkshops(principal);
         model.addAttribute("mentorWorkshops",mentorWorkshops);
+        model.addAttribute("isOwner", true);
 
         return "mentor-details";
     }
 
     @GetMapping("/{username}")
-    public String profile ( @PathVariable String username,Model model) {
+    public String profile ( @PathVariable String username,Model model, Principal principal) {
         if(!model.containsAttribute("hasErrors")) {
             model.addAttribute("hasErrors",false);
         }
-        //add binding mentorProfileUpdateBindingModel on get request so we can fill form inputs with needed values
         MentorProfileViewModel mentorProfileViewModel
                 = this.mentorService.getMentorProfileViewModelByEmail(username);
         MentorProfileUpdateBindingModel mentorProfileUpdateBindingModel
                 = this.modelMapper.map(mentorProfileViewModel, MentorProfileUpdateBindingModel.class);
-        // mentorProfileUpdateBindingModel.setCityName(mentorProfileViewModel.getAddress().getCityName());
-        // add attributes
-        //model.addAttribute("cities", this.cityService.getAllCities());
         model.addAttribute("mentorProfileUpdateBindingModel",mentorProfileUpdateBindingModel);
         model.addAttribute("mentorProfileViewModel",mentorProfileViewModel);
         List<WorkshopsAllViewModel> mentorWorkshops
-                =this.workshopService.getCurrentUserWorkshopsByEmail(username);
+                =this.workshopService.getWorkshopsByMentorEmail(username);
         model.addAttribute("mentorWorkshops",mentorWorkshops);
+        model.addAttribute("isOwner", username.equals(principal.getName()));
 
         return "mentor-details";
     }

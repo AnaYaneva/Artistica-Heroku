@@ -155,4 +155,6 @@ public class OnlineWorkshopEntity extends BaseEntity{
         this.comments = comments;
         return this;
     }
+
+
 }

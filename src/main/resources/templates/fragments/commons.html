@@ -303,22 +303,45 @@
 
 <!-- Workshop Start -->
 <div th:fragment="workshop" class="rounded overflow-hidden mb-2">
+    <div class="rounded overflow-hidden mb-2">
     <img class="img-fluid" th:src="*{finalUrl}" alt="">
+    </div>
     <div class="bg-secondary p-4">
         <div class="d-flex justify-content-between mb-3">
-            <small class="m-0"><i class="fa fa-users text-primary mr-2"></i>25 Students</small>
+            <small class="m-0" th:text="|*{students.size()} Students|"><i class="fa fa-users text-primary mr-2" ></i>25 Students</small>
             <!--<small class="m-0"><i class="far fa-clock text-primary mr-2" th:text="*{duration}"></i>01h 30m</small>-->
         </div>
         <a class="h5" th:text="*{name}" th:href="@{/workshops/{id}(id=*{id})}"></a>
         <div class="border-top mt-4 pt-4">
-            <div class="d-flex justify-content-between">
+<!--            <div class="d-flex justify-content-between">
                 <h6 class="m-0"><i class="fa fa-star text-primary mr-2"></i>4.5 <small>(250)</small></h6>
-            </div>
+            </div>-->
         </div>
     </div>
 </div>
 <!-- Workshop End -->
 
+<!-- Mentor Start -->
+<div th:fragment="mentor" class="rounded overflow-hidden mb-2">
+<div class="team-item rounded overflow-hidden mb-2">
+    <div class="team-img position-relative">
+        <div class="rounded overflow-hidden mb-2">
+            <img class="img-fluid" th:src="*{photoUrl}" alt="">
+        </div>
+        <div class="team-social">
+            <a class="btn btn-outline-light btn-square mx-1" th:href="@{*{instagram}}"><i class="fab fa-instagram"></i></a>
+            <a class="btn btn-outline-light btn-square mx-1" th:href="@{*{facebook}}"><i class="fab fa-facebook-f"></i></a>
+            <a class="btn btn-outline-light btn-square mx-1" th:href="@{*{linkedIn}}"><i class="fab fa-linkedin-in"></i></a>
+        </div>
+    </div>
+    <a th:href="@{/mentors/{username}(username=*{username})}">
+        <div class="bg-secondary p-4">
+            <h5 th:text="|*{firstName} *{lastName}|">Jhon Doe</h5>
+        </div>
+    </a>
+</div>
+</div>
+<!-- Mentor End -->
 
 <!-- Workshop Details Start -->
 <div th:fragment="workshopDetails"class="row align-items-center">
