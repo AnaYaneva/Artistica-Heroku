@@ -28,10 +28,6 @@ public class AppUserDetailsService implements UserDetailsService {
   public UserDetails loadUserByUsername(String username)
       throws UsernameNotFoundException {
     System.out.printf("load method was called. User name %s", username);
-////    return userRepository.
-////            findByUsername(username).
-////        map(this::map).
-////        orElseThrow(() -> new UsernameNotFoundException("User with email " + username + " not found!"));
     UserEntity user = userRepository.findByUsername(username)
             .orElseThrow(() -> new UsernameNotFoundException("User with name " + username + " not found!"));
 
@@ -43,53 +39,36 @@ public class AppUserDetailsService implements UserDetailsService {
 
 
     return new User(user.getUsername(), user.getPassword(), authorities);
+  }
 
-
-
-
+//  private UserDetails mapToUserDetails(UserEntity userMentorByEmail) {
+//    List<GrantedAuthority> authorities =
+//            userMentorByEmail
+//                    .getUserRoles()
+//                    .stream()
+//                    .map(r-> new SimpleGrantedAuthority("ROLE_"+r.getName().name()))
+//                    .collect(Collectors.toList());
+//    return new User(userMentorByEmail.getUsername(),userMentorByEmail.getPassword(),authorities);
 //
-//    //check if user with the given email exist
-//    UserEntity userMentorByEmail = this.userRepository.findByUsername(username).orElse(null);
+//  }
+
+
+//  private UserDetails map(UserEntity userEntity) {
+//    return
+//        User.builder().
+//            username(userEntity.getUsername()).
+//            password(userEntity.getPassword()).
+//            authorities(userEntity.
+//                getUserRoles().
+//                stream().
+//                map(this::map).
+//                toList()).
+//            build();
+//  }
 //
-//    //if not -> check for mentor with same email
-//    if(userMentorByEmail==null) {
-//      userMentorByEmail = this.mentorRepository.findMentorByUsername(username).orElse(null);
-//    }
-//
-//    if (userMentorByEmail==null) {
-//      throw new UsernameNotFoundException("User with email "+ username + " not found!");
-//    }
-//    return mapToUserDetails(userMentorByEmail);
-  }
-
-  private UserDetails mapToUserDetails(UserEntity userMentorByEmail) {
-    List<GrantedAuthority> authorities =
-            userMentorByEmail
-                    .getUserRoles()
-                    .stream()
-                    .map(r-> new SimpleGrantedAuthority("ROLE_"+r.getName().name()))
-                    .collect(Collectors.toList());
-    return new User(userMentorByEmail.getUsername(),userMentorByEmail.getPassword(),authorities);
-
-  }
-
-
-  private UserDetails map(UserEntity userEntity) {
-    return
-        User.builder().
-            username(userEntity.getUsername()).
-            password(userEntity.getPassword()).
-            authorities(userEntity.
-                getUserRoles().
-                stream().
-                map(this::map).
-                toList()).
-            build();
-  }
-
-  private GrantedAuthority map(UserRoleEntity userRole) {
-    return new SimpleGrantedAuthority(
-        userRole.
-                getName().name());
-  }
+//  private GrantedAuthority map(UserRoleEntity userRole) {
+//    return new SimpleGrantedAuthority(
+//        userRole.
+//                getName().name());
+//  }
 }

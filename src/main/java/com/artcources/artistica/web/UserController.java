@@ -67,7 +67,7 @@ public class UserController {
         UserProfileViewModel userProfileViewModel
                 = this.userService.getUserProfileViewModelByEmail(principal.getName());
         model.addAttribute("user", userProfileViewModel);
-        return "user-profile";
+        return "user-details";
     }
 
     @PatchMapping("/profile")

@@ -21,9 +21,9 @@ public class MediaService {
         this.cloudinaryService = cloudinaryService;
     }
 
-    public MediaEntity save(MediaEntity videoEntity) {
-        return this.mediaRepository.save(videoEntity);
-    }
+//    public MediaEntity save(MediaEntity videoEntity) {
+//        return this.mediaRepository.save(videoEntity);
+//    }
 
     public void deletePicture(Long picId) {
         MediaEntity picture = this.mediaRepository.findById(picId).orElseThrow(() -> new ResourceNotFoundException());

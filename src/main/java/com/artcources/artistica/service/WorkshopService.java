@@ -49,20 +49,20 @@ public class WorkshopService {
         this.userRepository = userRepository;
     }
 
-    public void init() {
-        if (workshopCategoryRepository.count() != 0) {
-            return;
-        }
-
-        Arrays.stream(WorkshopCategoryEnum.values())
-                .forEach(workshopCategoryEnum -> {
-                    WorkshopCategoryEntity workshopCategoryEntity = new WorkshopCategoryEntity();
-                    workshopCategoryEntity.setName(workshopCategoryEnum);
-                    workshopCategoryEntity.setDescription("Description for " + workshopCategoryEnum.name());
-
-                    workshopCategoryRepository.save(workshopCategoryEntity);
-                });
-    }
+//    public void init() {
+//        if (workshopCategoryRepository.count() != 0) {
+//            return;
+//        }
+//
+//        Arrays.stream(WorkshopCategoryEnum.values())
+//                .forEach(workshopCategoryEnum -> {
+//                    WorkshopCategoryEntity workshopCategoryEntity = new WorkshopCategoryEntity();
+//                    workshopCategoryEntity.setName(workshopCategoryEnum);
+//                    workshopCategoryEntity.setDescription("Description for " + workshopCategoryEnum.name());
+//
+//                    workshopCategoryRepository.save(workshopCategoryEntity);
+//                });
+//    }
 
     public Long addNewWorkshop(WorkshopAddServiceModel workshopAddServiceModel, Principal principal) {
 
@@ -113,9 +113,9 @@ public class WorkshopService {
                 .collect(Collectors.toList());
     }
 
-    public List<OnlineWorkshopEntity> getAllRejectedWorkshops() {
-        return this.workshopRepository.findAllByStatus(StatusEnum.DECLINED);
-    }
+//    public List<OnlineWorkshopEntity> getAllRejectedWorkshops() {
+//        return this.workshopRepository.findAllByStatus(StatusEnum.DECLINED);
+//    }
 
     public List<WorkshopsAllViewModel> getCurrentMentorWorkshops(Principal principal) {
         List<WorkshopsAllViewModel> collect = this.workshopRepository.findAllByMentor_Username(principal.getName())
@@ -142,11 +142,11 @@ public class WorkshopService {
         return collect;
     }
 
-    public List<WorkshopsAllServiceModel> getAllApprovedWorkshopsServiceModel() {
-        return this.workshopRepository.findAllByStatus(StatusEnum.APPROVED)
-                .stream().map(workshop -> this.modelMapper.map(workshop, WorkshopsAllServiceModel.class))
-                .collect(Collectors.toList());
-    }
+//    public List<WorkshopsAllServiceModel> getAllApprovedWorkshopsServiceModel() {
+//        return this.workshopRepository.findAllByStatus(StatusEnum.APPROVED)
+//                .stream().map(workshop -> this.modelMapper.map(workshop, WorkshopsAllServiceModel.class))
+//                .collect(Collectors.toList());
+//    }
 
     public WorkshopDetailsViewModel findWorkshopViewModelById(Long id) {
         OnlineWorkshopEntity workshop = this.workshopRepository.findById(id).orElseThrow(() -> new WorkshopNotFoundException());

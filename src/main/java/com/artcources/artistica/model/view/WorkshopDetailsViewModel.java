@@ -22,6 +22,7 @@ public class WorkshopDetailsViewModel {
     private String videoUrl;
 
     private List<UserEntity> students;
+    private StatusEnum status;
 
     public WorkshopDetailsViewModel() {
     }
@@ -113,6 +114,15 @@ public class WorkshopDetailsViewModel {
 
     public WorkshopDetailsViewModel setStudents(List<UserEntity> students) {
         this.students = students;
+        return this;
+    }
+
+    public StatusEnum getStatus() {
+        return status;
+    }
+
+    public WorkshopDetailsViewModel setStatus(StatusEnum status) {
+        this.status = status;
         return this;
     }
 }

@@ -14,22 +14,16 @@ import java.util.List;
 public interface WorkshopRepository  extends JpaRepository<OnlineWorkshopEntity, Long> {
     List<OnlineWorkshopEntity> findAllByStatus(StatusEnum status);
 
-    List<OnlineWorkshopEntity> findAllByCategory_Name(WorkshopCategoryEnum categoryName);
-
     List<OnlineWorkshopEntity> findAllByMentor_Username(String email);
 
     List<OnlineWorkshopEntity> findAllByCategory_NameAndStatus(WorkshopCategoryEnum categoryName, StatusEnum status);
 
     List<OnlineWorkshopEntity> findAllByExperienceLevel_NameAndStatus(ExperienceLevelEnum experienceLevelEnum, StatusEnum status);
-    @Query("SELECT w FROM OnlineWorkshopEntity w ORDER BY size(w.students) DESC")
+    @Query("SELECT w FROM OnlineWorkshopEntity w WHERE w.status='APPROVED' ORDER BY size(w.students)  DESC")
     List<OnlineWorkshopEntity> findMostPopular();
-
-    @Query("SELECT w FROM OnlineWorkshopEntity w WHERE w.name LIKE '%keyword%'")
-    List<OnlineWorkshopEntity>  findByKeyword(String keyword);
 
     List<OnlineWorkshopEntity> findAllByNameLike(String keyword);
 
     List<OnlineWorkshopEntity> findAllByStudents_Username(String username);
 
-    // Optional<OnlineWorkshopEntity> findWorkshopByAbout(String about);
 }

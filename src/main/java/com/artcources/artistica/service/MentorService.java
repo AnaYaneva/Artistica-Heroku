@@ -112,10 +112,10 @@ public class MentorService {
                 .collect(Collectors.toList());
     }
 
-
-    public boolean existByEmail(String email) {
-        return this.userRepository.existsByUsername(email);
-    }
+//
+//    public boolean existByEmail(String email) {
+//        return this.userRepository.existsByUsername(email);
+//    }
 
 
     public void makeMentorAdmin(String email) {

@@ -58,16 +58,6 @@ public class EmailService {
     }
 
     private String generateContactMessageContent(String from, String subject, String username, String message) {
-
-
-//        StringBuilder sb = new StringBuilder();
-//
-//        sb.append("You have new contact mail from ").append(username).append(System.lineSeparator())
-//                .append("From: ").append(from).append(username).append(System.lineSeparator())
-//                .append("Subject: ").append(from).append(subject).append(System.lineSeparator())
-//                .append("Message: ").append(message).append(username).append(System.lineSeparator());
-//
-//        return sb.toString();
         Context ctx = new Context();
         ctx.setVariable("username", username);
         ctx.setVariable("from", from);

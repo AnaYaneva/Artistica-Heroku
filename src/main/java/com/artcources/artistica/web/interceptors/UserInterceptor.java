@@ -10,7 +10,6 @@ import javax.servlet.http.HttpSession;
 
 @Component
 public class UserInterceptor implements HandlerInterceptor {
-
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         if(isUserLogged()) {

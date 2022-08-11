@@ -43,15 +43,18 @@ public class SecurityConfiguration  {
     http.
         // define which requests are allowed and which not
         authorizeRequests().
+        antMatchers( "/favicon.ico").permitAll().
+        antMatchers("/fontawesome*").permitAll().
         // everyone can download static resources (css, js, images)
         requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll().
         // everyone can login and register
-        antMatchers("/", "/users/login", "/users/register",  "/mentors/register", "/register", "/contacts", "/about","/api/**").permitAll().
-        antMatchers("/workshops/add", "/workshops", "/workshops/all", "/workshops/search",  "/workshops/search/**", "/mentors", "/mentor", "/projects", "/users/user").permitAll()
+
+        antMatchers("/", "/workshops/all", "/workshops", "/users/login", "/users/register",  "/mentors/register", "/register", "/contacts", "/about","/api/**", "/mentors").permitAll().
+        antMatchers("/mentors/{username}", "/workshops/{id}",  "/workshops/addToList", "/workshops/removeFromList", "/workshops/categories/**", "/workshops/search",  "/workshops/search/**", "/users/**").authenticated().
         // pages available only for mentors
-            .antMatchers("/workshops/{id}/update/**", "/workshops/{id}/delete")
-            .access("@webSecurity.isOwnerOfWorkshop(authentication,#id)").
-        antMatchers("/mentors/**").hasRole(UserRoleEnum.MENTOR.name()).
+            antMatchers("/workshops/{id}/update/**", "/workshops/{id}/delete").
+            access("@webSecurity.isOwnerOfWorkshop(authentication,#id)").
+        antMatchers("/mentors/profile/myProfile", "/workshops/add").hasRole(UserRoleEnum.MENTOR.name()).
         // pages available only for admins
         antMatchers("/admin/**").hasRole(UserRoleEnum.ADMIN.name()).
         // all other pages are available for logger in users

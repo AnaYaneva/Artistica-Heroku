@@ -55,30 +55,30 @@
                 </div>
                 <div class="row justify-content-center">
                     <th:block th:if="${isCurrentUserOwner}">
-                        <a class="col-md-3 button-update"
+                        <a class="btn btn-primary py-2 px-4 ml-2 d-none d-lg-block"
                            th:href="@{/workshops/{id}/update (id=*{id})}">
-                            <i class="material-icons">edit</i>
                             Edit
                         </a>
 
-                        <button type="submit" class="col-md-3 button-delete"
+                        <button type="submit" class="btn btn-danger py-2 px-4 ml-2 d-none d-lg-block"
                                 data-toggle="modal"
                                 data-target="#modal-delete-workshop">
-                            <i class="material-icons">delete</i>
-                            Delete
+                            <i class="fa fa-trash-o fa-lg"></i> Delete</a>
                         </button>
                     </th:block>
 
-            </div>
+            </div >
+                <div class="row justify-content-center">
                 <div  th:unless="${isCurrentUserStudent}" class="col-md-2">
                     <form th:action="@{/workshops/addToList(id=*{id})}" th:method="PATCH">
-                        <button class="small-btn" type="submit">Make admin</button>
+                        <button class="btn btn-warning py-2 px-4 ml-2 d-none d-lg-block" type="submit">Add to <br>'My workshops'</button>
                     </form>
                 </div>
                 <div th:if="${isCurrentUserStudent}" class="col-md-2">
                     <form th:action="@{/workshops/removeFromList(id=*{id})}" th:method="PATCH">
-                        <button class="small-btn-remove" type="submit">Remove admin</button>
+                        <button class="btn btn-secondary py-2 px-4 ml-2 d-none d-lg-block" type="submit">Remove from <br>'My workshops'</button>
                     </form>
+                </div>
                 </div>
         </div>
     </div>

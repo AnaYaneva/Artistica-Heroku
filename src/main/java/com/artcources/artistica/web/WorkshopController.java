@@ -279,7 +279,7 @@ public class WorkshopController {
     @DeleteMapping("/{id}/delete")
     public String deleteWorkshop(@PathVariable Long id) {
         this.workshopService.deleteWorkshop(id);
-        return "redirect:/wokshops/all";
+        return "redirect:/workshops/all";
     }
 
     //ADD ADMIN ROLE

@@ -33,6 +33,8 @@ dependencies {
 
     testImplementation 'org.hsqldb:hsqldb:2.5.2'
     testImplementation 'ognl:ognl:3.2.1'
+// https://mvnrepository.com/artifact/org.springframework.security/spring-security-test
+    testImplementation group: 'org.springframework.security', name: 'spring-security-test', version: '5.7.2'
 
 }
 

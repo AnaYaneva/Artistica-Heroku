@@ -96,7 +96,7 @@ public class MentorsController {
         return new MentorProfileUpdateBindingModel();
     }
 
-    @GetMapping("/profile")
+    @GetMapping("/profile/myProfile")
     public String profile (Model model, Principal principal) {
         if(!model.containsAttribute("hasErrors")) {
             model.addAttribute("hasErrors",false);
