@@ -16,15 +16,11 @@ public class RejectedWorkshopCleanScheduler {
         this.workshopService = workshopService;
     }
 
-//    @Scheduled(cron = "00 00 00 * * *")
-//    public void cleanRejectedWorkshopsNotUpdated30Days() {
-//        this.workshopService.getAllRejectedWorkshops()
-//                .forEach(workshop -> {
-//                    LocalDate created = workshop.getCreated();
-//                    LocalDate expiredDate = created.plusMonths(1L);
-//                    if (expiredDate.equals(LocalDate.now())) {
-//                        this.workshopService.deleteWorkshop(workshop.getId());
-//                    }
-//                });
-//    }
+    @Scheduled(cron = "0 0 0 * * *")
+    public void cleanRejectedWorkshopsNotUpdated30Days() {
+        this.workshopService.getAllRejectedWorkshops()
+                .forEach(workshop -> {
+                        this.workshopService.deleteWorkshop(workshop.getId());
+                });
+    }
 }

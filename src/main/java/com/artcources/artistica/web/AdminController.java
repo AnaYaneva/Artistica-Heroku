@@ -88,16 +88,16 @@ public class AdminController {
     }
 
     //APPROVE WORKSHOP
-    @PatchMapping("/review-workshop/approve/{id}")
+    @PatchMapping("/review-workshops/approve/{id}")
     public String approveWorkshop(@PathVariable Long id) {
         this.workshopService.approveWorkshop(id);
-        return "redirect:/admin/review-workshop";
+        return "redirect:/admin/review-workshops";
     }
 
-    @PatchMapping("/review-workshop/reject/{id}")
+    @PatchMapping("/review-workshops/reject/{id}")
     public String rejectWorkshop(@PathVariable Long id) {
         this.workshopService.rejectWorkshop(id);
-        return "redirect:/admin/review-workshop";
+        return "redirect:/admin/review-workshops";
     }
 
 }

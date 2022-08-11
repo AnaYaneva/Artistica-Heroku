@@ -113,9 +113,9 @@ public class WorkshopService {
                 .collect(Collectors.toList());
     }
 
-//    public List<OnlineWorkshopEntity> getAllRejectedWorkshops() {
-//        return this.workshopRepository.findAllByStatus(StatusEnum.DECLINED);
-//    }
+    public List<OnlineWorkshopEntity> getAllRejectedWorkshops() {
+        return this.workshopRepository.findAllByStatus(StatusEnum.DECLINED);
+    }
 
     public List<WorkshopsAllViewModel> getCurrentMentorWorkshops(Principal principal) {
         List<WorkshopsAllViewModel> collect = this.workshopRepository.findAllByMentor_Username(principal.getName())

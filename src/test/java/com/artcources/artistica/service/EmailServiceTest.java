@@ -25,6 +25,7 @@ public class EmailServiceTest {
     @Mock
     private JavaMailSender javaMailSender;
 
+
     @BeforeEach
     void setUp() {
         templateEngine = new TemplateEngine();

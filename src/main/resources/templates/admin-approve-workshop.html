@@ -1,4 +1,4 @@
-<<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml"
       xmlns:th="http://www.thymeleaf.org">
 
@@ -22,33 +22,19 @@
     <div class="row">
             <div th:each="workshop : ${pendingWorkshops}" th:object="${workshop}" class="col-lg-4 col-md-6 mb-4">
                 <div th:replace="fragments/commons::workshop"></div>
-                <ul class="workshop-links">
-                    <li>
-                        <a th:href="@{/workshops/{id}(id=*{id})}">
-                            <i class="material-icons">visibility</i>
-                        </a>
-                    </li>
-                </ul>
-            </div>
-    </div>
-        <div class="workshop-content">
-            <a class="link-title" th:href="@{/workshops/{id}(id=*{id})}">
-                <h3 class="workshop-title" th:text="*{title}"><a th:href="@{/workshops/{id}(id=*{id})}">Workshop
-                </a></h3>
-                <hr class="">
                 <div class="row justify-content-center">
                     <form class="col-md-5" th:action="@{/admin/review-workshops/approve/{id}(id=*{id})}" th:method="PATCH">
-                        <button class=" btn-green"> <span class="material-icons">done_outline</span>Approve</button>
+                        <button class="btn btn-primary py-2 px-4 ml-2 d-none d-lg-block"> Approve</button>
                     </form>
                     <form  class="col-md-5" th:action="@{/admin/review-workshops/reject/{id}(id=*{id})}" th:method="PATCH">
-                        <button class=" btn-red"> <span class="material-icons">close</span>Reject</button>
+                        <button class="btn btn-danger py-2 px-4 ml-2 d-none d-lg-block">Reject</button>
                     </form>
                 </div>
-            </a>
-        </div>
+            </div>
     </div>
     </div>
-</div>
+
+
 <!-- Courses End -->
 
 <!--

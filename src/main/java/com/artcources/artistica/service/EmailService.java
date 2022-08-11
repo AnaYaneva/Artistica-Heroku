@@ -1,5 +1,6 @@
 package com.artcources.artistica.service;
 
+import com.artcources.artistica.repository.WorkshopRepository;
 import org.springframework.context.MessageSource;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
@@ -18,12 +19,14 @@ public class EmailService {
     private final MessageSource messageSource;
     private final JavaMailSender javaMailSender;
 
+
     public EmailService(TemplateEngine templateEngine,
                         MessageSource messageSource,
                         JavaMailSender javaMailSender) {
         this.templateEngine = templateEngine;
         this.messageSource = messageSource;
         this.javaMailSender = javaMailSender;
+
     }
 
     public void sendContactEmail(String userEmail, String userName, String subject, String messageBody) {
@@ -75,7 +78,7 @@ public class EmailService {
 
         try {
             MimeMessageHelper mimeMessageHelper = new MimeMessageHelper(mimeMessage);
-            mimeMessageHelper.setFrom("mobilele@mobilele.com");
+            mimeMessageHelper.setFrom("artistica.study@gmail.com");
             mimeMessageHelper.setTo(userEmail);
             mimeMessageHelper.setSubject(getEmailSubject(preferredLocale));
             mimeMessageHelper.setText(generateRegistrationMessageContent(preferredLocale, userName), true);
@@ -86,6 +89,30 @@ public class EmailService {
         }
     }
 
+    public void sendWeeklyEmail(
+            String userName,
+            String fullName
+    ) {
+        MimeMessage mimeMessage = javaMailSender.createMimeMessage();
 
+        try {
+            MimeMessageHelper mimeMessageHelper = new MimeMessageHelper(mimeMessage);
+            mimeMessageHelper.setFrom("artistica.study@gmail.com");
+            mimeMessageHelper.setTo(userName);
+            mimeMessageHelper.setSubject("Hello "+ fullName + ", here are ours most popular workshops");
+            mimeMessageHelper.setText(generateWeeklyMessageContent(fullName), true);
+
+            javaMailSender.send(mimeMessageHelper.getMimeMessage());
+        } catch (MessagingException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    private String generateWeeklyMessageContent(String userName) {
+        Context ctx = new Context();
+        ctx.setLocale(Locale.ENGLISH);
+        ctx.setVariable("userName", userName);
+        return templateEngine.process("email/weekly", ctx);
+    }
 
 }

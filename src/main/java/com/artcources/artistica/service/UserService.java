@@ -122,4 +122,7 @@ public class UserService {
     this.userRepository.save(user);
   }
 
+  public List<UserEntity> getAllUsers() {
+      return userRepository.findAll();
+  }
 }

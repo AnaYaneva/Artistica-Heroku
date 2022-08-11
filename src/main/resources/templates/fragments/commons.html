@@ -244,13 +244,12 @@
         <div class="row">
             <div th:each="c : ${T(com.artcources.artistica.model.enums.WorkshopCategoryEnum).values()}" th:object="${c}"
                  class="col-lg-3 col-md-6 mb-5">
-                <div class="cat-item position-relative overflow-hidden rounded mb-2">
+                <div class="cat-item position-relative overflow-hidden rounded mb-2" >
                     <img class="img-fluid" th:attr="src=@{'/images/cat-' + ${c.name().toLowerCase()} + '.jpg'}" alt="">
                     <a class="cat-overlay text-white text-decoration-none"
                        th:attr="href=@{'/workshops/categories/' + ${c.name().toLowerCase()}}">
                         <h4 class="text-white font-weight-medium"
                             th:text="${#strings.capitalize(c.name().toLowerCase().replace('_',' '))}"></h4>
-                        <span>100 Courses</span>
                     </a>
                 </div>
             </div>

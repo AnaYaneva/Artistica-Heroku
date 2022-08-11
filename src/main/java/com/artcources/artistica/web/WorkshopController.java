@@ -84,26 +84,30 @@ public class WorkshopController {
 
     @GetMapping("/all")
     public String all(Model model) {
-        List<WorkshopsAllViewModel> watercolor = this.workshopService.getAllApprovedWorkshopsByCategory(WorkshopCategoryEnum.WATERCOLOR)
-                .stream()
-                .map(workshopsAllServiceModel -> this.modelMapper.map(workshopsAllServiceModel, WorkshopsAllViewModel.class))
-                .collect(Collectors.toList());
-        List<WorkshopsAllViewModel> acrylic = this.workshopService.getAllApprovedWorkshopsByCategory(WorkshopCategoryEnum.WATERCOLOR)
-                .stream()
-                .map(workshopsAllServiceModel -> this.modelMapper.map(workshopsAllServiceModel, WorkshopsAllViewModel.class))
-                .collect(Collectors.toList());
-        List<WorkshopsAllViewModel> graphitePencils = this.workshopService.getAllApprovedWorkshopsByCategory(WorkshopCategoryEnum.WATERCOLOR)
-                .stream()
-                .map(workshopsAllServiceModel -> this.modelMapper.map(workshopsAllServiceModel, WorkshopsAllViewModel.class))
-                .collect(Collectors.toList());
-        List<WorkshopsAllViewModel> softPastels = this.workshopService.getAllApprovedWorkshopsByCategory(WorkshopCategoryEnum.WATERCOLOR)
-                .stream()
-                .map(workshopsAllServiceModel -> this.modelMapper.map(workshopsAllServiceModel, WorkshopsAllViewModel.class))
-                .collect(Collectors.toList());
-        model.addAttribute("watercolor", watercolor);
-        model.addAttribute("acrylic", acrylic);
-        model.addAttribute("graphite_pencils", graphitePencils);
-        model.addAttribute("soft_pastels", softPastels);
+//        List<WorkshopsAllViewModel> watercolor = this.workshopService.getAllApprovedWorkshopsByCategory(WorkshopCategoryEnum.WATERCOLOR)
+//                .stream()
+//                .map(workshopsAllServiceModel -> this.modelMapper.map(workshopsAllServiceModel, WorkshopsAllViewModel.class))
+//                .collect(Collectors.toList());
+//        List<WorkshopsAllViewModel> acrylic = this.workshopService.getAllApprovedWorkshopsByCategory(WorkshopCategoryEnum.ACRYLIC)
+//                .stream()
+//                .map(workshopsAllServiceModel -> this.modelMapper.map(workshopsAllServiceModel, WorkshopsAllViewModel.class))
+//                .collect(Collectors.toList());
+//        List<WorkshopsAllViewModel> graphitePencils = this.workshopService.getAllApprovedWorkshopsByCategory(WorkshopCategoryEnum.GRAPHITE_PENCILS)
+//                .stream()
+//                .map(workshopsAllServiceModel -> this.modelMapper.map(workshopsAllServiceModel, WorkshopsAllViewModel.class))
+//                .collect(Collectors.toList());
+//        List<WorkshopsAllViewModel> softPastels = this.workshopService.getAllApprovedWorkshopsByCategory(WorkshopCategoryEnum.SOFT_PASTELS)
+//                .stream()
+//                .map(workshopsAllServiceModel -> this.modelMapper.map(workshopsAllServiceModel, WorkshopsAllViewModel.class))
+//                .collect(Collectors.toList());
+//        model.addAttribute("watercolor", watercolor);
+//        model.addAttribute("watercolorCount", watercolor.size());
+//        model.addAttribute("acrylic", acrylic);
+//        model.addAttribute("watercolorCount", watercolor);
+//        model.addAttribute("graphite_pencils", graphitePencils);
+//        model.addAttribute("watercolorCount", watercolor);
+//        model.addAttribute("soft_pastels", softPastels);
+//        model.addAttribute("watercolorCount", watercolor.size());
 
         return "workshops-all";
     }
@@ -188,13 +192,13 @@ public class WorkshopController {
     }
 
 
-    private MediaEntity createMediaEntity(MultipartFile file, String title) throws IOException {
-        final CloudinaryMedia uploaded = this.cloudinaryService.upload(file);
-        return new MediaEntity()
-                .setPublicId(uploaded.getPublicId())
-                .setName(title)
-                .setUrl(uploaded.getUrl());
-    }
+//    private MediaEntity createMediaEntity(MultipartFile file, String title) throws IOException {
+//        final CloudinaryMedia uploaded = this.cloudinaryService.upload(file);
+//        return new MediaEntity()
+//                .setPublicId(uploaded.getPublicId())
+//                .setName(title)
+//                .setUrl(uploaded.getUrl());
+//    }
 
 
     @ModelAttribute
@@ -248,7 +252,7 @@ public class WorkshopController {
         return new MediaAddBindingModel();
     }
 
-    @PostMapping("/{id}/update/add-video")
+   /* @PostMapping("/{id}/update/add-video")
     public String addNewVideo(@PathVariable Long id,
                               @Valid MediaAddBindingModel mediaAddBindingModel,
                               BindingResult bindingResult,
@@ -264,15 +268,15 @@ public class WorkshopController {
         this.workshopService.addNewVideo(mediaAddServiceModel,id);
 
         return "redirect:/workshops/"+id+"/update";
-    }
+    }*/
 
 
-    //DELETE PICTURE FROM EXISTING WORKSHOP
+   /* //DELETE PICTURE FROM EXISTING WORKSHOP
     @DeleteMapping("/{id}/update/delete-video/{picId}")
     public String deleteVideo(@PathVariable Long id, @PathVariable Long picId) {
         this.workshopService.deleteVideo(picId);
         return "redirect:/workshops/"+id+"/update";
-    }
+    }*/
 
 
     //DELETE WORKSHOP
