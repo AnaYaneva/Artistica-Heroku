@@ -12,14 +12,27 @@
 <!-- Navbar Start -->
 <div th:replace="fragments/commons::nav"></div>
 <!-- Navbar End -->
-<div class="wrapper">
-    <div class="box">
-        <h1>500</h1>
-        <img src="/images/500.png" class="img-403">
-        <p>Sorry, it's me, not you.</p>
-        <p><a href="/">Go to Home page</a></p>
+<section class="container-page-404">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12 ">
+                <div class="col-sm-12 col-sm-offset-1  text-center">
+                    <div class="four-zero-four">
+                        <h1 class="text-center ">Sorry! No such resource</h1>
+                    </div>
+                    <div class="contant-box-404">
+                        <img src="/images/404.jpg" class="img-403">
+                        <h3 class="h2">
+                            Try your luck by going back to the
+                        </h3>
+
+                        <a href="/" class="link-404">home page</a>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-</div>
+</section>
 <!-- Footer Start -->
 <footer th:replace="fragments/commons::footer"></footer>
 <!-- Footer End -->
