@@ -10,6 +10,8 @@ import java.util.List;
 
 public class MentorProfileViewModel {
 
+    private String id;
+
     private String username;
 
     private String firstName;
@@ -25,6 +27,15 @@ public class MentorProfileViewModel {
     private String instagram;
 
     public MentorProfileViewModel() {
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public MentorProfileViewModel setId(String id) {
+        this.id = id;
+        return this;
     }
 
     public String getUsername() {

@@ -18,12 +18,12 @@ import javax.validation.constraints.Size;
 )
 public class UserRegisterBindingModel {
 
-    @NotBlank(message = "Username should not be an empty string")
-    @Size(min=3,max=20, message = "Username length must be between 3 and 20 characters!")
+    @NotBlank(message = "First name should not be an empty string")
+    @Size(min=3,max=20, message = "First name length must be between 3 and 20 characters!")
     private String firstName;
 
-    @NotBlank(message = "Username should not be an empty string")
-    @Size(min=3,max=20, message = "Username length must be between 3 and 20 characters!")
+    @NotBlank(message = "Last name should not be an empty string")
+    @Size(min=3,max=20, message = "Last name length must be between 3 and 20 characters!")
     private String lastName;
 
 

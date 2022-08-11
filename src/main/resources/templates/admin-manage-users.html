@@ -37,9 +37,9 @@
                 <td><span th:text="*{username}"></span></td>
                 <td><span  th:text="*{firstName}"></span></td>
                 <td><span  th:text="*{lastName}"></span></td>
-                <td th:if="*{isAdmin}"><span>V</span></td>
+                <td th:if="*{isAdmin}"><i class="fa fa-check text-primary mr-3"></i><!--<span>V</span>--></td>
                 <td th:th:unless="*{isAdmin}"><span>-</span></td>
-                <td th:if="*{isMentor}"><span>V</span></td>
+                <td th:if="*{isMentor}"><i class="fa fa-check text-primary mr-3"></i><!--<span>V</span>--></td>
                 <td th:unless="*{isMentor}"><span>-</span></td>
                 <td th:if="*{isMentor} and !*{isAdmin}" class="col-md-2">
                      <form th:action="@{/admin/manage-users/add-admin(username=*{username})}" th:method="PATCH">
@@ -57,78 +57,6 @@
     </div>
     <div class="col-md-2"></div>
 </div>
-
-
-
-<!--<div class="row">
-    <div class="admin container col">
-        <div class="row">
-            <div class="container users-container">
-                <h1 class="title gold-text">ALL USERS</h1>
-                <hr>
-                <div class="row">
-                    <div class="user row">
-                        <div class="prop col-md-1">ID</div>
-                        <div class="prop col-md-2">Created</div>
-                        <div class="prop col-md-1">First name</div>
-                        <div class="prop col-md-1">Last name</div>
-                        <div class="prop col-md-2">Email</div>
-                        <div class="prop col-md-1">ROLE</div>
-                        <div class="prop col-md-1">ROLE</div>
-                        <th scope="col">Last name</th>
-                    </div>
-                    <div class="user row" th:each="user:${allUsers}" th:object="${user}">
-                        <div class="prop col-md-1" th:text="*{id}">1</div>
-                        <div class="prop col-md-2" th:text="*{created}">1</div>
-                        <div class="prop col-md-1" th:text="*{firstName}"></div>
-                        <div class="prop col-md-1" th:text="*{lastName}"></div>
-                        <div class="prop col-md-2" th:text="*{email}"></div>
-                        <div class="prop col-md-1" th:each="role:*{roleEnums}" th:text="${role}"></div>
-                        <div th:if="*{roleEnums.size()==1}" class="col-md-1"></div>
-                        <div th:if="*{roleEnums.size()==1}"  class="col-md-2">
-                            <form th:action="@{/admin/manage-users/add-admin(email=*{email})}" th:method="PATCH">
-                               <button class="small-btn" type="submit">Make admin</button>
-                            </form>
-                        </div>
-                        <div th:if="*{roleEnums.size()>1 and id!=1} "  class="col-md-2">
-                            <form th:action="@{/admin/manage-users/remove-admin(email=*{email})}" th:method="PATCH">
-                                <button class="small-btn-remove" type="submit">Remove admin</button>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-                <h1 class="title gold-text">ALL MENTORS</h1>
-                <hr>
-                <div class="mentor row">
-                    <div class="prop col-md-1">ID</div>
-                    <div class="prop col-md-2">Created</div>
-                    <div class="prop col-md-2">Company name</div>
-                    <div class="prop col-md-2">Email</div>
-                    <div class="prop col-md-1">ROLE</div>
-                    <div class="prop col-md-1">ROLE</div>
-                </div>
-                <div class="mentor row" th:each="mentor:${allMentors}" th:object="${mentor}">
-                    <div class="prop col-md-1" th:text="*{id}">1</div>
-                    <div class="prop col-md-2" th:text="*{created}">1</div>
-                    <div class="prop col-md-2" th:text="*{companyName}"></div>
-                    <div class="prop col-md-2" th:text="*{email}"></div>
-                    <div class="prop col-md-1" th:each="role:*{roleEnums}" th:text="${role}"></div>
-                    <div th:if="*{roleEnums.size()==1}" class="prop col-md-1"></div>
-                    <div th:if="*{roleEnums.size()==1}" class="col-md-2">
-                        <form th:action="@{/admin/manage-users/add-admin(email=*{email})}" th:method="PATCH">
-                            <button class="small-btn" type="submit">Make admin</button>
-                        </form>
-                    </div>
-                    <div th:if="*{roleEnums.size()>1} "  class="col-md-2">
-                        <form th:action="@{/admin/manage-users/remove-admin(email=*{email})}" th:method="PATCH">
-                            <button class="small-btn-remove" type="submit">Remove admin</button>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>-->
 
 <!-- Footer Start -->
 <footer th:replace="fragments/commons::footer"></footer>

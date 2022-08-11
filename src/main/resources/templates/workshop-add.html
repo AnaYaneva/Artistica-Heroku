@@ -10,40 +10,45 @@
     <!-- Navbar End -->
 
     <!-- Add Start -->
-    <div class="container-fluid bg-registration py-5" style="margin: 90px 0;">
-        <div class="container py-5">
+    <div class="container-fluid bg-registration py-12" style="margin: 90px 0;">
+        <div class="container py-12">
             <div class="row align-items-center">
-                <div class="col-lg-5">
+                <div class="col-lg-12">
                     <div class="card border-0">
                         <div class="card-header bg-light text-center p-4">
                             <h1 class="m-0">Create Workshop</h1>
                         </div>
-                        <div class="card-body rounded-bottom bg-primary p-5">
+                        <div class="card-body rounded-bottom bg-primary p-12">
                             <form id="add-workshop-form" th:action="@{/workshops/add}"
                                   th:method="post" th:object="${workshopAddBindingModel}"
                                   enctype="multipart/form-data">
+                                <div class="form-group">
                                 <label>Reference photo</label><br>
                                 <input th:object="${referencePhoto}"
                                        name="referencePhoto"
                                        type="file"
                                        class="form-control border-0 p-4"/>
+                                </div>
+                                <div class="form-group">
                                 <label>Final photo</label><br>
                                 <input th:object="${finalPhoto}"
                                        type="file"
                                        name="finalPhoto"
                                        class="form-control border-0 p-4"/>
+                                </div>
+                                <div class="form-group">
                                 <label>Video</label><br>
                                 <input th:object="${video}"
                                        type="file"
                                        name="video"
                                        class="form-control border-0 p-4"/>
-
+                                </div>
                                 <div class="form-group">
                                     <input th:field="*{name}"
                                            th:errorclass="is-invalid"
                                            type="text"
                                            class="form-control border-0 p-4"
-                                           placeholder="Name"
+                                           placeholder="Title"
                                            required="required" />
                                     <small id="firstNameHelpInline" class="invalid-feedback bg-danger text-light rounded">
                                         First name length must be between 2 and 20 characters.

@@ -4,12 +4,26 @@ import com.artcources.artistica.model.entity.UserEntity;
 import com.artcources.artistica.model.enums.ExperienceLevelEnum;
 import com.artcources.artistica.model.enums.WorkshopCategoryEnum;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+
 public class WorkshopUpdateBindingModel {
     private Long id;
+
+    @NotBlank(message = "Title is required!")
+    @Size(min=5,max=25,message = "Title must be between 5 anf 25 characters.")
     private String name;
+
+    @NotBlank(message = "Description is required!")
+    @Size(min=5,max=500,message = "Description must be between 5 anf 500 characters.")
     private String description;
+
+    @NotNull(message = "You must select a experience level")
     private ExperienceLevelEnum experienceLevel;
     private UserEntity mentor;
+
+    @NotNull(message = "You must select a workshop category")
     private WorkshopCategoryEnum category;
     private String referenceUrl;
     private String finalUrl;

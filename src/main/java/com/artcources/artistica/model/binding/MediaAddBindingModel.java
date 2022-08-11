@@ -1,10 +1,18 @@
 package com.artcources.artistica.model.binding;
 
+import com.artcources.artistica.util.validations.MultipartFileNotEmpty;
 import org.springframework.web.multipart.MultipartFile;
+
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 
 public class MediaAddBindingModel {
 
+    @NotBlank(message = "Picture name is required!")
+    @Size(min=1,max=20,message = "Picture name must be between 1 and 20 characters!")
     private String name;
+
+    @MultipartFileNotEmpty(message = "Picture file is required!")
     private MultipartFile file;
 
     public MediaAddBindingModel() {

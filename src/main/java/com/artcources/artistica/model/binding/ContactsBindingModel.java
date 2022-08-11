@@ -9,12 +9,10 @@ import javax.validation.constraints.Size;
 public class ContactsBindingModel
 {
     @NotBlank(message = "Name should not be an empty string")
- //   @Size(min=3,max=20, message = "Name length must be between 3 and 20 characters!")
     private String name;
 
     @NotBlank(message = "Email cannot be empty")
     @Email(message = "User email should be valid")
-   // @UniqueUserEmail(message = "User email should be unique")
     private String email;
 
     @NotBlank(message = "Subject cannot be empty")
