@@ -30,6 +30,10 @@ dependencies {
     // https://mvnrepository.com/artifact/org.modelmapper/modelmapper
     implementation group: 'org.modelmapper', name: 'modelmapper', version: '3.1.0'
     implementation "org.springframework.boot:spring-boot-starter-mail"
+
+    testImplementation 'org.hsqldb:hsqldb:2.5.2'
+    testImplementation 'ognl:ognl:3.2.1'
+
 }
 
 tasks.named('test') {
