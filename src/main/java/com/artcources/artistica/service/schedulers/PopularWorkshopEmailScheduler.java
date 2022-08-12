@@ -20,7 +20,6 @@ public class PopularWorkshopEmailScheduler {
         this.userService = userService;
     }
 
-//    @Scheduled(cron = "0 0 0 * * 1")
     @Scheduled(cron = "0 0 * * * 1")
     public void cleanRejectedWorkshopsNotUpdated30Days() {
         this.userService.getAllUsers().forEach(user -> {

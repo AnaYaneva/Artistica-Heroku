@@ -157,7 +157,7 @@ public class MentorsController {
 
         this.mentorService.updateMentorProfile(mentorProfileUpdateBindingModel,principal);
 
-        return "redirect:/mentors/profile";
+        return "redirect:/mentors/profile/myProfile";
     }
 
 

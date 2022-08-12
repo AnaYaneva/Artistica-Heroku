@@ -94,6 +94,7 @@ public class AdminController {
         return "redirect:/admin/review-workshops";
     }
 
+    //REJECT WORKSHOP
     @PatchMapping("/review-workshops/reject/{id}")
     public String rejectWorkshop(@PathVariable Long id) {
         this.workshopService.rejectWorkshop(id);
