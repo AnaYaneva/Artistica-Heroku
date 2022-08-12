@@ -76,14 +76,14 @@ public class PagesControllersTest {
         WorkshopCategoryEntity savedCategory = workshopCategoryRepository.save(category);
         ExperienceLevelEntity experienceLevel = new ExperienceLevelEntity().setName(ExperienceLevelEnum.BEGINNER);
         ExperienceLevelEntity savedExpLevel = experienceLevelRepository.save(experienceLevel);
-        OnlineWorkshopEntity offer = new OnlineWorkshopEntity()
+        OnlineWorkshopEntity workshop = new OnlineWorkshopEntity()
                 .setCategory(savedCategory)
                 .setDescription("A course for beginners")
                 .setName("beginner course")
                 .setExperienceLevel(savedExpLevel)
                 .setStatus(StatusEnum.PENDING)
                 .setMentor(userRepository.findByUsername("mentor@example.com").orElse(null));
-        return this.workshopRepository.save(offer);
+        return this.workshopRepository.save(workshop);
     }
 
 }

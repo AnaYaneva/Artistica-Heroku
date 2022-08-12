@@ -67,7 +67,7 @@ public class MentorsControllerTest {
     @Test
     @WithMockUser(value = "mentor@example.com",roles = "MENT0R")
     void profileErrorTest() throws Exception {
-        mockMvc.perform(get("/mentors/profile/errors")).andExpect(status().isOk())
+        mockMvc.perform(get("/mentors/profile/myProfile/errors")).andExpect(status().isOk())
                 .andExpect(view().name("mentor-details"));
     }
 
