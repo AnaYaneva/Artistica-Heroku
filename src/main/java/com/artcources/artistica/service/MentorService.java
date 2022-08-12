@@ -1,7 +1,7 @@
 package com.artcources.artistica.service;
 
 import com.artcources.artistica.exception.UserNotFoundException;
-import com.artcources.artistica.model.binding.MediaBindingModel;
+import com.artcources.artistica.model.binding.MediaAddBindingModel;
 import com.artcources.artistica.model.binding.MentorProfileUpdateBindingModel;
 import com.artcources.artistica.model.entity.MediaEntity;
 import com.artcources.artistica.model.entity.UserEntity;
@@ -106,13 +106,13 @@ public class MentorService {
         this.userRepository.save(mentor);
     }
 
-    public void updateMentorPhoto(MediaBindingModel model, Principal principal) {
+    public void updateMentorPhoto(MediaAddBindingModel model, Principal principal) {
         try {
             CloudinaryMedia media = cloudinaryService.upload(model.getFile());
             MediaEntity photo = new MediaEntity();
             photo.setPublicId(media.getPublicId());
             photo.setUrl(media.getUrl());
-            photo.setName(model.getTitle());
+            photo.setName(model.getName());
             MediaEntity savedPhoto = mediaRepository.save(photo);
             UserEntity user = userRepository.findByUsername(principal.getName()).get();
             user.setPhoto(savedPhoto);
