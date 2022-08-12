@@ -38,7 +38,6 @@ public class ContactsControllerTest {
         String userEmail = "what@myname.is";
         String subject = "my names who ";
         String message = "My name is (chka-chka, Slim Shady)";
-//        when(emailService.sendContactEmail(userEmail, userName, subject, message)).then
         doNothing().when(emailService).sendContactEmail(userEmail, userName, subject, message);
 
         mockMvc.perform(post("/contacts")

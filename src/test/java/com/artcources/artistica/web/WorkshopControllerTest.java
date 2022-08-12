@@ -117,6 +117,25 @@ public class WorkshopControllerTest {
 
     @Test
     @WithMockUser(value = "mentor@example.com",roles = "MENTOR")
+    void testWorkshopRemoveList() throws Exception {
+        OnlineWorkshopEntity workshop = getTestWorkshop();
+        Long id=workshop.getId();
+        mockMvc.perform(patch("/workshops/removeFromList").param("id", "1").with(csrf()))
+                .andExpect(status().is3xxRedirection()).andExpect(redirectedUrl("/workshops/"+id));
+    }
+
+    @Test
+    @WithMockUser(value = "mentor@example.com",roles = "MENTOR")
+    void testWorkshopAddToList() throws Exception {
+        OnlineWorkshopEntity workshop = getTestWorkshop();
+        Long id=workshop.getId();
+        mockMvc.perform(patch("/workshops/addToList").param("id", "8").with(csrf()))
+                .andExpect(status().is3xxRedirection()).andExpect(redirectedUrl("/workshops/"+id));
+    }
+
+
+    @Test
+    @WithMockUser(value = "mentor@example.com",roles = "MENTOR")
     void testWorkshopPatchWithErrors() throws Exception {
         OnlineWorkshopEntity workshop = getTestWorkshop();
         Long id=workshop.getId();
@@ -153,7 +172,7 @@ public class WorkshopControllerTest {
                         .with(csrf())
                         .contentType(MediaType.MULTIPART_FORM_DATA))
                 .andExpect(status().is3xxRedirection())
-                .andExpect(redirectedUrl("/workshops/" + 5));
+                .andExpect(redirectedUrl("/workshops/" + 6));
     }
 
     @Test
@@ -167,17 +186,22 @@ public class WorkshopControllerTest {
                 .andExpect(view().name("workshop-update"));
     }
 
-//    @Test
-//    @WithMockUser(value = "mentor@example.com",roles = "MENTOR")
-    void testDeleteWorkshop() throws Exception {
-        OnlineWorkshopEntity workshop = getTestWorkshop();
-        Long id=workshop.getId();
-        UserEntity mentor = workshop.getMentor();
-        mentor.getFirstName();
+    @Test
+    @WithMockUser(value = "mentor@example.com",roles = "MENTOR")
+    void testWorkshopCategory() throws Exception {
         this.mockMvc
-                .perform(delete("/workshops/"+id+"/delete"))
+                .perform(get("/workshops/categories/watercolor"))
                 .andExpect(status().isOk())
-                .andExpect(view().name("workshops-all"));
+                .andExpect(view().name("workshops-all-by-criteria"));
+    }
+
+    @Test
+    @WithMockUser(value = "mentor@example.com",roles = "MENTOR")
+    void testWorkshopExperience() throws Exception {
+        this.mockMvc
+                .perform(get("/workshops/experienceLevel/BEGINNER"))
+                .andExpect(status().isOk())
+                .andExpect(view().name("workshops-all-by-criteria"));
     }
 
     private UserEntity getTestMentor() {
