@@ -7,7 +7,7 @@ import com.artcources.artistica.model.entity.UserRoleEntity;
 import com.artcources.artistica.model.enums.UserRoleEnum;
 import com.artcources.artistica.model.service.MentorServiceModel;
 import com.artcources.artistica.model.service.MentorsAllServiceModel;
-import com.artcources.artistica.model.service.UserServiceModel;
+import com.artcources.artistica.repository.MediaRepository;
 import com.artcources.artistica.repository.UserRepository;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -22,7 +22,6 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.crypto.password.Pbkdf2PasswordEncoder;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.security.Principal;
@@ -53,12 +52,14 @@ public class MentorServiceTest {
     private EmailService emailService;
     @Mock
     private MediaService mediaService;
+    @Mock
+    private MediaRepository mediaRepository;
 
     @BeforeEach
     void setUp() {
         passwordEncoder = new Pbkdf2PasswordEncoder();
         modelMapper = new ModelMapper();
-        toTest = new MentorService(userRepository, passwordEncoder, userRoleService, modelMapper, appUserDetailsService, cloudinaryService, emailService, mediaService);
+        toTest = new MentorService(userRepository, passwordEncoder, userRoleService, modelMapper, appUserDetailsService, cloudinaryService, emailService, mediaService, mediaRepository);
     }
 
     @Test

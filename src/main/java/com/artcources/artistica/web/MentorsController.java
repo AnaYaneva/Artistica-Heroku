@@ -1,7 +1,9 @@
 package com.artcources.artistica.web;
 
+import com.artcources.artistica.model.binding.MediaBindingModel;
 import com.artcources.artistica.model.binding.MentorProfileUpdateBindingModel;
 import com.artcources.artistica.model.binding.MentorRegisterBindingModel;
+import com.artcources.artistica.model.entity.UserEntity;
 import com.artcources.artistica.model.service.MentorServiceModel;
 import com.artcources.artistica.model.view.MentorProfileViewModel;
 import com.artcources.artistica.model.view.MentorsAllViewModel;
@@ -133,7 +135,7 @@ public class MentorsController {
         return "mentor-details";
     }
 
-    @GetMapping("/profile/errors")
+    @GetMapping("/profile/myProfile/errors")
     public String profileErrors (Model model,Principal principal) {
         MentorProfileViewModel mentorProfileViewModel
                 = this.mentorService.getMentorProfileViewModelByEmail(principal.getName());
@@ -160,5 +162,18 @@ public class MentorsController {
         return "redirect:/mentors/profile/myProfile";
     }
 
+    @GetMapping("/editPhoto")
+    public String editPhoto(Model model, Principal principal) {
+        UserEntity mentor = mentorService.findMentorByEmail(principal.getName());
+        MediaBindingModel mediaBindingModel = modelMapper.map(mentor.getPhoto(), MediaBindingModel.class);
+        model.addAttribute("mediaBindingModel", mediaBindingModel);
+        return "edit-photo";
+    }
+
+    @PatchMapping("/editPhoto")
+    public String editPhoto(MediaBindingModel mediaBindingModel, Model model, Principal principal) {
+        mentorService.updateMentorPhoto(mediaBindingModel, principal);
+        return "redirect:/mentors/profile/myProfile";
+    }
 
 }

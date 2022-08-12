@@ -34,8 +34,9 @@
                     <div class="card-header bg-light text-center p-4">
                         <div class="m-0" th:if="${isOwner}">
                             <button class="btn btn-primary" data-toggle="modal" data-target="#modal-edit-profile">Edit Profile</button>
-                            <form th:action="@{/mentors/editPhoto(id=*{id})}" th:method="PATCH">
-                            <button class="btn btn-secondary" type="submit">Edit Photo</button>
+                            <form th:action="@{/mentors/editPhoto}" th:method="GET">
+                                <button class="btn btn-secondary" type="submit">Edit Photo</button>
+                            </form>
                         </div>
                     </div>
                     <div class="card-body rounded-bottom bg-primary p-5">

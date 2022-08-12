@@ -1,13 +1,16 @@
 package com.artcources.artistica.service;
 
 import com.artcources.artistica.exception.UserNotFoundException;
+import com.artcources.artistica.model.binding.MediaBindingModel;
 import com.artcources.artistica.model.binding.MentorProfileUpdateBindingModel;
+import com.artcources.artistica.model.entity.MediaEntity;
 import com.artcources.artistica.model.entity.UserEntity;
 import com.artcources.artistica.model.enums.UserRoleEnum;
 import com.artcources.artistica.model.service.MentorProfileUpdateServiceModel;
 import com.artcources.artistica.model.service.MentorServiceModel;
 import com.artcources.artistica.model.service.MentorsAllServiceModel;
 import com.artcources.artistica.model.view.MentorProfileViewModel;
+import com.artcources.artistica.repository.MediaRepository;
 import com.artcources.artistica.repository.UserRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -34,8 +37,9 @@ public class MentorService {
     private final CloudinaryService cloudinaryService;
     private final EmailService emailService;
     private final MediaService mediaService;
+    private final MediaRepository mediaRepository;
 
-    public MentorService(UserRepository mentorRepository, PasswordEncoder passwordEncoder, UserRoleService userRoleService, ModelMapper modelMapper, AppUserDetailsService appUserDetailsService, CloudinaryService cloudinaryService, EmailService emailService, MediaService mediaService) {
+    public MentorService(UserRepository mentorRepository, PasswordEncoder passwordEncoder, UserRoleService userRoleService, ModelMapper modelMapper, AppUserDetailsService appUserDetailsService, CloudinaryService cloudinaryService, EmailService emailService, MediaService mediaService, MediaRepository mediaRepository) {
         this.userRepository = mentorRepository;
         this.passwordEncoder = passwordEncoder;
         this.userRoleService = userRoleService;
@@ -44,6 +48,7 @@ public class MentorService {
         this.cloudinaryService = cloudinaryService;
         this.emailService = emailService;
         this.mediaService = mediaService;
+        this.mediaRepository = mediaRepository;
     }
 
 
@@ -101,6 +106,21 @@ public class MentorService {
         this.userRepository.save(mentor);
     }
 
+    public void updateMentorPhoto(MediaBindingModel model, Principal principal) {
+        try {
+            CloudinaryMedia media = cloudinaryService.upload(model.getFile());
+            MediaEntity photo = new MediaEntity();
+            photo.setPublicId(media.getPublicId());
+            photo.setUrl(media.getUrl());
+            photo.setName(model.getTitle());
+            MediaEntity savedPhoto = mediaRepository.save(photo);
+            UserEntity user = userRepository.findByUsername(principal.getName()).get();
+            user.setPhoto(savedPhoto);
+            userRepository.save(user);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
     public List<MentorsAllServiceModel> findAllMentors() {
         return  this.userRepository.findAllByUserRoles_Name(UserRoleEnum.MENTOR)
