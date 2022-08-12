@@ -8,7 +8,6 @@ import com.artcources.artistica.model.service.MentorServiceModel;
 import com.artcources.artistica.model.view.MentorProfileViewModel;
 import com.artcources.artistica.model.view.MentorsAllViewModel;
 import com.artcources.artistica.model.view.WorkshopsAllViewModel;
-import com.artcources.artistica.repository.UserRoleRepository;
 import com.artcources.artistica.service.MentorService;
 import com.artcources.artistica.service.UserService;
 import com.artcources.artistica.service.WorkshopService;
@@ -36,16 +35,15 @@ public class MentorsController {
     private final MentorService mentorService;
     private final UserService userService;
     private final WorkshopService workshopService;
-    private final UserRoleRepository userRoleRepository;
+
     private LocaleResolver localeResolver;
 
 
-    public MentorsController(ModelMapper modelMapper, MentorService mentorService, UserService userService, WorkshopService workshopService, UserRoleRepository userRoleRepository, LocaleResolver localeResolver) {
+    public MentorsController(ModelMapper modelMapper, MentorService mentorService, UserService userService, WorkshopService workshopService, LocaleResolver localeResolver) {
         this.modelMapper = modelMapper;
         this.mentorService = mentorService;
         this.userService = userService;
         this.workshopService = workshopService;
-        this.userRoleRepository = userRoleRepository;
         this.localeResolver = localeResolver;
     }
 

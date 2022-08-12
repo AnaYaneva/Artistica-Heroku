@@ -1,21 +1,14 @@
 package com.artcources.artistica.web;
 
 import com.artcources.artistica.model.binding.*;
-import com.artcources.artistica.model.entity.MediaEntity;
 import com.artcources.artistica.model.entity.OnlineWorkshopEntity;
 import com.artcources.artistica.model.enums.ExperienceLevelEnum;
 import com.artcources.artistica.model.enums.WorkshopCategoryEnum;
-import com.artcources.artistica.model.service.MediaAddServiceModel;
 import com.artcources.artistica.model.service.WorkshopAddServiceModel;
-import com.artcources.artistica.model.service.WorkshopUpdateServiceModel;
 import com.artcources.artistica.model.view.WorkshopDetailsViewModel;
 import com.artcources.artistica.model.view.WorkshopsAllViewModel;
-import com.artcources.artistica.repository.MediaRepository;
-import com.artcources.artistica.service.CloudinaryService;
-import com.artcources.artistica.service.CloudinaryMedia;
 import com.artcources.artistica.service.WorkshopService;
 import org.modelmapper.ModelMapper;
-import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -33,19 +26,14 @@ import java.util.stream.Collectors;
 @RequestMapping("/workshops")
 public class WorkshopController {
 
-    private final CloudinaryService cloudinaryService;
-
     private final WorkshopService workshopService;
 
     private final ModelMapper modelMapper;
 
-    private final MediaRepository mediaRepository;
 
-    public WorkshopController(CloudinaryService cloudinaryService, WorkshopService workshopService, ModelMapper modelMapper, MediaRepository mediaRepository) {
-        this.cloudinaryService = cloudinaryService;
+    public WorkshopController(WorkshopService workshopService, ModelMapper modelMapper) {
         this.workshopService = workshopService;
         this.modelMapper = modelMapper;
-        this.mediaRepository = mediaRepository;
     }
 
     @GetMapping("/search")
@@ -191,15 +179,6 @@ public class WorkshopController {
         Long idWorkshop=this.workshopService.addNewWorkshop(workshopAddServiceModel, principal);
         return "redirect:/workshops/" + idWorkshop;
     }
-
-
-//    private MediaEntity createMediaEntity(MultipartFile file, String title) throws IOException {
-//        final CloudinaryMedia uploaded = this.cloudinaryService.upload(file);
-//        return new MediaEntity()
-//                .setPublicId(uploaded.getPublicId())
-//                .setName(title)
-//                .setUrl(uploaded.getUrl());
-//    }
 
 
     @ModelAttribute
