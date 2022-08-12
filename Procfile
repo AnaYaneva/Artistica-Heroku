@@ -1,0 +1,1 @@
+web: java -jar build/libs/Artistica.jar

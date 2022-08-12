@@ -134,27 +134,7 @@ public class WorkshopControllerTest {
     }
 
 
-    @Test
-    @WithMockUser(value = "mentor@example.com",roles = "MENTOR")
-    void testWorkshopAdd() throws Exception {
-        byte[] bytes = Files.readAllBytes(Paths.get("src","test","resources","image.jpg"));
-        MockMultipartFile referencePhoto = new MockMultipartFile("referencePhoto","photo.jpeg",MediaType.IMAGE_JPEG_VALUE, bytes);
-        MockMultipartFile finalPhoto = new MockMultipartFile("finalPhoto","photo.jpeg",MediaType.IMAGE_JPEG_VALUE, bytes);
-        MockMultipartFile video = new MockMultipartFile("video","video.jpeg",MediaType.IMAGE_JPEG_VALUE, bytes);
-        mockMvc.perform(multipart("/workshops/add")
-                        .file(referencePhoto)
-                        .file(finalPhoto)
-                        .file(video)
-                        //.param("id", "1000")
-                        .param("Description", "an intermediate course")
-                        .param("Name", "Intermediate course")
-                        .param("category", WorkshopCategoryEnum.WATERCOLOR.name())
-                        .param("experienceLevel", ExperienceLevelEnum.INTERMEDIATE.name())
-                        .with(csrf())
-                        .contentType(MediaType.MULTIPART_FORM_DATA))
-                .andExpect(status().is3xxRedirection())
-                .andExpect(redirectedUrl("/workshops/" + 5));
-    }
+
 
     @Test
     @WithMockUser(value = "mentor@example.com",roles = "MENTOR")
