@@ -8,7 +8,7 @@ public class WorkshopSearchBindingModel {
 
     @NotBlank(message = "Keyword should not be an empty string")
     @Size(min=3,max=20, message = "Keyword length must be between 3 and 20 characters!")
-    @Pattern(regexp="[a-zA-Z0-9 ]")
+    @Pattern(regexp="^[A-Za-z0-9]*$",message = "Please use only leters and numbers.")
     private String keyword;
 
     public WorkshopSearchBindingModel() {

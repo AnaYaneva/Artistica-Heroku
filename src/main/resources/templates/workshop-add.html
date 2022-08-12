@@ -50,9 +50,9 @@
                                            class="form-control border-0 p-4"
                                            placeholder="Title"
                                            required="required" />
-                                    <small id="firstNameHelpInline" class="invalid-feedback bg-danger text-light rounded">
-                                        First name length must be between 2 and 20 characters.
-                                    </small>
+                                    <div th:errors="*{name}" class="invalid-feedback bg-danger text-light rounded">
+                                        Title must be between 5 anf 25 characters.
+                                    </div>
                                 </div>
                                 <div class="form-group">
                                     <input th:field="*{description}"
@@ -61,9 +61,9 @@
                                            class="form-control border-0 p-4"
                                            placeholder="Description"
                                            required="required"/>
-                                    <small id="lastNameHelpInline" class="invalid-feedback bg-danger text-light rounded">
-                                        First name length must be between 2 and 20 characters.
-                                    </small>
+                                    <div th:errors="*{description}" class="invalid-feedback bg-danger text-light rounded">
+                                        Description must be between 5 anf 500 characters.
+                                    </div>
                                 </div>
                                 <div class="form-group">
                                     <select th:field="*{experienceLevel}"
@@ -73,6 +73,9 @@
                                         <option value="" selected>Level of Experience</option>
                                         <option th:each="l : ${T(com.artcources.artistica.model.enums.ExperienceLevelEnum).values()}" th:value="${l}" th:text="${l}"></option>
                                     </select>
+                                    <div th:errors="*{experienceLevel}" class="invalid-feedback bg-danger text-light rounded">
+                                        You must select a experience level
+                                    </div>
                                 </div>
                                 <div class="form-group">
                                     <select th:field="*{category}"
@@ -82,6 +85,9 @@
                                         <option value="" selected>Category</option>
                                         <option th:each="l : ${T(com.artcources.artistica.model.enums.WorkshopCategoryEnum).values()}" th:value="${l}" th:text="${l}"></option>
                                     </select>
+                                    <div th:errors="*{category}" class="invalid-feedback bg-danger text-light rounded">
+                                        You must select a workshop category
+                                    </div>
                                 </div>
                                 <div>
                                     <button class="btn btn-dark btn-block border-0 py-3" type="submit">Create</button>

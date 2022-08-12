@@ -40,7 +40,6 @@ public class UserRegisterBindingModel {
     @Size(min=3,max=20)
     private String confirmPassword;
 
-    @NotNull(message = "You must select a experience level")
     private ExperienceLevelEnum level;
 
 

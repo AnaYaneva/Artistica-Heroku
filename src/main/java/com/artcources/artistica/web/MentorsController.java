@@ -72,8 +72,8 @@ public class MentorsController {
 
     @PostMapping("/register")
     public String registerMentor(@Valid @ModelAttribute("mentorRegisterBindingModel") MentorRegisterBindingModel mentorRegisterBindingModel,
-                                 @RequestParam MultipartFile photo,
                                  BindingResult bindingResult,
+                                 @RequestParam MultipartFile photo,
                                  RedirectAttributes redirectAttributes,
                                  HttpServletRequest request) {
         if (bindingResult.hasErrors()) {
@@ -84,8 +84,6 @@ public class MentorsController {
 
         MentorServiceModel mentorRegisterServiceModel = this.modelMapper.map(mentorRegisterBindingModel, MentorServiceModel.class);
         mentorRegisterServiceModel.setPhoto(photo);
-//        UserRoleEntity mentorRole = userRoleRepository.findRoleByName(UserRoleEnum.MENTOR);
-//        mentorRegisterServiceModel.setUserRoles(List.of(mentorRole));
         this.mentorService.registerAndLogin(mentorRegisterServiceModel, localeResolver.resolveLocale(request));
         return "redirect:/";
     }

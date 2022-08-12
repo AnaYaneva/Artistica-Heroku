@@ -35,9 +35,12 @@
                                            class="form-control border-0 p-4"
                                            placeholder="Search by Keyword"
                                            required="required" />
-                                    <small id="emailHelpInline" class="invalid-feedback bg-danger text-light rounded">
-
-                                    </small>
+                                    <div  th:if="${bad_keyword}" class="bad-credentials-message bg-danger text-light rounded">
+                                        Please use only leters and numbers!
+                                    </div>
+                                    <div th:errors="*{keyword}" class="invalid-feedback bg-danger text-light rounded">
+                                        Please use only leters and numbers.
+                                    </div>
                                 </div>
                                 <div>
                                     <button class="btn btn-dark btn-block border-0 py-3" type="submit">Search</button>

@@ -56,14 +56,15 @@ public class WorkshopController {
     @PostMapping("/search")
     public String search(@Valid WorkshopSearchBindingModel workshopSearchBindingModel,
                               BindingResult bindingResult,
-                              Model model) {
+                                RedirectAttributes redirectAttributes) {
 
         if (bindingResult.hasErrors()) {
-            model.addAttribute("workshopSearchBindingModel", workshopSearchBindingModel);
-            model.addAttribute(
+            redirectAttributes.addFlashAttribute("workshopSearchBindingModel", workshopSearchBindingModel);
+            redirectAttributes.addFlashAttribute(
                     "org.springframework.validation.BindingResult.workshopSearchBindingModel",
                     bindingResult);
-            return "search";
+            redirectAttributes.addFlashAttribute("bad_keyword", true);
+            return "redirect:search";
         }
 
 
@@ -169,11 +170,11 @@ public class WorkshopController {
     }
 
     @PostMapping("/add")
-    public String add(WorkshopAddBindingModel workshopAddBindingModel,
+    public String add(@Valid WorkshopAddBindingModel workshopAddBindingModel,
+                      BindingResult bindingResult,
                       @RequestPart("referencePhoto") MultipartFile referencePhoto,
                       @RequestPart("finalPhoto") MultipartFile finalPhoto,
                       @RequestPart("video") MultipartFile video,
-                      BindingResult bindingResult,
                       RedirectAttributes redirectAttributes,
                       Principal principal) throws IOException {
 
