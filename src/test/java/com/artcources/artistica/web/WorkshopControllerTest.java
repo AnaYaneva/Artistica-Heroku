@@ -7,7 +7,6 @@ import com.artcources.artistica.model.enums.UserRoleEnum;
 import com.artcources.artistica.model.enums.WorkshopCategoryEnum;
 import com.artcources.artistica.repository.*;
 import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +21,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.List;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -109,28 +109,24 @@ public class WorkshopControllerTest {
             .andExpect(redirectedUrl("/workshops/"+id));
 
         OnlineWorkshopEntity updatedWorkshop = workshopRepository.findById(id).get();
-        Assertions.assertEquals("an intermediate course", updatedWorkshop.getDescription());
-        Assertions.assertEquals("Intermediate course", updatedWorkshop.getName());
-        Assertions.assertEquals(WorkshopCategoryEnum.WATERCOLOR, updatedWorkshop.getCategory().getName());
-        Assertions.assertEquals(ExperienceLevelEnum.INTERMEDIATE, updatedWorkshop.getExperienceLevel().getName());
+        assertEquals("an intermediate course", updatedWorkshop.getDescription());
+        assertEquals("Intermediate course", updatedWorkshop.getName());
+        assertEquals(WorkshopCategoryEnum.WATERCOLOR, updatedWorkshop.getCategory().getName());
+        assertEquals(ExperienceLevelEnum.INTERMEDIATE, updatedWorkshop.getExperienceLevel().getName());
     }
 
     @Test
-    @WithMockUser(value = "mentor@example.com",roles = "MENTOR")
+    @WithMockUser(value = "user@example.com",roles = "USER")
     void testWorkshopRemoveList() throws Exception {
-        OnlineWorkshopEntity workshop = getTestWorkshop();
-        Long id=workshop.getId();
-        mockMvc.perform(patch("/workshops/removeFromList").param("id", "1").with(csrf()))
-                .andExpect(status().is3xxRedirection()).andExpect(redirectedUrl("/workshops/"+id));
+        mockMvc.perform(patch("/workshops/removeFromList").param("id", "4").with(csrf()))
+                .andExpect(status().is3xxRedirection()).andExpect(redirectedUrl("/workshops/"+4));
     }
 
     @Test
-    @WithMockUser(value = "mentor@example.com",roles = "MENTOR")
+    @WithMockUser(value = "user@example.com",roles = "USER")
     void testWorkshopAddToList() throws Exception {
-        OnlineWorkshopEntity workshop = getTestWorkshop();
-        Long id=workshop.getId();
-        mockMvc.perform(patch("/workshops/addToList").param("id", "8").with(csrf()))
-                .andExpect(status().is3xxRedirection()).andExpect(redirectedUrl("/workshops/"+id));
+        mockMvc.perform(patch("/workshops/addToList").param("id", "4").with(csrf()))
+                .andExpect(status().is3xxRedirection()).andExpect(redirectedUrl("/workshops/"+4));
     }
 
 
@@ -148,8 +144,8 @@ public class WorkshopControllerTest {
                 .andExpect(redirectedUrl("/workshops/"+id+"/update/errors"));
 
         OnlineWorkshopEntity updatedWorkshop = workshopRepository.findById(id).get();
-        Assertions.assertEquals("A course for beginners", updatedWorkshop.getDescription());
-        Assertions.assertEquals("beginner course", updatedWorkshop.getName());
+        assertEquals("A course for beginners", updatedWorkshop.getDescription());
+        assertEquals("beginner course", updatedWorkshop.getName());
     }
 
 
@@ -172,7 +168,7 @@ public class WorkshopControllerTest {
                         .with(csrf())
                         .contentType(MediaType.MULTIPART_FORM_DATA))
                 .andExpect(status().is3xxRedirection())
-                .andExpect(redirectedUrl("/workshops/" + 6));
+                .andExpect(redirectedUrl("/workshops/" + 5));
     }
 
     @Test
@@ -241,6 +237,7 @@ public class WorkshopControllerTest {
                 setFirstName("User").
                 setLastName("Userov").
                 setUsername("user@example.com").
+                setAttending(workshopRepository.findAll()).
                 setPassword("123456");
         UserEntity savedUser = userRepository.save(testUser);
         return savedUser;
