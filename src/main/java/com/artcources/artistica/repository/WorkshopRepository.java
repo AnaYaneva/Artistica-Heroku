@@ -23,7 +23,7 @@ public interface WorkshopRepository  extends JpaRepository<OnlineWorkshopEntity,
     @Query("SELECT w FROM OnlineWorkshopEntity w WHERE w.status='APPROVED' ORDER BY size(w.students)  DESC")
     List<OnlineWorkshopEntity> findMostPopular();
 
-    List<OnlineWorkshopEntity> findAllByNameLike(String keyword);
+    List<OnlineWorkshopEntity> findAllByNameLikeAndStatus(String keyword,StatusEnum status);
 
     List<OnlineWorkshopEntity> findAllByStudents_Username(String username);
 

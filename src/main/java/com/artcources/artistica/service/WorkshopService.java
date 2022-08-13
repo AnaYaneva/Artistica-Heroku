@@ -220,7 +220,7 @@ public class WorkshopService {
     }
 
     public List<WorkshopsAllViewModel> searchWorkshop(String keyword) {
-        return this.workshopRepository.findAllByNameLike("%" + keyword + "%")
+        return this.workshopRepository.findAllByNameLikeAndStatus("%" + keyword + "%",StatusEnum.APPROVED)
                 .stream()
                 .map(workshop -> this.modelMapper.map(workshop, WorkshopsAllViewModel.class))
                 .collect(Collectors.toList());
@@ -258,7 +258,7 @@ public class WorkshopService {
         if (principal!=null){
             for (UserEntity student:workshop.getStudents()) {
                 if(student.getUsername().equals(principal.getName())){
-                 return true;
+                    return true;
                 }
             }
         }
@@ -267,9 +267,9 @@ public class WorkshopService {
     }
 
     public List<WorkshopsAllViewModel> getWorkshopsAttendingByUserEmail(String name) {
-            return this.workshopRepository.findAllByStudents_Username(name)
-                    .stream()
-                    .map(workshop -> this.modelMapper.map(workshop, WorkshopsAllViewModel.class))
-                    .collect(Collectors.toList());
+        return this.workshopRepository.findAllByStudents_Username(name)
+                .stream()
+                .map(workshop -> this.modelMapper.map(workshop, WorkshopsAllViewModel.class))
+                .collect(Collectors.toList());
     }
 }
