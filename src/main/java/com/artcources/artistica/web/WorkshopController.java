@@ -214,8 +214,6 @@ public class WorkshopController {
             return "redirect:/workshops/{id}/update/errors";
         }
         this.workshopService.updateWorkshop(workshopUpdateBindingModel,id);
-
-
         return "redirect:/workshops/"+id;
     }
 
@@ -232,33 +230,6 @@ public class WorkshopController {
         return new MediaAddBindingModel();
     }
 
-   /* @PostMapping("/{id}/update/add-video")
-    public String addNewVideo(@PathVariable Long id,
-                              @Valid MediaAddBindingModel mediaAddBindingModel,
-                              BindingResult bindingResult,
-                              RedirectAttributes redirectAttributes) throws IOException {
-        if (bindingResult.hasErrors()) {
-            redirectAttributes.addFlashAttribute("videoAddHasErrors",true);
-            redirectAttributes.addFlashAttribute("videoAddBindingModel", mediaAddBindingModel);
-            redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.videoAddBindingModel", bindingResult);
-            return "redirect:/workshops/"+id+"/update";
-        }
-
-        MediaAddServiceModel mediaAddServiceModel = this.modelMapper.map(mediaAddBindingModel, MediaAddServiceModel.class);
-        this.workshopService.addNewVideo(mediaAddServiceModel,id);
-
-        return "redirect:/workshops/"+id+"/update";
-    }*/
-
-
-   /* //DELETE PICTURE FROM EXISTING WORKSHOP
-    @DeleteMapping("/{id}/update/delete-video/{picId}")
-    public String deleteVideo(@PathVariable Long id, @PathVariable Long picId) {
-        this.workshopService.deleteVideo(picId);
-        return "redirect:/workshops/"+id+"/update";
-    }*/
-
-
     //DELETE WORKSHOP
     @DeleteMapping("/{id}/delete")
     public String deleteWorkshop(@PathVariable Long id) {
@@ -268,20 +239,20 @@ public class WorkshopController {
 
     //ADD ADMIN ROLE
     @PatchMapping("/addToList")
-    public String addWorkshoptoList(@RequestParam Long id, Principal principal){
+    public String addWorkshopToList(@RequestParam Long id, Principal principal){
         boolean isWorkshopExist = this.workshopService.existById((id));
         if(isWorkshopExist) {
-            this.workshopService.addWorkshopToUser((id),principal);
+            this.workshopService.addWorkshopToUser(id,principal);
         }
-
+        
         return "redirect:/workshops/"+id;
     }
 
     //REMOVE ADMIN ROLE
     @PatchMapping("/removeFromList")
     public String removeWorkshopFromList(@RequestParam Long id, Principal principal){
-        boolean isUserExist = this.workshopService.existById(id);
-        if(isUserExist) {
+        boolean isWorkshopExist = this.workshopService.existById(id);
+        if(isWorkshopExist) {
             this.workshopService.removeWorkshopFromUser(id,principal);
         }
 

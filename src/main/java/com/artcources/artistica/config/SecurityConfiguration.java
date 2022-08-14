@@ -48,7 +48,7 @@ public class SecurityConfiguration  {
         // everyone can download static resources (css, js, images)
         requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll().
         // everyone can login and register
-        antMatchers("/users/login", "/users/register",  "/mentors/register", "/register").permitAll().
+        antMatchers("/users/login", "/users/register",  "/mentors/register", "/register").anonymous().
         // everyone can see workshops categories, contact page, about page, home page and all mentors page
         antMatchers("/", "/workshops/all", "/workshops", "/contacts", "/about","/api/**", "/mentors").permitAll().
         // everyone can see workshops details page,mentor's details page nad users profile page

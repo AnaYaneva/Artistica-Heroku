@@ -5,6 +5,7 @@ import com.artcources.artistica.model.binding.CommentCreationBindingModel;
 import com.artcources.artistica.model.service.CommentMessageServiceModel;
 import com.artcources.artistica.model.view.CommentDisplayViewModel;
 import com.artcources.artistica.service.CommentService;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;

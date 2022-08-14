@@ -20,6 +20,7 @@ public class MentorServiceModel {
     private String instagram;
     private MultipartFile photo;
 
+//    private String photoFileName;
     public MentorServiceModel() {
     }
 
@@ -103,4 +104,13 @@ public class MentorServiceModel {
         this.photo = photo;
         return this;
     }
+
+//    public String getPhotoFileName() {
+//        return photoFileName;
+//    }
+//
+//    public MentorServiceModel setPhotoFileName(String photoFileName) {
+//        this.photoFileName = photoFileName;
+//        return this;
+//    }
 }

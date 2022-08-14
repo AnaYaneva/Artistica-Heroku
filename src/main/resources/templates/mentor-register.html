@@ -94,14 +94,25 @@
                                         Passwords do not match
                                     </div>
                                 </div>
+<!--&lt;!&ndash;                                <div class="form-group">-->
+<!--                                    <input th:field="*{photoFileName}"-->
+<!--                                           th:errorclass="is-invalid"-->
+<!--                                           type="text"-->
+<!--                                           class="form-control border-0 p-4"-->
+<!--                                           placeholder="Photo name"-->
+<!--                                           required="required"/>-->
+<!--                                    <div  th:if="${emptyName}" class="bad-credentials-message bg-danger text-light rounded">-->
+<!--                                        Please choose a name for your profile picture file!-->
+<!--                                    </div>-->
+<!--                                </div>&ndash;&gt;-->
                                 <div class="form-group">
                                 <label>Photo</label><br>
                                 <input th:object="${photo}"
                                        type="file"
                                        name="photo"
                                        class="form-control border-0 p-4"/>
-                                    <div id="photoText" class="form-text">
-                                        You can change it anytime!
+                                    <div  th:if="${emptyFile}" class="bad-credentials-message bg-danger text-light rounded">
+                                        Please choose a profile picture file to upload!
                                     </div>
                         </div>
                                 <div class="form-group">

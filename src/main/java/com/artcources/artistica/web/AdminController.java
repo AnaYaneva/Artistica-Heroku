@@ -19,7 +19,7 @@ import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/admin")
-public class AdminController {
+public class AdminController{
     private final UserService userService;
     private final MentorService mentorService;
     private final UserRoleService userRoleService;

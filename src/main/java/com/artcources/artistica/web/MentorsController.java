@@ -4,6 +4,7 @@ import com.artcources.artistica.model.binding.MediaAddBindingModel;
 import com.artcources.artistica.model.binding.MentorProfileUpdateBindingModel;
 import com.artcources.artistica.model.binding.MentorRegisterBindingModel;
 import com.artcources.artistica.model.entity.UserEntity;
+import com.artcources.artistica.model.service.MediaAddServiceModel;
 import com.artcources.artistica.model.service.MentorServiceModel;
 import com.artcources.artistica.model.view.MentorProfileViewModel;
 import com.artcources.artistica.model.view.MentorsAllViewModel;
@@ -22,6 +23,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
+import java.io.IOException;
 import java.security.Principal;
 import java.util.List;
 import java.util.Optional;
@@ -75,16 +77,21 @@ public class MentorsController {
                                  BindingResult bindingResult,
                                  @RequestParam MultipartFile photo,
                                  RedirectAttributes redirectAttributes,
-                                 HttpServletRequest request) {
-        if (bindingResult.hasErrors()) {
+                                 HttpServletRequest request) throws IOException {
+        if (bindingResult.hasErrors() || photo.getBytes().length == 0) {
             redirectAttributes.addFlashAttribute("mentorRegisterBindingModel", mentorRegisterBindingModel);
             redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.mentorRegisterBindingModel", bindingResult);
+            redirectAttributes.addFlashAttribute("emptyFile", photo.getBytes().length == 0);
+          //  redirectAttributes.addFlashAttribute("emptyName", photo.getName().length()==0);
             return "redirect:/mentors/register";
         }
-
-        MentorServiceModel mentorRegisterServiceModel = this.modelMapper.map(mentorRegisterBindingModel, MentorServiceModel.class);
-        mentorRegisterServiceModel.setPhoto(photo);
-        this.mentorService.registerAndLogin(mentorRegisterServiceModel, localeResolver.resolveLocale(request));
+        mentorRegisterBindingModel.setPhoto(photo);
+        MentorServiceModel mentorRegisterServiceModel = modelMapper.map(mentorRegisterBindingModel, MentorServiceModel.class);
+        MediaAddServiceModel mediaAddServiceModel = new MediaAddServiceModel();
+        mediaAddServiceModel.setFile(photo);
+        //mediaAddServiceModel.setName(mentorRegisterBindingModel.getPhotoFileName());
+//        mentorRegisterServiceModel.setPhoto(modelMapper.map(mentorRegisterBindingModel.getPhoto(), MediaAddServiceModel.class));
+        mentorService.registerAndLogin(mentorRegisterServiceModel, localeResolver.resolveLocale(request));
         return "redirect:/";
     }
 

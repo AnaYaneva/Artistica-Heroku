@@ -1,10 +1,9 @@
 package com.artcources.artistica.model.binding;
 
-import com.artcources.artistica.model.enums.ExperienceLevelEnum;
 import com.artcources.artistica.util.validations.FieldMatch;
 import com.artcources.artistica.util.validations.UniqueUserEmail;
+import org.springframework.web.multipart.MultipartFile;
 
-import javax.persistence.Column;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -39,6 +38,12 @@ public class MentorRegisterBindingModel {
         @Size(min=3,max=20)
         private String confirmPassword;
 
+//        @NotBlank(message = "Photo name should not be an empty string")
+//        @Size(min=3,max=20, message = "Photo name length must be between 3 and 20 characters!")
+//        private String photoFileName;
+
+        @NotNull(message = "Please add photo file")
+        private MultipartFile photo;
 
         private String facebook;
 
@@ -94,6 +99,15 @@ public class MentorRegisterBindingModel {
         return this;
     }
 
+//    public String getPhotoFileName() {
+//        return photoFileName;
+//    }
+//
+//    public MentorRegisterBindingModel setPhotoFileName(String photoFileName) {
+//        this.photoFileName = photoFileName;
+//        return this;
+//    }
+
     public String getFacebook() {
         return facebook;
     }
@@ -118,6 +132,15 @@ public class MentorRegisterBindingModel {
 
     public MentorRegisterBindingModel setInstagram(String instagram) {
         this.instagram = instagram;
+        return this;
+    }
+
+    public MultipartFile getPhoto() {
+        return photo;
+    }
+
+    public MentorRegisterBindingModel setPhoto(MultipartFile photo) {
+        this.photo = photo;
         return this;
     }
 }
