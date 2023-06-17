@@ -81,8 +81,8 @@ public class UserServiceTest {
         toTest.registerAndLogin(userServiceModel, ROOT);
         inOrder.verify(userRepository).save(any(UserEntity.class));
         inOrder.verify(userDetailsService).loadUserByUsername("admin123");
-        inOrder.verify(emailService).sendRegistrationEmail("admin123", "Admin Adminov",  ROOT);
-        Mockito.verify(emailService, Mockito.times(1)).sendRegistrationEmail("admin123", "Admin Adminov",  ROOT);
+//        inOrder.verify(emailService).sendRegistrationEmail("admin123", "Admin Adminov",  ROOT);
+//        Mockito.verify(emailService, Mockito.times(1)).sendRegistrationEmail("admin123", "Admin Adminov",  ROOT);
     }
 
     @Test

@@ -6,6 +6,8 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import java.util.Arrays;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -54,4 +56,16 @@ public class CloudinaryConfig {
         this.apiSecret = apiSecret;
         return this;
     }
+
+    public static void main(String[] args) {
+        int[][] points={{5,6},{3,4},{1,2},{7,8}};
+
+
+        Arrays.stream(points)
+                .map(point -> Math.hypot(Math.abs(point[0]), Math.abs(point[1]))).sorted(Comparator.reverseOrder()).filter(i -> i > 5)
+                .forEach(System.out::println);
+
+    }
+
+
 }

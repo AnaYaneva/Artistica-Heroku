@@ -69,25 +69,25 @@ public class EmailService {
         return templateEngine.process("email/contact", ctx);
     }
 
-    public void sendRegistrationEmail(
-            String userEmail,
-            String userName,
-            Locale preferredLocale
-    ) {
-        MimeMessage mimeMessage = javaMailSender.createMimeMessage();
-
-        try {
-            MimeMessageHelper mimeMessageHelper = new MimeMessageHelper(mimeMessage);
-            mimeMessageHelper.setFrom("artistica.study@gmail.com");
-            mimeMessageHelper.setTo(userEmail);
-            mimeMessageHelper.setSubject(getEmailSubject(preferredLocale));
-            mimeMessageHelper.setText(generateRegistrationMessageContent(preferredLocale, userName), true);
-
-            javaMailSender.send(mimeMessageHelper.getMimeMessage());
-        } catch (MessagingException e) {
-            throw new RuntimeException(e);
-        }
-    }
+//    public void sendRegistrationEmail(
+//            String userEmail,
+//            String userName,
+//            Locale preferredLocale
+//    ) {
+//        MimeMessage mimeMessage = javaMailSender.createMimeMessage();
+//
+//        try {
+//            MimeMessageHelper mimeMessageHelper = new MimeMessageHelper(mimeMessage);
+//            mimeMessageHelper.setFrom("artistica.study@gmail.com");
+//            mimeMessageHelper.setTo(userEmail);
+//            mimeMessageHelper.setSubject(getEmailSubject(preferredLocale));
+//            mimeMessageHelper.setText(generateRegistrationMessageContent(preferredLocale, userName), true);
+//
+//            javaMailSender.send(mimeMessageHelper.getMimeMessage());
+//        } catch (MessagingException e) {
+//            throw new RuntimeException(e);
+//        }
+//    }
 
     public void sendWeeklyEmail(
             String userName,
